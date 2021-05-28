@@ -109,7 +109,7 @@ int main(int argc,char **argv)
     glutReshapeFunc(reshape);
     glutDisplayFunc(display);
     glutIdleFunc(display);
-    loadObj("cube.obj");//replace elepham.obj withp orsche.obj or radar.obj or any other .obj to display it
+    loadObj("data/Elephant.obj");//replace elepham.obj withp orsche.obj or radar.obj or any other .obj to display it
     glutMainLoop();
     return 0;
 }

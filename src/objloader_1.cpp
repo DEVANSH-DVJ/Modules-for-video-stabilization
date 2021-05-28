@@ -235,7 +235,7 @@ int main(int argc,char **argv)
     glutIdleFunc(display);
     glEnable(GL_DEPTH_TEST);
 
-    loadObj("Cube.obj");
+    loadObj("data/Cube.obj");
 
 
 
