@@ -182,7 +182,8 @@ void img2obj()
 }
 
 void img2img()
-{
+{	
+	vector<vector<GLdouble>> depths(height , vector<GLdouble>(width,2));
 	GLdouble x_, y_, z_;
 	for (int i = 0; i < height; ++i)
 	{
@@ -192,7 +193,8 @@ void img2img()
 				gluProject( img2obj_map[i][j].x, img2obj_map[i][j].y, img2obj_map[i][j].z,
 	            model_view, projection, viewport,
 	            &x_, &y_, &z_);
-	            if (z_< img2img_map[i][j].z){
+	            if (z_< depths[i][j]){
+	            	depths[i][j]=z_;
 	            	img2img_map[i][j].x=x_;
 	            	img2img_map[i][j].y=y_;
 	            	img2img_map[i][j].z=z_;
