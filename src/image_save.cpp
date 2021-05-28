@@ -86,7 +86,7 @@ void loadObj(char *fname) {
 // wavefront .obj loader code ends here
 
 void reshape(int w, int h) {
-  glViewport(0, 0, w, h);
+  glutReshapeWindow(height, width);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
@@ -203,7 +203,6 @@ void display(void) {
   glLoadIdentity();
   drawElephant();
   saveImage("1");
-  glFlush();
   img2obj();
 
   glClearColor(0.0, 0.0, 0.0, 1.0);
@@ -211,7 +210,6 @@ void display(void) {
   glLoadIdentity();
   drawElephant1();
   saveImage("2");
-  glFlush();
   img2img();
 
   exit(0);
