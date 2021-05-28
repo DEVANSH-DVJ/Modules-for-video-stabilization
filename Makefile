@@ -10,14 +10,14 @@ BINDIR=./bin
 
 BIN1=$(BINDIR)/objloader
 BIN2=$(BINDIR)/pixel_map
-BIN3=$(BINDIR)/data_gen
+BIN3=$(BINDIR)/image_save
 
 # C++ Source files
 SRCDIR=./src
 
 SRCS1=$(SRCDIR)/objloader.cpp
 SRCS2=$(SRCDIR)/pixel_map.cpp
-SRCS3=$(SRCDIR)/data_gen.cpp
+SRCS3=$(SRCDIR)/image_save.cpp
 
 # MAKE Commands
 all: $(BIN1) $(BIN2) $(BIN3)
