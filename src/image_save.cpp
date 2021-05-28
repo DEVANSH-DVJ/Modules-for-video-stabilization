@@ -167,11 +167,42 @@ void img2img() {
   cout << img2img_map[264][268].x << " " << img2img_map[264][268].y << "\n";
 }
 
+void PPMWriter(unsigned char *in, char *name, int dimx, int dimy) {
+
+  int i, j;
+  FILE *fp = fopen(name, "wb"); /* b - binary mode */
+  (void)fprintf(fp, "P6\n%d %d\n255\n", dimx, dimy);
+  for (j = dimy - 1; j >= 0; --j) {
+    for (i = 0; i < dimx; ++i) {
+      static unsigned char color[3];
+      color[0] = in[3 * i + 3 * j * dimy];     /* red */
+      color[1] = in[3 * i + 3 * j * dimy + 1]; /* green */
+      color[2] = in[3 * i + 3 * j * dimy + 2]; /* blue */
+      (void)fwrite(color, 1, 3, fp);
+    }
+  }
+  (void)fclose(fp);
+}
+
+void saveImage(char *name) {
+  int w = glutGet(GLUT_WINDOW_WIDTH);
+  int h = glutGet(GLUT_WINDOW_HEIGHT);
+  unsigned char *image =
+      (unsigned char *)malloc(sizeof(unsigned char) * 3 * w * h);
+  glReadPixels(0, 0, w, h, GL_RGB, GL_UNSIGNED_BYTE, image);
+
+  char buffer[33];
+  sprintf(buffer, "capture/%s.ppm", name);
+
+  PPMWriter(image, buffer, w, h);
+}
+
 void display(void) {
   glClearColor(0.0, 0.0, 0.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glLoadIdentity();
   drawElephant();
+  saveImage("1");
   glFlush();
   img2obj();
 
@@ -179,6 +210,7 @@ void display(void) {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glLoadIdentity();
   drawElephant1();
+  saveImage("2");
   glFlush();
   img2img();
 
