@@ -2,6 +2,7 @@
 #include <GL/glut.h>
 
 #include <iostream>
+#include <unistd.h>
 #include <vector>
 
 using namespace std;
@@ -184,8 +185,10 @@ void display(void) {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glLoadIdentity();
   drawElephant();
-  //   glFlush();
+  glFlush();
   img2obj();
+
+  sleep(2);
 
   glClearColor(0.0, 0.0, 0.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -194,7 +197,7 @@ void display(void) {
   glFlush();
   img2img();
 
-  // glutSwapBuffers(); //swap the buffers
+  sleep(3);
 }
 
 int main(int argc, char **argv) {
