@@ -1,7 +1,8 @@
 #include <GL/gl.h>
 #include <GL/glut.h>
 
-#include <stdio.h>
+#include <iostream>
+#include <unistd.h>
 #include <vector>
 
 using namespace std;
@@ -85,7 +86,7 @@ void drawElephant() {
   elephantrot = elephantrot + 0.5;
   if (elephantrot > 360)
     elephantrot = elephantrot - 360;
-  // elephanttrans=elephanttrans+0.1;
+  usleep(2000);
 }
 
 void display(void) {
