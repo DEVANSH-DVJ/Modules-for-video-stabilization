@@ -9,13 +9,13 @@ LIBS=$(OPENGLLIB) $(GLULIB) $(GLUTLIB)
 BINDIR=./bin
 
 BIN1=$(BINDIR)/objloader
-BIN2=$(BINDIR)/objloader_1
+BIN2=$(BINDIR)/pixel_map
 
 # C++ Source files
 SRCDIR=./src
 
 SRCS1=$(SRCDIR)/objloader.cpp
-SRCS2=$(SRCDIR)/objloader_1.cpp
+SRCS2=$(SRCDIR)/pixel_map.cpp
 
 # MAKE Commands
 all: $(BIN1) $(BIN2)
