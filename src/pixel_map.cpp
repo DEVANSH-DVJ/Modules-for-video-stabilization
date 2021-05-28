@@ -1,287 +1,216 @@
-#include<GL/gl.h>
-#include<GL/glut.h>
-#include<stdio.h>
-#include<vector>
-#include<iostream>
+#include <GL/gl.h>
+#include <GL/glut.h>
+
+#include <iostream>
+#include <vector>
+
 using namespace std;
 
-//globals
-struct point{
-	float x,y,z;
+// globals
+struct point {
+  float x, y, z;
 };
-struct pointd{
-	GLdouble x,y,z;
+struct pointd {
+  GLdouble x, y, z;
 };
 
-GLdouble coords[] = { 0.5, 0.5, 1.0 }; // current 3d coords
+GLdouble coords[] = {0.5, 0.5, 1.0}; // current 3d coords
 
 GLdouble model_view[16];
 GLdouble projection[16];
 GLint viewport[4];
 
 GLuint elephant;
-float elephantrot, elephanttrans=0.0;
-char ch='1';
+float elephantrot, elephanttrans = 0.0;
+char ch = '1';
 vector<point> vertices;
 
+int width = 500;
+int height = 500;
 
-int width=500;
-int height=500;
+vector<vector<pointd>>
+    img2obj_map(height, vector<pointd>(width, {10000000, 10000000, 10000000}));
+vector<vector<pointd>> img2img_map(height, vector<pointd>(width, {-2, -2, 2}));
 
-vector<vector<pointd>> img2obj_map( height , vector<pointd> (width, {10000000,10000000,10000000}));
-vector<vector<pointd>> img2img_map( height , vector<pointd> (width, {-2,-2,2}));
+// other functions and main
+// wavefront .obj loader code begins
+void loadObj(char *fname) {
+  FILE *fp;
+  int read;
+  GLfloat x, y, z;
+  char ch;
+  elephant = glGenLists(1);
+  fp = fopen(fname, "r");
+  if (!fp) {
+    printf("can't open file %s\n", fname);
+    exit(1);
+  }
+  glPointSize(2.0);
+  glNewList(elephant, GL_COMPILE);
+  {
+    glPushMatrix();
+    // glBegin(GL_POINTS);
+    while (!(feof(fp))) {
+      read = fscanf(fp, "%c %f %f %f", &ch, &x, &y, &z);
+      if (read == 4 && ch == 'v') {
 
-//other functions and main
-//wavefront .obj loader code begins
-void loadObj(char *fname)
-{
-    FILE *fp;
-    int read;
-    GLfloat x, y, z;
-    char ch;
-    elephant=glGenLists(1);
-    fp=fopen(fname,"r");
-    if (!fp)
-    {
-        printf("can't open file %s\n", fname);
-        exit(1);
+        vertices.push_back({x, y, z});
+        // if (x==y&&y==z&&z==1) glColor3f(1.0,1.0,1.0);
+        // glVertex3f(x,y,z);
+        // glColor3f(1.0,0.23,0.27);
+      }
     }
-    glPointSize(2.0);
-    glNewList(elephant, GL_COMPILE);
-    {
-        glPushMatrix();
-        //glBegin(GL_POINTS);
-        while(!(feof(fp)))
-        {
-            read=fscanf(fp,"%c %f %f %f",&ch,&x,&y,&z);
-            if(read==4&&ch=='v')
-            {
-
-            	vertices.push_back({x,y,z});
-            	//if (x==y&&y==z&&z==1) glColor3f(1.0,1.0,1.0);
-                //glVertex3f(x,y,z);
-                //glColor3f(1.0,0.23,0.27);
-            }
-        }
-        fclose(fp);
-        fp=fopen(fname,"r");
-        int q1,q2,q2_,q3,q4,q4_,q5,q6,q6_;
-        glBegin(GL_TRIANGLES);
-        while(!(feof(fp)))
-        {
-            read=fscanf(fp,"%c %d/%d/%d %d/%d/%d %d/%d/%d",&ch,&q1,&q2,&q2_,&q3,&q4,&q4_,&q5,&q6,&q6_);
-            if(read==10&&ch=='f')
-            {
-            	//cout<<"yo\n";
-            	glColor3f((vertices[q1].x+1)/2,(vertices[q1].y+1)/2,(vertices[q1].z+1)/2);
-            	glVertex3f(vertices[q1].x,vertices[q1].y,vertices[q1].z);
-            	glColor3f((vertices[q2].x+1)/2,(vertices[q2].y+1)/2,(vertices[q2].z+1)/2);
-            	glVertex3f(vertices[q3].x,vertices[q3].y,vertices[q3].z);
-            	glColor3f((vertices[q3].x+1)/2,(vertices[q3].y+1)/2,(vertices[q3].z+1)/2);
-            	glVertex3f(vertices[q5].x,vertices[q5].y,vertices[q5].z);
-                //glVertex3f(x,y,z);
-            }
-        }
-        //glBegin(GL_POINTS);
-
-        glEnd();
-    }
-    glPopMatrix();
-    glEndList();
     fclose(fp);
-}
-//wavefront .obj loader code ends here
-void reshape(int w,int h)
-{
-    glViewport(0,0,w,h);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    
-    gluPerspective (60, 1, 2.0, 50.0);
-    //glOrtho(-25,25,-2,2,0.1,100);
-    glMatrixMode(GL_MODELVIEW);
-}
-void drawElephant()
-{
-    glPushMatrix();
-    glTranslatef(elephanttrans,0.00,-8.0);  //glTranslatef(elephanttrans,-40.00,-105);
-    glColor3f(1.0,0.23,0.27);
-    //glScalef(1,1,1);
-    glRotatef(45,1,1,0);
-    glCallList(elephant);
+    fp = fopen(fname, "r");
+    int q1, q2, q2_, q3, q4, q4_, q5, q6, q6_;
+    glBegin(GL_TRIANGLES);
+    while (!(feof(fp))) {
+      read = fscanf(fp, "%c %d/%d/%d %d/%d/%d %d/%d/%d", &ch, &q1, &q2, &q2_,
+                    &q3, &q4, &q4_, &q5, &q6, &q6_);
+      if (read == 10 && ch == 'f') {
+        // cout<<"yo\n";
+        glColor3f((vertices[q1].x + 1) / 2, (vertices[q1].y + 1) / 2,
+                  (vertices[q1].z + 1) / 2);
+        glVertex3f(vertices[q1].x, vertices[q1].y, vertices[q1].z);
+        glColor3f((vertices[q2].x + 1) / 2, (vertices[q2].y + 1) / 2,
+                  (vertices[q2].z + 1) / 2);
+        glVertex3f(vertices[q3].x, vertices[q3].y, vertices[q3].z);
+        glColor3f((vertices[q3].x + 1) / 2, (vertices[q3].y + 1) / 2,
+                  (vertices[q3].z + 1) / 2);
+        glVertex3f(vertices[q5].x, vertices[q5].y, vertices[q5].z);
+        // glVertex3f(x,y,z);
+      }
+    }
+    // glBegin(GL_POINTS);
 
-
-
-    glGetDoublev(GL_MODELVIEW_MATRIX, model_view);
-	
-	glGetDoublev(GL_PROJECTION_MATRIX, projection);
-
-	glGetIntegerv(GL_VIEWPORT, viewport);
-
-
-
-    glPopMatrix();
-    //elephantrot=elephantrot+0.5;
-    if(elephantrot>360)elephantrot=elephantrot-360;
-    //elephanttrans=elephanttrans+0.007;
-
+    glEnd();
+  }
+  glPopMatrix();
+  glEndList();
+  fclose(fp);
 }
 
-void drawElephant1()
-{
-    glPushMatrix();
-    glTranslatef(elephanttrans,0.00,-8.0);  //glTranslatef(elephanttrans,-40.00,-105);
-    glColor3f(1.0,0.23,0.27);
-    //glScalef(1,1,1);
-    //glRotatef(0,1,1,0);
-    glCallList(elephant);
+// wavefront .obj loader code ends here
+void reshape(int w, int h) {
+  glViewport(0, 0, w, h);
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
 
-
-
-    glGetDoublev(GL_MODELVIEW_MATRIX, model_view);
-	
-	glGetDoublev(GL_PROJECTION_MATRIX, projection);
-
-	glGetIntegerv(GL_VIEWPORT, viewport);
-
-
-
-    glPopMatrix();
-    //elephantrot=elephantrot+0.5;
-    //if(elephantrot>360)elephantrot=elephantrot-360;
-    //elephanttrans=elephanttrans+0.007;
+  gluPerspective(60, 1, 2.0, 50.0);
+  // glOrtho(-25,25,-2,2,0.1,100);
+  glMatrixMode(GL_MODELVIEW);
 }
 
-void img2obj()
-{
-	GLfloat z__;
-    GLdouble x1,y1,z1;
-	/*
-	gluProject( -0.5, 1, 1,
-	            model_view, projection, viewport,
-	            &x_, &y_, &z_);
-	cout<<x_<<" "<<y_<<" "<<z_<<"   "; 
-	*/
-    //glReadPixels( x_,y_, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &z__);
-	/*
-	gluUnProject(x_, y_, z__, model_view, projection, viewport, &x1,&y1,&z1);
-	cout<<x1<<" "<<y1<<" "<<z1<<"\n";
-	*/
-	for (int i = 0; i < height; ++i)
-	{
-		for (int j = 0; j < width; ++j)
-		{
-			glReadPixels( i,j, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &z__);
-	
-			gluUnProject(i,j, z__, model_view, projection, viewport, &x1,&y1,&z1);
+void drawElephant() {
+  glPushMatrix();
+  glTranslatef(elephanttrans, 0.00,
+               -8.0); // glTranslatef(elephanttrans,-40.00,-105);
+  glColor3f(1.0, 0.23, 0.27);
+  // glScalef(1,1,1);
+  glRotatef(45, 1, 1, 0);
+  glCallList(elephant);
 
-			img2obj_map[i][j] = {x1,y1,z1};
-		}
-	}
-	cout<<img2obj_map[264][268].x<<" "<<img2obj_map[264][268].y<<" "<<img2obj_map[264][268].z<<"\n";
+  glGetDoublev(GL_MODELVIEW_MATRIX, model_view);
+
+  glGetDoublev(GL_PROJECTION_MATRIX, projection);
+
+  glGetIntegerv(GL_VIEWPORT, viewport);
+
+  glPopMatrix();
+  // elephantrot=elephantrot+0.5;
+  if (elephantrot > 360)
+    elephantrot = elephantrot - 360;
+  // elephanttrans=elephanttrans+0.007;
 }
 
-void img2img()
-{	
-	vector<vector<GLdouble>> depths(height , vector<GLdouble>(width,2));
-	GLdouble x_, y_, z_;
-	for (int i = 0; i < height; ++i)
-	{
-		for (int j = 0; j < width; ++j)
-		{
-			if(img2obj_map[i][j].z!=10000000){
-				gluProject( img2obj_map[i][j].x, img2obj_map[i][j].y, img2obj_map[i][j].z,
-	            model_view, projection, viewport,
-	            &x_, &y_, &z_);
-	            if (z_< depths[i][j]){
-	            	depths[i][j]=z_;
-	            	img2img_map[i][j].x=x_;
-	            	img2img_map[i][j].y=y_;
-	            	img2img_map[i][j].z=z_;
-	            }
-	        }
-		}
-	}
-	cout<<img2img_map[264][268].x<<" "<<img2img_map[264][268].y<<"\n";
+void drawElephant1() {
+  glPushMatrix();
+  glTranslatef(elephanttrans, 0.00, -8.0);
+  // glTranslatef(elephanttrans,-40.00,-105);
+  glColor3f(1.0, 0.23, 0.27);
+  // glScalef(1,1,1);
+  // glRotatef(0,1,1,0);
+  glCallList(elephant);
+
+  glGetDoublev(GL_MODELVIEW_MATRIX, model_view);
+
+  glGetDoublev(GL_PROJECTION_MATRIX, projection);
+
+  glGetIntegerv(GL_VIEWPORT, viewport);
+
+  glPopMatrix();
 }
 
-void display(void)
-{   
-    glClearColor (0.0,0.0,0.0,1.0);
-    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
-    drawElephant();
-    //glFlush();
-    img2obj();
+void img2obj() {
+  GLfloat z__;
+  GLdouble x1, y1, z1;
 
-    glClearColor (0.0,0.0,0.0,1.0);
-    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
-    drawElephant1();
-    glFlush();
-    img2img();
-    
+  for (int i = 0; i < height; ++i) {
+    for (int j = 0; j < width; ++j) {
+      glReadPixels(i, j, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &z__);
 
-    //glutSwapBuffers(); //swap the buffers
-}
-int main(int argc,char **argv)
-{
-	vertices.push_back({0,0,0});
-    glutInit(&argc,argv);
-    glutInitDisplayMode(GLUT_RGB|GLUT_DEPTH);
-    glutInitWindowSize(width,height);
-    glutInitWindowPosition(20,20);
-    glutCreateWindow("ObjLoader");
-    glutReshapeFunc(reshape);
-    glutDisplayFunc(display);
-    glutIdleFunc(display);
-    glEnable(GL_DEPTH_TEST);
+      gluUnProject(i, j, z__, model_view, projection, viewport, &x1, &y1, &z1);
 
-    loadObj("data/Cube.obj");
-
-
-
-    glutMainLoop();
-    return 0;
+      img2obj_map[i][j] = {x1, y1, z1};
+    }
+  }
+  cout << img2obj_map[264][268].x << " " << img2obj_map[264][268].y << " "
+       << img2obj_map[264][268].z << "\n";
 }
 
-/*
-glGetDoublev(GL_MODELVIEW_MATRIX, model_view);
-	for (int i = 0; i < 4; ++i)
-	{
-		for (int j = 0; j < 4; ++j)
-		{
-			cout<<model_view[i*4+j]<<" ";
-		}
-		cout<<endl;
-	}
-	cout<<endl;
-	
+void img2img() {
+  vector<vector<GLdouble>> depths(height, vector<GLdouble>(width, 2));
+  GLdouble x_, y_, z_;
+  for (int i = 0; i < height; ++i) {
+    for (int j = 0; j < width; ++j) {
+      if (img2obj_map[i][j].z != 10000000) {
+        gluProject(img2obj_map[i][j].x, img2obj_map[i][j].y,
+                   img2obj_map[i][j].z, model_view, projection, viewport, &x_,
+                   &y_, &z_);
+        if (z_ < depths[i][j]) {
+          depths[i][j] = z_;
+          img2img_map[i][j].x = x_;
+          img2img_map[i][j].y = y_;
+          img2img_map[i][j].z = z_;
+        }
+      }
+    }
+  }
+  cout << img2img_map[264][268].x << " " << img2img_map[264][268].y << "\n";
+}
 
-	
-	glGetDoublev(GL_PROJECTION_MATRIX, projection);
+void display(void) {
+  glClearColor(0.0, 0.0, 0.0, 1.0);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glLoadIdentity();
+  drawElephant();
+  //   glFlush();
+  img2obj();
 
-	for (int i = 0; i < 4; ++i)
-	{
-		for (int j = 0; j < 4; ++j)
-		{
-			cout<<projection[i*4+j]<<" ";
-		}
-		cout<<endl;
-	}
+  glClearColor(0.0, 0.0, 0.0, 1.0);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glLoadIdentity();
+  drawElephant1();
+  glFlush();
+  img2img();
 
-	
-	glGetIntegerv(GL_VIEWPORT, viewport);
+  // glutSwapBuffers(); //swap the buffers
+}
 
-	// get window coords based on 3D coordinates
-	gluProject( coords[0], coords[1], coords[2],
-	            model_view, projection, viewport,
-	            &x_, &y_, &z_);
-	cout<<x_<<" "<<y_<<" "<<z_<<"   "; 
+int main(int argc, char **argv) {
+  vertices.push_back({0, 0, 0});
+  glutInit(&argc, argv);
+  glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH);
+  glutInitWindowSize(width, height);
+  glutInitWindowPosition(20, 20);
+  glutCreateWindow("ObjLoader");
+  glutReshapeFunc(reshape);
+  glutDisplayFunc(display);
+  glutIdleFunc(display);
+  glEnable(GL_DEPTH_TEST);
 
+  loadObj("data/Cube.obj");
 
-	GLdouble z__,x1,y1,z1;
-	glReadPixels( (int)x_+1, (int)y_+1, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &z__);
-	cout<<z__<<"  ";
-	gluUnProject((int)x_, (int)y_, z__, model_view, projection, viewport, &x1,&y1,&z1);
-	cout<<x1<<" "<<y1<<" "<<z1<<"\n";*/
+  glutMainLoop();
+  return 0;
+}
