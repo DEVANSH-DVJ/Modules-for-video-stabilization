@@ -7,7 +7,6 @@
 
 using namespace std;
 
-// globals
 struct point {
   float x, y, z;
 };
@@ -33,7 +32,6 @@ vector<vector<pointd>>
     img2obj_map(height, vector<pointd>(width, {10000000, 10000000, 10000000}));
 vector<vector<pointd>> img2img_map(height, vector<pointd>(width, {-2, -2, 2}));
 
-// other functions and main
 // wavefront .obj loader code begins
 void loadObj(char *fname) {
   FILE *fp;
@@ -48,67 +46,60 @@ void loadObj(char *fname) {
   }
   glPointSize(2.0);
   glNewList(elephant, GL_COMPILE);
-  {
-    glPushMatrix();
-    // glBegin(GL_POINTS);
-    while (!(feof(fp))) {
-      read = fscanf(fp, "%c %f %f %f", &ch, &x, &y, &z);
-      if (read == 4 && ch == 'v') {
 
-        vertices.push_back({x, y, z});
-        // if (x==y&&y==z&&z==1) glColor3f(1.0,1.0,1.0);
-        // glVertex3f(x,y,z);
-        // glColor3f(1.0,0.23,0.27);
-      }
-    }
-    fclose(fp);
-    fp = fopen(fname, "r");
-    int q1, q2, q2_, q3, q4, q4_, q5, q6, q6_;
-    glBegin(GL_TRIANGLES);
-    while (!(feof(fp))) {
-      read = fscanf(fp, "%c %d/%d/%d %d/%d/%d %d/%d/%d", &ch, &q1, &q2, &q2_,
-                    &q3, &q4, &q4_, &q5, &q6, &q6_);
-      if (read == 10 && ch == 'f') {
-        // cout<<"yo\n";
-        glColor3f((vertices[q1].x + 1) / 2, (vertices[q1].y + 1) / 2,
-                  (vertices[q1].z + 1) / 2);
-        glVertex3f(vertices[q1].x, vertices[q1].y, vertices[q1].z);
-        glColor3f((vertices[q2].x + 1) / 2, (vertices[q2].y + 1) / 2,
-                  (vertices[q2].z + 1) / 2);
-        glVertex3f(vertices[q3].x, vertices[q3].y, vertices[q3].z);
-        glColor3f((vertices[q3].x + 1) / 2, (vertices[q3].y + 1) / 2,
-                  (vertices[q3].z + 1) / 2);
-        glVertex3f(vertices[q5].x, vertices[q5].y, vertices[q5].z);
-        // glVertex3f(x,y,z);
-      }
-    }
-    // glBegin(GL_POINTS);
+  glPushMatrix();
+  while (!(feof(fp))) {
+    read = fscanf(fp, "%c %f %f %f", &ch, &x, &y, &z);
+    if (read == 4 && ch == 'v') {
 
-    glEnd();
+      vertices.push_back({x, y, z});
+    }
   }
+  fclose(fp);
+  fp = fopen(fname, "r");
+  int q1, q2, q2_, q3, q4, q4_, q5, q6, q6_;
+  glBegin(GL_TRIANGLES);
+  while (!(feof(fp))) {
+    read = fscanf(fp, "%c %d/%d/%d %d/%d/%d %d/%d/%d", &ch, &q1, &q2, &q2_, &q3,
+                  &q4, &q4_, &q5, &q6, &q6_);
+    if (read == 10 && ch == 'f') {
+      glColor3f((vertices[q1].x + 1) / 2, (vertices[q1].y + 1) / 2,
+                (vertices[q1].z + 1) / 2);
+      glVertex3f(vertices[q1].x, vertices[q1].y, vertices[q1].z);
+      glColor3f((vertices[q2].x + 1) / 2, (vertices[q2].y + 1) / 2,
+                (vertices[q2].z + 1) / 2);
+      glVertex3f(vertices[q3].x, vertices[q3].y, vertices[q3].z);
+      glColor3f((vertices[q3].x + 1) / 2, (vertices[q3].y + 1) / 2,
+                (vertices[q3].z + 1) / 2);
+      glVertex3f(vertices[q5].x, vertices[q5].y, vertices[q5].z);
+    }
+  }
+
+  glEnd();
+
   glPopMatrix();
   glEndList();
+
   fclose(fp);
 }
-
 // wavefront .obj loader code ends here
+
 void reshape(int w, int h) {
   glViewport(0, 0, w, h);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
   gluPerspective(60, 1, 2.0, 50.0);
-  // glOrtho(-25,25,-2,2,0.1,100);
   glMatrixMode(GL_MODELVIEW);
 }
 
 void drawElephant() {
   glPushMatrix();
-  glTranslatef(elephanttrans, 0.00,
-               -8.0); // glTranslatef(elephanttrans,-40.00,-105);
+
+  glTranslatef(elephanttrans, 0.00, -8.0);
   glColor3f(1.0, 0.23, 0.27);
-  // glScalef(1,1,1);
   glRotatef(45, 1, 1, 0);
+
   glCallList(elephant);
 
   glGetDoublev(GL_MODELVIEW_MATRIX, model_view);
@@ -118,19 +109,14 @@ void drawElephant() {
   glGetIntegerv(GL_VIEWPORT, viewport);
 
   glPopMatrix();
-  // elephantrot=elephantrot+0.5;
-  if (elephantrot > 360)
-    elephantrot = elephantrot - 360;
-  // elephanttrans=elephanttrans+0.007;
 }
 
 void drawElephant1() {
   glPushMatrix();
+
   glTranslatef(elephanttrans, 0.00, -8.0);
-  // glTranslatef(elephanttrans,-40.00,-105);
   glColor3f(1.0, 0.23, 0.27);
-  // glScalef(1,1,1);
-  // glRotatef(0,1,1,0);
+
   glCallList(elephant);
 
   glGetDoublev(GL_MODELVIEW_MATRIX, model_view);
@@ -202,18 +188,25 @@ void display(void) {
 
 int main(int argc, char **argv) {
   vertices.push_back({0, 0, 0});
+
   glutInit(&argc, argv);
+
   glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH);
+
   glutInitWindowSize(width, height);
   glutInitWindowPosition(20, 20);
+
   glutCreateWindow("ObjLoader");
+
   glutReshapeFunc(reshape);
   glutDisplayFunc(display);
   glutIdleFunc(display);
+
   glEnable(GL_DEPTH_TEST);
 
   loadObj("data/Cube.obj");
 
   glutMainLoop();
+
   return 0;
 }
