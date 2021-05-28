@@ -1,21 +1,23 @@
+# OpenGL Libraries
 OPENGLLIB= -lGL
 GLULIB= -lGLU
 GLUTLIB = -lglut
+
 LIBS=$(OPENGLLIB) $(GLULIB) $(GLUTLIB)
 
+# Binary output files
 BINDIR=./bin
-
-SRCDIR=./src
-
-SHADERCPP=./src/shader_util.cpp
-SHADEROBJ=$(OBJECTFILES)/shader_util.o
 
 BIN1=$(BINDIR)/objloader
 BIN2=$(BINDIR)/objloader_1
 
+# C++ Source files
+SRCDIR=./src
+
 SRCS1=$(SRCDIR)/objloader.cpp
 SRCS2=$(SRCDIR)/objloader_1.cpp
 
+# MAKE Commands
 all: $(BIN1) $(BIN2)
 
 $(BIN1): $(SRCS1)
