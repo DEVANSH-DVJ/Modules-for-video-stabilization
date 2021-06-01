@@ -78,28 +78,29 @@ void loadObj(char *fname) {
       if (matches != 9) {
         printf("File can't be read by our simple parser :-( Try exporting with "
                "other options\n");
-        fclose(file);
-        return;
+        // fclose(file);
+        // return;
+        continue;
       }
 
       glBindTexture(GL_TEXTURE_2D, 1);
       glBegin(GL_TRIANGLES);
 
-      glTexCoord2f(uvs[uvIndex[0] - 1].x, uvs[uvIndex[0] - 1].y);
       glNormal3f(normals[normalIndex[0] - 1].x, normals[normalIndex[0] - 1].y,
                  normals[normalIndex[0] - 1].z);
+      glTexCoord2f(uvs[uvIndex[0] - 1].x, uvs[uvIndex[0] - 1].y);
       glVertex3f(vertices[vertexIndex[0] - 1].x, vertices[vertexIndex[0] - 1].y,
                  vertices[vertexIndex[0] - 1].z);
 
-      glTexCoord2f(uvs[uvIndex[1] - 1].x, uvs[uvIndex[1] - 1].y);
       glNormal3f(normals[normalIndex[1] - 1].x, normals[normalIndex[1] - 1].y,
                  normals[normalIndex[1] - 1].z);
+      glTexCoord2f(uvs[uvIndex[1] - 1].x, uvs[uvIndex[1] - 1].y);
       glVertex3f(vertices[vertexIndex[1] - 1].x, vertices[vertexIndex[1] - 1].y,
                  vertices[vertexIndex[1] - 1].z);
 
-      glTexCoord2f(uvs[uvIndex[2] - 1].x, uvs[uvIndex[2] - 1].y);
       glNormal3f(normals[normalIndex[2] - 1].x, normals[normalIndex[2] - 1].y,
                  normals[normalIndex[2] - 1].z);
+      glTexCoord2f(uvs[uvIndex[2] - 1].x, uvs[uvIndex[2] - 1].y);
       glVertex3f(vertices[vertexIndex[2] - 1].x, vertices[vertexIndex[2] - 1].y,
                  vertices[vertexIndex[2] - 1].z);
 
@@ -181,7 +182,7 @@ void reshape(int w, int h) {
 void drawElephant() {
   glPushMatrix();
   glTranslatef(elephanttrans, 0, -4);
-  glRotatef(elephantrot, 0, 1, 0);
+  glRotatef(elephantrot, 0.2, 1, 0);
 
   glCallList(elephant);
   glPopMatrix();
@@ -211,8 +212,9 @@ int main(int argc, char **argv) {
   glutDisplayFunc(display);
   glutIdleFunc(display);
   glEnable(GL_TEXTURE_2D);
-  LoadTexture(1, "data/uvtemplate.bmp", 512, 512);
-  loadObj("data/Cube.obj");
+  glEnable(GL_DEPTH_TEST);
+  LoadTexture(1, "data/capsule0.bmp", 2048, 1024);
+  loadObj("data/capsule.obj");
 
   glutMainLoop();
   return 0;
