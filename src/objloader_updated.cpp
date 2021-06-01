@@ -116,6 +116,56 @@ void loadObj(char *fname) {
   fclose(file);
   return;
 }
+
+GLuint LoadTexture(GLuint tex, const char *filename, int width, int height) {
+  // bmp 24 bit
+  unsigned char *data;
+  unsigned char R, G, B;
+  FILE *file;
+
+  // open .bmp
+  file = fopen(filename, "rb");
+
+  if (file == NULL)
+    return 0;
+  // get memory for data
+  data = (unsigned char *)malloc(width * height * 3);
+  // data skip offset
+  fseek(file, 128, 0);
+  // read file to data
+  fread(data, width * height * 3, 1, file);
+  // close file
+  fclose(file);
+
+  // transpose R,G,B values
+  int index;
+  for (int i = 0; i < width * height; ++i) {
+    index = i * 3;
+    B = data[index];
+    G = data[index + 1];
+    R = data[index + 2];
+    data[index] = R;
+    data[index + 1] = G;
+    data[index + 2] = B;
+  }
+
+  // create a texture
+  glGenTextures(1, &tex);
+  glBindTexture(GL_TEXTURE_2D, tex);
+  gluBuild2DMipmaps(GL_TEXTURE_2D, 3, width, height, GL_RGB, GL_UNSIGNED_BYTE,
+                    data);
+
+  // texture filtering
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+  glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+  // glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+  // free memory
+  free(data);
+  return 0;
 }
 
 // wavefront .obj loader code ends here
@@ -130,8 +180,7 @@ void reshape(int w, int h) {
 
 void drawElephant() {
   glPushMatrix();
-  glTranslatef(elephanttrans, -40.00, -105);
-  glColor3f(1.0, 0.23, 0.27);
+  glTranslatef(elephanttrans, 0, -4);
   glRotatef(elephantrot, 0, 1, 0);
 
   glCallList(elephant);
@@ -161,6 +210,8 @@ int main(int argc, char **argv) {
   glutReshapeFunc(reshape);
   glutDisplayFunc(display);
   glutIdleFunc(display);
+  glEnable(GL_TEXTURE_2D);
+  LoadTexture(1, "data/uvtemplate.bmp", 512, 512);
   loadObj("data/Cube.obj");
 
   glutMainLoop();
