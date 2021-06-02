@@ -1,20 +1,30 @@
 import sys
+import time
+
+from PIL import Image
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 
-from PIL import Image
+from objloader import OBJ
 
 width, height = (500, 500)
 
 
 def captureScreen(file_name):
-    # glPixelStorei(GL_PACK_ALIGNMENT, 1)
-
-    data = glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE)
+    glPixelStorei(GL_PACK_ALIGNMENT, 1)
+    data = glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, None)
     image = Image.frombytes('RGBA', (width, height), data)
     image.save(file_name, 'png')
+
+
+def init():
+    glMatrixMode(GL_PROJECTION)
+    glLoadIdentity()
+
+    gluPerspective(60, 1, 2.0, 50.0)
+    glMatrixMode(GL_MODELVIEW)
 
 
 def display():
@@ -24,7 +34,7 @@ def display():
     captureScreen('1.png')
 
 
-def main():
+if __name__ == '__main__':
     glutInit(sys.argv)
 
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH)
@@ -35,8 +45,6 @@ def main():
     glEnable(GL_DEPTH_TEST)
     glEnable(GL_TEXTURE_2D)
 
+    init()
+
     display()
-
-
-if __name__ == '__main__':
-    main()
