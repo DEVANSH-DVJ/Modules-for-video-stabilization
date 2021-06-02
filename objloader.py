@@ -1,3 +1,5 @@
+import os
+
 from PIL import Image, ImageOps
 
 from OpenGL.GL import *
@@ -6,6 +8,7 @@ from OpenGL.GLUT import *
 
 
 def MTL(filename):
+    dir = os.path.dirname(filename)
     contents = {}
     mtl = None
     for line in open(filename, "r"):
@@ -21,7 +24,7 @@ def MTL(filename):
         elif values[0] == 'map_Kd':
             # load the texture referred to by this declaration
             mtl[values[0]] = values[1]
-            surf = Image.open(mtl['map_Kd'])
+            surf = Image.open(os.path.join(dir, mtl['map_Kd']))
             surf = ImageOps.flip(surf)  # in my case image is flipped top-bottom for some reason
             image = surf.convert('RGBA').tobytes()
             ix, iy = surf.size
@@ -40,6 +43,7 @@ def MTL(filename):
 
 class OBJ:
     def __init__(self, filename, swapyz=False):
+        dir = os.path.dirname(filename)
         """Loads a Wavefront OBJ file. """
         self.vertices = []
         self.normals = []
@@ -68,7 +72,7 @@ class OBJ:
             elif values[0] in ('usemtl', 'usemat'):
                 material = values[1]
             elif values[0] == 'mtllib':
-                self.mtl = MTL(values[1])
+                self.mtl = MTL(os.path.join(dir, values[1]))
             elif values[0] == 'f':
                 face = []
                 texcoords = []

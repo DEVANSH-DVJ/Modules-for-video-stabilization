@@ -32,7 +32,7 @@ def display():
     glClearColor(0.0, 0.0, 0.0, 1.0)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
-    obj = OBJ('capsule.obj', swapyz=False)
+    obj = OBJ('data/capsule/capsule.obj', swapyz=False)
     glTranslate(0, 0, -4)
     # glTranslate(tx / 20., ty / 20., - zpos)
     # glRotate(ry, 1, 0, 0)
