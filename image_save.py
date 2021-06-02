@@ -1,7 +1,7 @@
 import sys
 import time
 
-from PIL import Image
+from PIL import Image, ImageOps
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
@@ -16,6 +16,7 @@ def captureScreen(file_name):
     glPixelStorei(GL_PACK_ALIGNMENT, 1)
     data = glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, None)
     image = Image.frombytes('RGBA', (width, height), data)
+    image = ImageOps.flip(image)  # in my case image is flipped top-bottom for some reason
     image.save(file_name, 'png')
 
 
