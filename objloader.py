@@ -1,4 +1,5 @@
-import pygame
+from PIL import Image, ImageOps
+
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
@@ -20,9 +21,10 @@ def MTL(filename):
         elif values[0] == 'map_Kd':
             # load the texture referred to by this declaration
             mtl[values[0]] = values[1]
-            surf = pygame.image.load(mtl['map_Kd'])
-            image = pygame.image.tostring(surf, 'RGBA', 1)
-            ix, iy = surf.get_rect().size
+            surf = Image.open(mtl['map_Kd'])
+            surf = ImageOps.flip(surf)  # in my case image is flipped top-bottom for some reason
+            image = surf.convert('RGBA').tobytes()
+            ix, iy = surf.size
             texid = mtl['texture_Kd'] = glGenTextures(1)
             glBindTexture(GL_TEXTURE_2D, texid)
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
