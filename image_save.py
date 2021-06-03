@@ -1,6 +1,7 @@
 import sys
 import time
 
+import numpy as np
 from PIL import Image, ImageOps
 
 from OpenGL.GL import *
@@ -9,7 +10,22 @@ from OpenGL.GLUT import *
 
 from objloader import OBJ
 
-width, height = (960, 960)
+width, height = (250, 250)
+img2obj_map = None
+img2img_map = None
+
+
+def img2obj():
+    projection = glGetDoublev(GL_PROJECTION_MATRIX)
+    modelview = glGetDoublev(GL_MODELVIEW_MATRIX)
+    viewport = glGetIntegerv(GL_VIEWPORT)
+
+    depths = glReadPixels(0, 0, width, height, GL_DEPTH_COMPONENT, GL_FLOAT)
+
+    img2obj_map = np.array([np.array([gluUnProject(i, j, depths[i][j], modelview, projection, viewport)
+                           for j in range(width)]) for i in range(height)])
+
+    print(img2obj_map[100][100])
 
 
 def captureScreen(file_name):
@@ -50,7 +66,10 @@ def display():
     glPopMatrix()
 
     captureScreen('1.png')
-    time.sleep(1)
+
+    img2obj()
+
+    # time.sleep(1)
 
     glClearColor(0.0, 0.0, 0.0, 1.0)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
@@ -72,7 +91,7 @@ def display():
     glPopMatrix()
 
     captureScreen('2.png')
-    time.sleep(1)
+    # time.sleep(1)
 
 
 if __name__ == '__main__':
