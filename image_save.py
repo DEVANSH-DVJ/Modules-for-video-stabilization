@@ -32,12 +32,23 @@ def display():
     glClearColor(0.0, 0.0, 0.0, 1.0)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
-    obj = OBJ('data/capsule/capsule.obj', swapyz=False)
-    glTranslate(0, 0, -4)
+
+    obj1 = OBJ('data/capsule/capsule.obj', swapyz=False)
+    obj2 = OBJ('data/Chest/Chest.obj', swapyz=False)
+
+    glPushMatrix()
+    glTranslate(0, -1, -6)
     # glTranslate(tx / 20., ty / 20., - zpos)
-    # glRotate(ry, 1, 0, 0)
+    glRotate(-60, 1, 0, 0)
     # glRotate(rx, 0, 1, 0)
-    glCallList(obj.gl_list)
+    glCallList(obj1.gl_list)
+    glPopMatrix()
+
+    glPushMatrix()
+    glTranslate(0, 1, -6)
+    glCallList(obj2.gl_list)
+    glPopMatrix()
+
     captureScreen('1.png')
     time.sleep(1)
 
