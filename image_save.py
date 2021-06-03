@@ -102,7 +102,7 @@ def display():
     glCallList(obj2.gl_list)
     glPopMatrix()
 
-    captureScreen('1.png')
+    captureScreen('output/I1.png')
 
     img2obj()
 
@@ -125,13 +125,13 @@ def display():
     glCallList(obj2.gl_list)
     glPopMatrix()
 
-    captureScreen('2.png')
+    captureScreen('output/I2.png')
 
     img2img()
 
     warp()
 
-    captureScreen('3.png')
+    captureScreen('output/WARP.png')
 
 
 if __name__ == '__main__':
