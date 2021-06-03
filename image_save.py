@@ -9,7 +9,7 @@ from OpenGL.GLUT import *
 
 from objloader import OBJ
 
-width, height = (500, 500)
+width, height = (960, 960)
 
 
 def captureScreen(file_name):
@@ -29,12 +29,12 @@ def init():
 
 
 def display():
+    obj1 = OBJ('data/capsule/capsule.obj', swapyz=False)
+    obj2 = OBJ('data/Chest/Chest.obj', swapyz=False)
+
     glClearColor(0.0, 0.0, 0.0, 1.0)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
-
-    obj1 = OBJ('data/capsule/capsule.obj', swapyz=False)
-    obj2 = OBJ('data/Chest/Chest.obj', swapyz=False)
 
     glPushMatrix()
     glTranslate(0, -1, -6)
@@ -52,13 +52,35 @@ def display():
     captureScreen('1.png')
     time.sleep(1)
 
+    glClearColor(0.0, 0.0, 0.0, 1.0)
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+    glLoadIdentity()
+
+    glPushMatrix()
+    glTranslate(0, -1, -6)
+    # glTranslate(tx / 20., ty / 20., - zpos)
+    glRotate(-65, 1, 0, 0)
+    glRotate(5, 0, 1, 0)
+    glCallList(obj1.gl_list)
+    glPopMatrix()
+
+    glPushMatrix()
+    glTranslate(0, 1, -6)
+    glRotate(5, 1, 0, 0)
+    glRotate(-15, 0, 1, 0)
+    glCallList(obj2.gl_list)
+    glPopMatrix()
+
+    captureScreen('2.png')
+    time.sleep(1)
+
 
 if __name__ == '__main__':
     glutInit(sys.argv)
 
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH)
     glutInitWindowSize(width, height)
-    glutInitWindowPosition(20, 20)
+    glutInitWindowPosition(0, 0)
     glutCreateWindow('Projections')
 
     glEnable(GL_DEPTH_TEST)
