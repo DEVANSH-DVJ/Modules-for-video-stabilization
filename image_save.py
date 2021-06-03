@@ -1,5 +1,4 @@
 import sys
-import time
 
 import numpy as np
 from PIL import Image, ImageOps
@@ -10,12 +9,13 @@ from OpenGL.GLUT import *
 
 from objloader import OBJ
 
-width, height = (250, 250)
+width, height = (500, 500)
 img2obj_map = None
 img2img_map = None
 
 
 def img2obj():
+    global img2obj_map
     projection = glGetDoublev(GL_PROJECTION_MATRIX)
     modelview = glGetDoublev(GL_MODELVIEW_MATRIX)
     viewport = glGetIntegerv(GL_VIEWPORT)
@@ -48,6 +48,21 @@ def img2img():
                 prevx[x][y], prevy[x][y] = i, j
                 depths[x][y] = z
 
+
+def warp():
+    I2 = glReadPixels(0, 0, width, height, GL_RGB, GL_FLOAT, None)
+
+    glClearColor(0.0, 0.0, 0.0, 1.0)
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+    glLoadIdentity()
+
+    warped = np.zeros_like(I2)
+    for i in range(width):
+        for j in range(height):
+            if img2img_map[i][j][0] != -1:
+                warped[i][j] = I2[int(img2img_map[i][j][0])][int(img2img_map[i][j][1])]
+
+    glDrawPixels(height, width, GL_RGB, GL_FLOAT, warped)
 
 
 def captureScreen(file_name):
@@ -91,8 +106,6 @@ def display():
 
     img2obj()
 
-    # time.sleep(1)
-
     glClearColor(0.0, 0.0, 0.0, 1.0)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
@@ -115,6 +128,10 @@ def display():
     captureScreen('2.png')
 
     img2img()
+
+    warp()
+
+    captureScreen('3.png')
 
 
 if __name__ == '__main__':
