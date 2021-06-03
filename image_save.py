@@ -25,7 +25,29 @@ def img2obj():
     img2obj_map = np.array([np.array([gluUnProject(i, j, depths[i][j], modelview, projection, viewport)
                            for j in range(width)]) for i in range(height)])
 
-    print(img2obj_map[100][100])
+
+def img2img():
+    global img2img_map
+    projection = glGetDoublev(GL_PROJECTION_MATRIX)
+    modelview = glGetDoublev(GL_MODELVIEW_MATRIX)
+    viewport = glGetIntegerv(GL_VIEWPORT)
+
+    depths = np.ones((width, height)) * 0.95
+    prevx = -np.ones((width, height), dtype=int)
+    prevy = -np.ones((width, height), dtype=int)
+    img2img_map = -np.ones((width, height, 3))
+
+    for i in range(width):
+        for j in range(height):
+            pixel = gluProject(*img2obj_map[i][j], modelview, projection, viewport)
+            if pixel[2] < depths[i][j]:
+                img2img_map[i][j] = pixel
+                x, y, z = int(pixel[0]), int(pixel[1]), pixel[2]
+                if prevx[x][y] != -1:
+                    img2img_map[prevx[x][y]][prevy[x][y]] = np.array([-1., -1., -1.])
+                prevx[x][y], prevy[x][y] = i, j
+                depths[x][y] = z
+
 
 
 def captureScreen(file_name):
@@ -91,7 +113,8 @@ def display():
     glPopMatrix()
 
     captureScreen('2.png')
-    # time.sleep(1)
+
+    img2img()
 
 
 if __name__ == '__main__':
