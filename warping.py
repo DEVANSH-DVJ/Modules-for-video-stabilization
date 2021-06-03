@@ -27,9 +27,9 @@ def img2obj():
 
 
 def img2img():
-    global img2img_map, img2obj_map
+    global img2img_map
 
-    depths = np.ones((width, height)) * 0.95
+    depths = np.ones((width, height)) * 0.99
     prevx = -np.ones((width, height), dtype=int)
     prevy = -np.ones((width, height), dtype=int)
     img2img_map = -np.ones((width, height, 3))
@@ -39,11 +39,13 @@ def img2img():
             pixel = gluProject(*img2obj_map[i][j], modelview, projection, viewport)
             if pixel[2] < depths[i][j]:
                 img2img_map[i][j] = pixel
+                print(i, j, pixel)
                 x, y, z = int(pixel[0]), int(pixel[1]), pixel[2]
                 if prevx[x][y] != -1:
-                    img2img_map[prevx[x][y]][prevy[x][y]] = np.array([-1., -1., -1.])
+                    # img2img_map[prevx[x][y]][prevy[x][y]] = np.array([-1., -1., -1.])
+                    print(prevx[x][y], prevy[x][y])
                 prevx[x][y], prevy[x][y] = i, j
-                depths[x][y] = z
+                # depths[x][y] = z
 
 
 def warp():
@@ -87,7 +89,7 @@ def display():
     glLoadIdentity()
 
     glPushMatrix()
-    glTranslate(0, -1, -6)
+    glTranslate(0, -1, -4)
     glRotate(-60, 1, 0, 0)
     glCallList(obj.gl_list)
 
@@ -106,9 +108,9 @@ def display():
     glLoadIdentity()
 
     glPushMatrix()
-    glTranslate(0, -1, -6)
-    glRotate(-65, 1, 0, 0)
-    glRotate(5, 0, 1, 0)
+    glTranslate(0, -1, -4)
+    glRotate(-70, 1, 0, 0)
+    # glRotate(5, 0, 1, 0)
     glCallList(obj.gl_list)
 
     projection = glGetDoublev(GL_PROJECTION_MATRIX)
