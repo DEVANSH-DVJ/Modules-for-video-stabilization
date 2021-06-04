@@ -9,7 +9,7 @@ from OpenGL.GLUT import *
 
 from objloader import OBJ
 
-width, height = (500, 500)
+width, height = (512, 512)
 img2obj_map = None
 img2img_map = None
 projection = None
@@ -22,48 +22,51 @@ def img2obj():
 
     depths = glReadPixels(0, 0, width, height, GL_DEPTH_COMPONENT, GL_FLOAT)
 
-    img2obj_map = np.array([np.array([gluUnProject(i, j, depths[j][i], modelview, projection, viewport)
-                           for j in range(width)]) for i in range(height)])
+    img2obj_map = np.array([np.array(
+        [gluUnProject(j, i, depths[i][j], modelview, projection, viewport)
+         for j in range(height)]) for i in range(width)])
 
 
 def img2img():
     global img2img_map
 
-    depths = np.ones((height, width)) * 0.95
-    prevx = -np.ones((height, width), dtype=int)
-    prevy = -np.ones((height, width), dtype=int)
-    img2img_map = -np.ones((height, width, 3))
+    depths = np.ones((width, height)) * 0.95
+    prevx = -np.ones((width, height), dtype=int)
+    prevy = -np.ones((width, height), dtype=int)
+    img2img_map = -np.ones((width, height, 3))
 
-    for i in range(height):
-        for j in range(width):
+    for i in range(width):
+        for j in range(height):
             pixel = gluProject(*img2obj_map[i][j], modelview, projection, viewport)
-            if pixel[0] < height and pixel[1] < width and pixel[0] >= 0 and pixel[1] >= 0:
-                if pixel[2] < depths[int(pixel[0])][int(pixel[1])]:
+            x, y, z = round(pixel[0]), round(pixel[1]), pixel[2]
+            if x < width and y < height and x >= 0 and y >= 0:
+                if z < depths[x][y]:
                     img2img_map[i][j] = pixel
-                    # print(i, j, pixel)
-                    x, y, z = int(pixel[0]), int(pixel[1]), pixel[2]
+                    # print(i, j, img2img_map[i][j])
                     # if prevx[x][y] != -1:
                     #     img2img_map[prevx[x][y]][prevy[x][y]] = np.array([-1., -1., -1.])
                     #     print(prevx[x][y], prevy[x][y])
-                    prevx[x][y], prevy[x][y] = i, j
+                    # prevx[x][y], prevy[x][y] = i, j
                     # depths[x][y] = z
 
 
 def warp():
-    I2 = glReadPixels(0, 0, width, height, GL_RGB, GL_FLOAT, None)
+    I2 = glReadPixels(0, 0, width, height, GL_RGBA, GL_FLOAT, None)
 
-    glClearColor(0.0, 0.0, 0.0, 1.0)
+    glClearColor(0.0, 1.0, 1.0, 1.0)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
 
     warped = np.zeros_like(I2)
-    for i in range(height):
-        for j in range(width):
+    for i in range(width):
+        for j in range(height):
+            # print(i, j, int(img2img_map[i][j][1]), int(img2img_map[i][j][0]))
             if img2img_map[i][j][0] != -1:
-                print(i, j)
-                warped[j][i] = I2[round(img2img_map[i][j][1])][round(img2img_map[i][j][0])]
+                warped[i][j] = I2[round(img2img_map[i][j][1])][round(img2img_map[i][j][0])]
+                # if (warped[i][j] == np.array([0.0, 1.0, 1.0, 1.0])).all():
+                #     print(i, j, img2img_map[i][j], img2obj_map[i][j])
 
-    glDrawPixels(width, height, GL_RGB, GL_FLOAT, warped)
+    glDrawPixels(width, height, GL_RGBA, GL_FLOAT, warped)
 
 
 def captureScreen(file_name):
