@@ -9,7 +9,7 @@ from OpenGL.GLUT import *
 
 from objloader import OBJ
 
-width, height = (500, 500)
+width, height = (512, 512)
 img2obj_map = None
 img2img_map = None
 projection = None
@@ -37,11 +37,11 @@ def img2img():
     for i in range(height):
         for j in range(width):
             pixel = gluProject(*img2obj_map[i][j], modelview, projection, viewport)
-            if pixel[0] < height and pixel[1] < width and pixel[0] >= 0 and pixel[1] >= 0:
-                if pixel[2] < depths[int(pixel[0])][int(pixel[1])]:
+            if round(pixel[0]) < height and round(pixel[1]) < width and round(pixel[0]) >= 0 and round(pixel[1]) >= 0:
+                if pixel[2] < depths[round(pixel[0])][round(pixel[1])]:
                     img2img_map[i][j] = pixel
                     # print(i, j, pixel)
-                    x, y, z = int(pixel[0]), int(pixel[1]), pixel[2]
+                    x, y, z = round(pixel[0]), round(pixel[1]), pixel[2]
                     # if prevx[x][y] != -1:
                     #     img2img_map[prevx[x][y]][prevy[x][y]] = np.array([-1., -1., -1.])
                     #     print(prevx[x][y], prevy[x][y])
@@ -52,15 +52,15 @@ def img2img():
 def warp():
     I2 = glReadPixels(0, 0, width, height, GL_RGB, GL_FLOAT, None)
 
-    glClearColor(0.0, 0.0, 0.0, 1.0)
+    glClearColor(0.0, 1.0, 1.0, 1.0)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
 
     warped = np.zeros_like(I2)
     for i in range(height):
         for j in range(width):
+            # print(i, j, int(img2img_map[i][j][1]), int(img2img_map[i][j][0]))
             if img2img_map[i][j][0] != -1:
-                print(i, j)
                 warped[j][i] = I2[round(img2img_map[i][j][1])][round(img2img_map[i][j][0])]
 
     glDrawPixels(width, height, GL_RGB, GL_FLOAT, warped)
@@ -86,7 +86,7 @@ def display():
     global projection, modelview, viewport
     obj = OBJ('data/Chest/Chest.obj', swapyz=False)
 
-    glClearColor(0.0, 0.0, 0.0, 1.0)
+    glClearColor(0.0, 1.0, 1.0, 1.0)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
 
@@ -105,7 +105,7 @@ def display():
 
     img2obj()
 
-    glClearColor(0.0, 0.0, 0.0, 1.0)
+    glClearColor(0.0, 1.0, 1.0, 1.0)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
 
@@ -124,6 +124,8 @@ def display():
     captureScreen('output/I2.png')
 
     img2img()
+
+    # [print(i, j, img2img_map[j][i]) for j in range(height) for i in range(width)]
 
     warp()
 
