@@ -37,15 +37,15 @@ def img2img():
     for i in range(height):
         for j in range(width):
             pixel = gluProject(*img2obj_map[i][j], modelview, projection, viewport)
-            if round(pixel[0]) < height and round(pixel[1]) < width and round(pixel[0]) >= 0 and round(pixel[1]) >= 0:
-                if pixel[2] < depths[round(pixel[0])][round(pixel[1])]:
+            x, y, z = round(pixel[0]), round(pixel[1]), pixel[2]
+            if x < height and y < width and x >= 0 and y >= 0:
+                if z < depths[x][y]:
                     img2img_map[i][j] = pixel
                     # print(i, j, pixel)
-                    x, y, z = round(pixel[0]), round(pixel[1]), pixel[2]
                     # if prevx[x][y] != -1:
                     #     img2img_map[prevx[x][y]][prevy[x][y]] = np.array([-1., -1., -1.])
                     #     print(prevx[x][y], prevy[x][y])
-                    prevx[x][y], prevy[x][y] = i, j
+                    # prevx[x][y], prevy[x][y] = i, j
                     # depths[x][y] = z
 
 
@@ -124,8 +124,6 @@ def display():
     captureScreen('output/I2.png')
 
     img2img()
-
-    # [print(i, j, img2img_map[j][i]) for j in range(height) for i in range(width)]
 
     warp()
 
