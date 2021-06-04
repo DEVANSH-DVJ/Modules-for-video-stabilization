@@ -9,7 +9,7 @@ from OpenGL.GLUT import *
 
 from objloader import OBJ
 
-width, height = (512, 256)
+width, height = (512, 512)
 img2obj_map = None
 img2img_map = None
 projection = None
@@ -62,7 +62,7 @@ def warp():
         for j in range(height):
             if img2img_map[i][j][0] != -1:
                 print(i, j, img2img_map[i][j])
-                warped[i][j] = I2[round(img2img_map[i][j][1])][round(img2img_map[i][j][0])]
+                warped[i][j] = I2[round(img2img_map[i][j][0])][round(img2img_map[i][j][1])]
                 # if (warped[i][j] == np.array([0.0, 1.0, 1.0, 1.0])).all():
                 #     print(i, j, img2img_map[i][j], img2obj_map[i][j])
 
