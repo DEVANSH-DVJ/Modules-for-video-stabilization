@@ -9,7 +9,7 @@ from OpenGL.GLUT import *
 
 from objloader import OBJ
 
-width, height = (512, 512)
+size = 512
 img2obj_map = None
 img2img_map = None
 projection = None
@@ -20,26 +20,26 @@ viewport = None
 def img2obj():
     global img2obj_map
 
-    depths = glReadPixels(0, 0, width, height, GL_DEPTH_COMPONENT, GL_FLOAT)
+    depths = glReadPixels(0, 0, size, size, GL_DEPTH_COMPONENT, GL_FLOAT)
 
     img2obj_map = np.array([np.array(
         [gluUnProject(j, i, depths[i][j], modelview, projection, viewport)
-         for j in range(height)]) for i in range(width)])
+         for j in range(size)]) for i in range(size)])
 
 
 def img2img():
     global img2img_map
 
-    depths = np.ones((width, height)) * 0.95
-    prevx = -np.ones((width, height), dtype=int)
-    prevy = -np.ones((width, height), dtype=int)
-    img2img_map = -np.ones((width, height, 3))
+    depths = np.ones((size, size)) * 0.95
+    prevx = -np.ones((size, size), dtype=int)
+    prevy = -np.ones((size, size), dtype=int)
+    img2img_map = -np.ones((size, size, 3))
 
-    for i in range(width):
-        for j in range(height):
+    for i in range(size):
+        for j in range(size):
             pixel = gluProject(*img2obj_map[i][j], modelview, projection, viewport)
             x, y, z = round(pixel[0]), round(pixel[1]), pixel[2]
-            if x < width and y < height and x >= 0 and y >= 0:
+            if x < size and y < size and x >= 0 and y >= 0:
                 if z < depths[x][y]:
                     img2img_map[i][j] = pixel
                     # print(i, j, img2img_map[i][j])
@@ -51,28 +51,28 @@ def img2img():
 
 
 def warp():
-    I2 = glReadPixels(0, 0, width, height, GL_RGBA, GL_FLOAT, None)
+    I2 = glReadPixels(0, 0, size, size, GL_RGBA, GL_FLOAT, None)
 
     glClearColor(0.0, 1.0, 1.0, 1.0)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
 
     warped = np.zeros_like(I2)
-    for i in range(width):
-        for j in range(height):
+    for i in range(size):
+        for j in range(size):
             # print(i, j, int(img2img_map[i][j][1]), int(img2img_map[i][j][0]))
             if img2img_map[i][j][0] != -1:
                 warped[i][j] = I2[round(img2img_map[i][j][1])][round(img2img_map[i][j][0])]
                 # if (warped[i][j] == np.array([0.0, 1.0, 1.0, 1.0])).all():
                 #     print(i, j, img2img_map[i][j], img2obj_map[i][j])
 
-    glDrawPixels(width, height, GL_RGBA, GL_FLOAT, warped)
+    glDrawPixels(size, size, GL_RGBA, GL_FLOAT, warped)
 
 
 def captureScreen(file_name):
     glPixelStorei(GL_PACK_ALIGNMENT, 1)
-    data = glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, None)
-    image = Image.frombytes('RGBA', (width, height), data)
+    data = glReadPixels(0, 0, size, size, GL_RGBA, GL_UNSIGNED_BYTE, None)
+    image = Image.frombytes('RGBA', (size, size), data)
     image = ImageOps.flip(image)  # in my case image is flipped top-bottom for some reason
     image.save(file_name, 'png')
 
@@ -137,7 +137,7 @@ if __name__ == '__main__':
     glutInit(sys.argv)
 
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH)
-    glutInitWindowSize(width, height)
+    glutInitWindowSize(size, size)
     glutInitWindowPosition(0, 0)
     glutCreateWindow('Projections')
 
