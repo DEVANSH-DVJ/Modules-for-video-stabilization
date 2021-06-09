@@ -24,8 +24,7 @@ def MTL(filename):
         elif values[0] == 'map_Kd':
             # load the texture referred to by this declaration
             mtl[values[0]] = values[1]
-            surf = Image.open(os.path.join(dir, mtl['map_Kd']))
-            surf = ImageOps.flip(surf)  # in my case image is flipped top-bottom for some reason
+            surf = ImageOps.flip(Image.open(os.path.join(dir, mtl['map_Kd'])))
             image = surf.convert('RGBA').tobytes()
             ix, iy = surf.size
             texid = mtl['texture_Kd'] = glGenTextures(1)
