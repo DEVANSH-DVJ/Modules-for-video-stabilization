@@ -70,7 +70,7 @@ def warp():
 
 
 def warp2():
-    I2 = np.array(Image.open("output/I2.png"))
+    I2 = np.array(Image.open("./output/warping/I2.png"))
 
     warped = np.empty((size, size, 4), dtype=np.uint8)
     for i in range(size):
@@ -80,7 +80,7 @@ def warp2():
             else:
                 warped[size - 1 - i][j] = np.array([0, 0, 0, 255], dtype=np.uint8)
 
-    Image.fromarray(warped).save('output/Warp.png', 'png')
+    Image.fromarray(warped).save('./output/warping/Warp.png', 'png')
 
 
 def captureScreen(file_name):
@@ -101,7 +101,7 @@ def init():
 
 def display():
     global projection, modelview, viewport
-    obj = OBJ('data/Chest/Chest.obj', swapyz=False)
+    obj = OBJ('../data/Chest/Chest.obj', swapyz=False)
 
     glClearColor(0.0, 0.0, 0.0, 1.0)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
@@ -118,7 +118,7 @@ def display():
 
     glPopMatrix()
 
-    captureScreen('output/I1.png')
+    captureScreen('./output/warping/I1.png')
 
     img2obj()
 
@@ -138,13 +138,13 @@ def display():
 
     glPopMatrix()
 
-    captureScreen('output/I2.png')
+    captureScreen('./output/warping/I2.png')
 
     img2img()
 
     warp()
 
-    captureScreen('output/WARP.png')
+    captureScreen('./output/warping/WARP.png')
 
     warp2()
 
