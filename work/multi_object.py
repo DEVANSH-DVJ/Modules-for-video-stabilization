@@ -42,7 +42,7 @@ def img2img():
             pixel = gluProject(*img2obj_map[i][j], modelview, projection, viewport)
             if pixel[2] < depths[i][j]:
                 img2img_map[i][j] = pixel
-                print(i, j, pixel)
+                # print(i, j, pixel)
                 x, y, z = int(pixel[0]), int(pixel[1]), pixel[2]
                 if prevx[x][y] != -1:
                     img2img_map[prevx[x][y]][prevy[x][y]] = np.array([-1., -1., -1.])
@@ -83,8 +83,8 @@ def init():
 
 
 def display():
-    obj1 = OBJ('data/capsule/capsule.obj', swapyz=False)
-    obj2 = OBJ('data/Chest/Chest.obj', swapyz=False)
+    obj1 = OBJ('../data/capsule/capsule.obj', swapyz=False)
+    obj2 = OBJ('../data/Chest/Chest.obj', swapyz=False)
 
     glClearColor(0.0, 0.0, 0.0, 1.0)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
@@ -103,7 +103,7 @@ def display():
     glCallList(obj2.gl_list)
     glPopMatrix()
 
-    captureScreen('output/I1.png')
+    captureScreen('./output/multi_object/I1.png')
 
     img2obj()
 
@@ -126,13 +126,13 @@ def display():
     glCallList(obj2.gl_list)
     glPopMatrix()
 
-    captureScreen('output/I2.png')
+    captureScreen('./output/multi_object/I2.png')
 
     img2img()
 
     warp()
 
-    captureScreen('output/WARP.png')
+    captureScreen('./output/multi_object/WARP.png')
 
 
 if __name__ == '__main__':
