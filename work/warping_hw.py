@@ -84,7 +84,7 @@ def init():
 
 def display():
     global projection, modelview, viewport
-    obj = OBJ('data/Chest/Chest.obj', swapyz=False)
+    obj = OBJ('../data/Chest/Chest.obj', swapyz=False)
 
     glClearColor(0.0, 1.0, 1.0, 1.0)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
@@ -101,7 +101,7 @@ def display():
 
     glPopMatrix()
 
-    captureScreen('output/I1.png')
+    captureScreen('./output/warping_hw/I1.png')
 
     img2obj()
 
@@ -121,13 +121,13 @@ def display():
 
     glPopMatrix()
 
-    captureScreen('output/I2.png')
+    captureScreen('./output/warping_hw/I2.png')
 
     img2img()
 
     warp()
 
-    captureScreen('output/WARP.png')
+    captureScreen('./output/warping_hw/WARP.png')
 
 
 if __name__ == '__main__':
