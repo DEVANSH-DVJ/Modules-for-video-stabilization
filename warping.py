@@ -69,6 +69,20 @@ def warp():
     glDrawPixels(size, size, GL_RGBA, GL_FLOAT, warped)
 
 
+def warp2():
+    I2 = np.array(Image.open("output/I2.png"))
+
+    warped = np.empty((size, size, 4), dtype=np.uint8)
+    for i in range(size):
+        for j in range(size):
+            if img2img_map[i][j][0] != -1:
+                warped[size - 1 - i][j] = I2[size - 1 - round(img2img_map[i][j][1])][round(img2img_map[i][j][0])]
+            else:
+                warped[size - 1 - i][j] = np.array([0, 0, 0, 255], dtype=np.uint8)
+
+    Image.fromarray(warped).save('output/Warp.png', 'png')
+
+
 def captureScreen(file_name):
     glPixelStorei(GL_PACK_ALIGNMENT, 1)
     data = glReadPixels(0, 0, size, size, GL_RGBA, GL_UNSIGNED_BYTE, None)
@@ -131,6 +145,8 @@ def display():
     warp()
 
     captureScreen('output/WARP.png')
+
+    warp2()
 
 
 if __name__ == '__main__':
