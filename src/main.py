@@ -1,7 +1,8 @@
 import os
 import sys
 import yaml
-import csv
+
+import pandas as pd
 
 import OpenGL.GL as GL
 import OpenGL.GLU as GLU
@@ -48,6 +49,6 @@ if __name__ == '__main__':
 
     frameset_file = 'frameset1.csv'
     frameset_path = base_dir + '/params/framesets/' + frameset_file
-    frames = csv.DictReader(open(frameset_path, mode='r'))
-    for frame in frames:
-        print(frame)
+    frames = pd.read_csv(frameset_path)
+    print(len(frames.index))
+    print(frames)
