@@ -36,6 +36,19 @@ def img2img():
     prevy = -np.ones((size, size), dtype=int)
     img2img_map = -np.ones((size, size, 3))
 
+    v = np.array([img2obj_map[0][0][0], img2obj_map[0][0][1], img2obj_map[0][0][2], 1.0])
+    print(projection.T)
+    print(modelview.shape)
+    print(v.shape)
+    print(modelview.T.dot(v))
+    v_ = projection.T.dot(modelview.T).dot(v)
+    v_ = v_/v_[3]
+    print((v_[0]*0.5+0.5)*viewport[2]+viewport[0])
+    print((v_[1]*0.5+0.5)*viewport[3]+viewport[1])
+    print((1.0+v_[2])*0.5)
+    pixel = gluProject(*img2obj_map[0][0], modelview, projection, viewport)
+    print("Pixel:", pixel)
+
     for i in range(size):
         for j in range(size):
             pixel = gluProject(*img2obj_map[i][j], modelview, projection, viewport)
