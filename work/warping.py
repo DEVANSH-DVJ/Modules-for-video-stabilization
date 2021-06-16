@@ -10,6 +10,7 @@ from OpenGL.GLUT import *
 from objloader import OBJ
 
 size = 512
+size1 = size - 1
 img2obj_map = None
 img2img_map = None
 projection = None
@@ -76,9 +77,9 @@ def warp2():
     for i in range(size):
         for j in range(size):
             if img2img_map[i][j][0] != -1:
-                warped[size - 1 - i][j] = I2[size - 1 - round(img2img_map[i][j][1])][round(img2img_map[i][j][0])]
+                warped[size1 - i][j] = I2[size1 - round(img2img_map[i][j][1])][round(img2img_map[i][j][0])]
             else:
-                warped[size - 1 - i][j] = np.array([0, 0, 0, 255], dtype=np.uint8)
+                warped[size1 - i][j] = np.array([0, 0, 0, 255], dtype=np.uint8)
 
     Image.fromarray(warped).save('./output/warping/Warp.png', 'png')
 
