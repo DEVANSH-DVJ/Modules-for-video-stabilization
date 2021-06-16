@@ -11,6 +11,7 @@ import OpenGL.GLU as GLU
 import OpenGL.GLUT as GLUT
 
 from objloader import OBJ
+from project import project
 
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -87,7 +88,12 @@ if __name__ == '__main__':
                 frames['x1'][i], frames['y1'][i], frames['z1'][i],
                 frames['rx1'][i], frames['ry1'][i], frames['rz1'][i])
         captureScreen('test_res/s{:03}.bmp'.format(i), size)
-        sleep(1)
+        depths = GL.glReadPixels(
+            0, 0, size, size, GL.GL_DEPTH_COMPONENT, GL.GL_FLOAT)
+        projection = GL.glGetDoublev(GL.GL_PROJECTION_MATRIX)
+        modelview = GL.glGetDoublev(GL.GL_MODELVIEW_MATRIX)
+        viewport = GL.glGetIntegerv(GL.GL_VIEWPORT)
+        s2obj = unproject(depths, size, modelview, projection, viewport)
         print(i)
         display(obj,
                 frames['x2'][i], frames['y2'][i], frames['z2'][i],
