@@ -2,7 +2,7 @@ import numpy as np
 from PIL import Image
 
 
-def warp(in_path, motion, warp_path, size=512):
+def warp(in_path, motion, warp_path, size):
     I2 = np.array(Image.open(in_path))
 
     warp = np.empty((size, size, 4), dtype=np.uint8)
