@@ -1,10 +1,20 @@
+import os
 import sys
 import yaml
 
 import OpenGL.GL as GL
+import OpenGL.GLU as GLU
 import OpenGL.GLUT as GLUT
 
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def init(cam):
+    GL.glMatrixMode(GL.GL_PROJECTION)
+    GL.glLoadIdentity()
+    GLU.gluPerspective(cam['fovy'], cam['aspect'], cam['zNear'], cam['zFar'])
+
+    GL.glMatrixMode(GL.GL_MODELVIEW)
 
 
 def start(size):
@@ -27,3 +37,5 @@ if __name__ == '__main__':
     config_file = 'config1.yaml'
     config_path = base_dir + '/params/configs/' + config_file
     configs = yaml.load(open(config_path), Loader=yaml.FullLoader)
+
+    init(configs['camera'])
