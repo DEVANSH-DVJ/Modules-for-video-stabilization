@@ -9,6 +9,8 @@ from OpenGL.GLUT import *
 
 from objloader import OBJ
 
+import numba as nb
+
 size = 512
 size1 = size - 1
 img2obj_map = None
@@ -214,4 +216,5 @@ if __name__ == '__main__':
 
     obj = OBJ('../data/Chest/Chest.obj', swapyz=False)
 
-    display(obj)
+    for i in range(10):
+        display(obj)
