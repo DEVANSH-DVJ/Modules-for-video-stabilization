@@ -89,8 +89,6 @@ if __name__ == '__main__':
     frameset_file = 'frameset1.csv'
     frameset_path = base_dir + '/params/framesets/' + frameset_file
     frames = pd.read_csv(frameset_path)
-    print(len(frames.index))
-    print(frames)
 
     for i in range(len(frames.index)):
         display(obj,
@@ -100,7 +98,6 @@ if __name__ == '__main__':
         depths = GL.glReadPixels(
             0, 0, size, size, GL.GL_DEPTH_COMPONENT, GL.GL_FLOAT)
         s2obj = unproject(depths, size, modelview, projection, viewport)
-        print(i)
         display(obj,
                 frames['x2'][i], frames['y2'][i], frames['z2'][i],
                 frames['rx2'][i], frames['ry2'][i], frames['rz2'][i])
