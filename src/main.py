@@ -1,6 +1,10 @@
 import sys
+import yaml
+
 import OpenGL.GL as GL
 import OpenGL.GLUT as GLUT
+
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 def start(size):
@@ -19,3 +23,7 @@ if __name__ == '__main__':
     size = 512
 
     start(size)
+
+    config_file = 'config1.yaml'
+    config_path = base_dir + '/params/configs/' + config_file
+    configs = yaml.load(open(config_path), Loader=yaml.FullLoader)
