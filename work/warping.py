@@ -22,6 +22,20 @@ def img2obj():
     global img2obj_map
 
     depths = glReadPixels(0, 0, size, size, GL_DEPTH_COMPONENT, GL_FLOAT)
+    winx = 0
+    winy = 100
+    v = np.array([2.0 * (winx - viewport[0]) / viewport[2] - 1.0, 2.0 * (winy -
+                 viewport[1]) / viewport[3] - 1.0, 2.0 * depths[winy][winx] - 1.0, 1.0])
+    print(v.shape)
+    A = np.linalg.inv(projection.T.dot(modelview.T))
+    print(A)
+    v_ = A.dot(v)
+    print(v_)
+    v_ = v_ / v_[3]
+    print(v_)
+    pixel = gluUnProject(
+        winx, winy, depths[winy][winx], modelview, projection, viewport)
+    print("Pixel:", pixel)
 
     img2obj_map = np.array([np.array(
         [gluUnProject(j, i, depths[i][j], modelview, projection, viewport)
