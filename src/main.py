@@ -1,8 +1,9 @@
 import os
 import sys
-import yaml
 from time import sleep
+
 import pandas as pd
+import yaml
 
 import OpenGL.GL as GL
 import OpenGL.GLU as GLU
