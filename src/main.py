@@ -6,6 +6,8 @@ import OpenGL.GL as GL
 import OpenGL.GLU as GLU
 import OpenGL.GLUT as GLUT
 
+from objloader import OBJ
+
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -39,3 +41,7 @@ if __name__ == '__main__':
     configs = yaml.load(open(config_path), Loader=yaml.FullLoader)
 
     init(configs['camera'])
+
+    obj_path = base_dir + '/data/' + configs['obj']
+    obj = OBJ(obj_path, swapyz=False)
+
