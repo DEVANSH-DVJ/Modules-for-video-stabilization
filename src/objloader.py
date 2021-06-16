@@ -3,8 +3,8 @@ import os
 from PIL import Image, ImageOps
 
 from OpenGL.GL import *
-from OpenGL.GLU import *
-from OpenGL.GLUT import *
+# from OpenGL.GLU import *
+# from OpenGL.GLUT import *
 
 
 def MTL(filename):
