@@ -12,6 +12,7 @@ import OpenGL.GLUT as GLUT
 
 from objloader import OBJ
 from project import project
+from unproject import unproject
 
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -99,4 +100,7 @@ if __name__ == '__main__':
                 frames['x2'][i], frames['y2'][i], frames['z2'][i],
                 frames['rx2'][i], frames['ry2'][i], frames['rz2'][i])
         captureScreen('test_res/u{:03}.bmp'.format(i), size)
-        sleep(1)
+        projection = GL.glGetDoublev(GL.GL_PROJECTION_MATRIX)
+        modelview = GL.glGetDoublev(GL.GL_MODELVIEW_MATRIX)
+        viewport = GL.glGetIntegerv(GL.GL_VIEWPORT)
+        s2u = project(s2obj, size, modelview, projection, viewport)
