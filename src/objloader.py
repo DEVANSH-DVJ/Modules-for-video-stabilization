@@ -2,9 +2,7 @@ import os
 
 from PIL import Image, ImageOps
 
-from OpenGL.GL import *
-# from OpenGL.GLU import *
-# from OpenGL.GLUT import *
+import OpenGL.GL as GL
 
 
 def MTL(filename):
@@ -30,14 +28,14 @@ def MTL(filename):
             surf = ImageOps.flip(Image.open(os.path.join(dir, mtl['map_Kd'])))
             image = surf.convert('RGBA').tobytes()
             ix, iy = surf.size
-            texid = mtl['texture_Kd'] = glGenTextures(1)
-            glBindTexture(GL_TEXTURE_2D, texid)
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                            GL_LINEAR)
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
-                            GL_LINEAR)
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, ix, iy, 0, GL_RGBA,
-                         GL_UNSIGNED_BYTE, image)
+            texid = mtl['texture_Kd'] = GL.glGenTextures(1)
+            GL.glBindTexture(GL.GL_TEXTURE_2D, texid)
+            GL.glTexParameteri(
+                GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR)
+            GL.glTexParameteri(
+                GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR)
+            GL.glTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, ix,
+                            iy, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, image)
         else:
             mtl[values[0]] = list(map(float, values[1:]))
     return contents
@@ -94,28 +92,28 @@ class OBJ:
                         norms.append(0)
                 self.faces.append((face, norms, texcoords, material))
 
-        self.gl_list = glGenLists(1)
-        glNewList(self.gl_list, GL_COMPILE)
-        glEnable(GL_TEXTURE_2D)
-        glFrontFace(GL_CCW)
+        self.gl_list = GL.glGenLists(1)
+        GL.glNewList(self.gl_list, GL.GL_COMPILE)
+        GL.glEnable(GL.GL_TEXTURE_2D)
+        GL.glFrontFace(GL.GL_CCW)
         for face in self.faces:
             vertices, normals, texture_coords, material = face
 
             mtl = self.mtl[material]
             if 'texture_Kd' in mtl:
                 # use diffuse texmap
-                glBindTexture(GL_TEXTURE_2D, mtl['texture_Kd'])
+                GL.glBindTexture(GL.GL_TEXTURE_2D, mtl['texture_Kd'])
             else:
                 # just use diffuse colour
-                glColor(*mtl['Kd'])
+                GL.glColor(*mtl['Kd'])
 
-            glBegin(GL_POLYGON)
+            GL.glBegin(GL.GL_POLYGON)
             for i in range(len(vertices)):
                 if normals[i] > 0:
-                    glNormal3fv(self.normals[normals[i] - 1])
+                    GL.glNormal3fv(self.normals[normals[i] - 1])
                 if texture_coords[i] > 0:
-                    glTexCoord2fv(self.texcoords[texture_coords[i] - 1])
-                glVertex3fv(self.vertices[vertices[i] - 1])
-            glEnd()
-        glDisable(GL_TEXTURE_2D)
-        glEndList()
+                    GL.glTexCoord2fv(self.texcoords[texture_coords[i] - 1])
+                GL.glVertex3fv(self.vertices[vertices[i] - 1])
+            GL.glEnd()
+        GL.glDisable(GL.GL_TEXTURE_2D)
+        GL.glEndList()
