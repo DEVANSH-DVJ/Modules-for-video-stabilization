@@ -11,7 +11,7 @@ import OpenGL.GLUT as GLUT
 
 from motion import project, unproject
 from objloader import OBJ
-from warping import warp
+from warping import warp_save
 
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 projection = None
@@ -106,5 +106,5 @@ if __name__ == '__main__':
                 frames['rx2'][i], frames['ry2'][i], frames['rz2'][i])
         captureScreen('test_res/u{:03}.png'.format(i), size)
         s2u = project(s2obj, size, modelview, projection, viewport)
-        warp('test_res/u{:03}.png'.format(i), s2u,
-             'test_res/ws{:03}.png'.format(i), size)
+        warp_save('test_res/u{:03}.png'.format(i), s2u,
+                  'test_res/ws{:03}.png'.format(i), size)
