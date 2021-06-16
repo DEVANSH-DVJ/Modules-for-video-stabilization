@@ -1,6 +1,8 @@
 import numpy as np
+import numba as nb
 
 
+@nb.njit
 def unproject(depths, size, modelview, projection, viewport):
     img2obj_map = np.empty((size, size, 3))
     A = np.linalg.inv(projection.T.dot(modelview.T))
