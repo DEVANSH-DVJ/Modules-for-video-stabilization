@@ -1,6 +1,6 @@
+import numba as nb
 import numpy as np
 from PIL import Image
-import numba as nb
 
 
 @nb.njit
