@@ -13,6 +13,9 @@ from motion import project, unproject
 from objloader import OBJ
 
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+projection = None
+modelview = None
+viewport = None
 
 
 def init(cam):
@@ -37,6 +40,8 @@ def start(size):
 
 
 def display(obj, x, y, z, rx, ry, rz):
+    global projection, modelview, viewport
+
     GL.glClearColor(0.0, 0.0, 0.0, 1.0)
     GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
     GL.glLoadIdentity()
@@ -48,6 +53,10 @@ def display(obj, x, y, z, rx, ry, rz):
     GL.glRotate(ry, 0, 1, 0)
     GL.glRotate(rz, 0, 0, 1)
     GL.glCallList(obj.gl_list)
+
+    projection = GL.glGetDoublev(GL.GL_PROJECTION_MATRIX)
+    modelview = GL.glGetDoublev(GL.GL_MODELVIEW_MATRIX)
+    viewport = GL.glGetIntegerv(GL.GL_VIEWPORT)
 
     GL.glPopMatrix()
 
@@ -89,16 +98,10 @@ if __name__ == '__main__':
         captureScreen('test_res/s{:03}.bmp'.format(i), size)
         depths = GL.glReadPixels(
             0, 0, size, size, GL.GL_DEPTH_COMPONENT, GL.GL_FLOAT)
-        projection = GL.glGetDoublev(GL.GL_PROJECTION_MATRIX)
-        modelview = GL.glGetDoublev(GL.GL_MODELVIEW_MATRIX)
-        viewport = GL.glGetIntegerv(GL.GL_VIEWPORT)
         s2obj = unproject(depths, size, modelview, projection, viewport)
         print(i)
         display(obj,
                 frames['x2'][i], frames['y2'][i], frames['z2'][i],
                 frames['rx2'][i], frames['ry2'][i], frames['rz2'][i])
         captureScreen('test_res/u{:03}.bmp'.format(i), size)
-        projection = GL.glGetDoublev(GL.GL_PROJECTION_MATRIX)
-        modelview = GL.glGetDoublev(GL.GL_MODELVIEW_MATRIX)
-        viewport = GL.glGetIntegerv(GL.GL_VIEWPORT)
         s2u = project(s2obj, size, modelview, projection, viewport)
