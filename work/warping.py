@@ -99,9 +99,8 @@ def init():
     glMatrixMode(GL_MODELVIEW)
 
 
-def display():
-    global projection, modelview, viewport
-    obj = OBJ('../data/Chest/Chest.obj', swapyz=False)
+def display(obj):
+    global projection, modelview, viewport, img2img_map
 
     glClearColor(0.0, 0.0, 0.0, 1.0)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
@@ -162,4 +161,6 @@ if __name__ == '__main__':
 
     init()
 
-    display()
+    obj = OBJ('../data/Chest/Chest.obj', swapyz=False)
+
+    display(obj)
