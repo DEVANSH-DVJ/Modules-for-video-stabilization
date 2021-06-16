@@ -1,7 +1,7 @@
 import os
 import sys
 import yaml
-
+from time import sleep
 import pandas as pd
 
 import OpenGL.GL as GL
@@ -70,3 +70,14 @@ if __name__ == '__main__':
     frames = pd.read_csv(frameset_path)
     print(len(frames.index))
     print(frames)
+
+    for i in range(len(frames.index)):
+        display(obj,
+                frames['x1'][i], frames['y1'][i], frames['z1'][i],
+                frames['rx1'][i], frames['ry1'][i], frames['rz1'][i])
+        sleep(1)
+        print(i)
+        display(obj,
+                frames['x2'][i], frames['y2'][i], frames['z2'][i],
+                frames['rx2'][i], frames['ry2'][i], frames['rz2'][i])
+        sleep(1)
