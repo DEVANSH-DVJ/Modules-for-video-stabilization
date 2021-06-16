@@ -4,6 +4,7 @@ from time import sleep
 
 import pandas as pd
 import yaml
+from PIL import Image, ImageOps
 
 import OpenGL.GL as GL
 import OpenGL.GLU as GLU
@@ -32,6 +33,7 @@ def start(size):
 
     GL.glEnable(GL.GL_DEPTH_TEST)
     GL.glEnable(GL.GL_TEXTURE_2D)
+    GL.glPixelStorei(GL.GL_PACK_ALIGNMENT, 1)
 
 
 def display(obj, x, y, z, rx, ry, rz):
@@ -50,6 +52,14 @@ def display(obj, x, y, z, rx, ry, rz):
     GL.glPopMatrix()
 
     GL.glFlush()
+
+
+def captureScreen(file_name, size):
+    data = GL.glReadPixels(0, 0, size, size, GL.GL_RGBA,
+                           GL.GL_UNSIGNED_BYTE, None)
+    image = Image.frombytes('RGBA', (size, size), data)
+    image = ImageOps.flip(image)
+    image.save(file_name, 'png')
 
 
 if __name__ == '__main__':
