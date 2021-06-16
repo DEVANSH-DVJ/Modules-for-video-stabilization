@@ -1,6 +1,8 @@
 import numpy as np
+import numba as nb
 
 
+@nb.njit
 def project(img2obj_map, size, modelview, projection, viewport):
     img2img_map = -np.ones((size, size, 3))
     A = projection.T.dot(modelview.T)
