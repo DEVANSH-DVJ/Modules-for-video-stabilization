@@ -33,6 +33,24 @@ def start(size):
     GL.glEnable(GL.GL_TEXTURE_2D)
 
 
+def display(obj, x, y, z, rx, ry, rz):
+    GL.glClearColor(0.0, 0.0, 0.0, 1.0)
+    GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
+    GL.glLoadIdentity()
+
+    GL.glPushMatrix()
+
+    GL.glTranslate(x, y, z)
+    GL.glRotate(rx, 1, 0, 0)
+    GL.glRotate(ry, 0, 1, 0)
+    GL.glRotate(rz, 0, 0, 1)
+    GL.glCallList(obj.gl_list)
+
+    GL.glPopMatrix()
+
+    GL.glFlush()
+
+
 if __name__ == '__main__':
     size = 512
 
