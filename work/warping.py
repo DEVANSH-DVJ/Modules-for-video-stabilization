@@ -196,11 +196,11 @@ def display(obj):
     # img2img()
     img2img_map = project(img2obj_map, size, modelview, projection, viewport)
 
-    warp()
+    # warp()
 
-    captureScreen('./output/warping/WARP.png')
+    # captureScreen('./output/warping/WARP.png')
 
-    warp2()
+    # warp2()
 
 
 if __name__ == '__main__':
