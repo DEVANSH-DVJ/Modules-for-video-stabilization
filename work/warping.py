@@ -42,6 +42,19 @@ def img2obj():
          for j in range(size)]) for i in range(size)])
 
 
+def unproject(depths, size, modelview, projection, viewport):
+    img2obj_map = np.empty((size, size, 3))
+    A = np.linalg.inv(projection.T.dot(modelview.T))
+    for i in range(size):
+        for j in range(size):
+            v = np.array([2.0 * (j - viewport[0]) / viewport[2] - 1.0,
+                          2.0 * (i - viewport[1]) / viewport[3] - 1.0,
+                          2.0 * depths[i][j] - 1.0, 1.0])
+            v_ = A.dot(v)
+            img2obj_map[i][j] = v_[:3]/v_[3]
+    return img2obj_map
+
+
 def img2img():
     global img2img_map
 
@@ -155,7 +168,9 @@ def display(obj):
 
     captureScreen('./output/warping/I1.png')
 
-    img2obj()
+    # img2obj()
+    depths = glReadPixels(0, 0, size, size, GL_DEPTH_COMPONENT, GL_FLOAT)
+    img2obj_map = unproject(depths, size, modelview, projection, viewport)
 
     glClearColor(0.0, 0.0, 0.0, 1.0)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
@@ -164,7 +179,6 @@ def display(obj):
     glPushMatrix()
     glTranslate(0, -1, -4)
     glRotate(-70, 0, 1, 0)
-    # glRotate(5, 0, 1, 0)
     glCallList(obj.gl_list)
 
     projection = glGetDoublev(GL_PROJECTION_MATRIX)
