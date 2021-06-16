@@ -1,6 +1,5 @@
 import os
 import sys
-from time import sleep
 
 import pandas as pd
 import yaml
