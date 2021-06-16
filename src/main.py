@@ -86,9 +86,11 @@ if __name__ == '__main__':
         display(obj,
                 frames['x1'][i], frames['y1'][i], frames['z1'][i],
                 frames['rx1'][i], frames['ry1'][i], frames['rz1'][i])
+        captureScreen('test_res/s{:03}.bmp'.format(i), size)
         sleep(1)
         print(i)
         display(obj,
                 frames['x2'][i], frames['y2'][i], frames['z2'][i],
                 frames['rx2'][i], frames['ry2'][i], frames['rz2'][i])
+        captureScreen('test_res/u{:03}.bmp'.format(i), size)
         sleep(1)
