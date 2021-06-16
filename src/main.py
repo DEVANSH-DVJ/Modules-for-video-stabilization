@@ -10,8 +10,7 @@ import OpenGL.GLU as GLU
 import OpenGL.GLUT as GLUT
 
 from objloader import OBJ
-from project import project
-from unproject import unproject
+from motion import project, unproject
 
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
