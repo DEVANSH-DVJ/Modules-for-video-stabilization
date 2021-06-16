@@ -43,12 +43,7 @@ def img2img():
             if x < size and y < size and x >= 0 and y >= 0:
                 if z < depths[x][y]:
                     img2img_map[i][j] = pixel
-                    # print(i, j, img2img_map[i][j])
-                    # if prevx[x][y] != -1:
-                    #     img2img_map[prevx[x][y]][prevy[x][y]] = np.array([-1., -1., -1.])
-                    #     print(prevx[x][y], prevy[x][y])
-                    # prevx[x][y], prevy[x][y] = i, j
-                    # depths[x][y] = z
+
 
 
 def warp():
@@ -61,11 +56,8 @@ def warp():
     warped = np.zeros_like(I2)
     for i in range(size):
         for j in range(size):
-            # print(i, j, int(img2img_map[i][j][1]), int(img2img_map[i][j][0]))
             if img2img_map[i][j][0] != -1:
                 warped[i][j] = I2[round(img2img_map[i][j][1])][round(img2img_map[i][j][0])]
-                # if (warped[i][j] == np.array([0.0, 1.0, 1.0, 1.0])).all():
-                #     print(i, j, img2img_map[i][j], img2obj_map[i][j])
 
     glDrawPixels(size, size, GL_RGBA, GL_FLOAT, warped)
 
@@ -88,7 +80,7 @@ def captureScreen(file_name):
     glPixelStorei(GL_PACK_ALIGNMENT, 1)
     data = glReadPixels(0, 0, size, size, GL_RGBA, GL_UNSIGNED_BYTE, None)
     image = Image.frombytes('RGBA', (size, size), data)
-    image = ImageOps.flip(image)  # in my case image is flipped top-bottom for some reason
+    image = ImageOps.flip(image)
     image.save(file_name, 'png')
 
 
