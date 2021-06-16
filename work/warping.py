@@ -44,6 +44,7 @@ def img2obj():
          for j in range(size)]) for i in range(size)])
 
 
+@nb.jit(nopython=True)
 def unproject(depths, size, modelview, projection, viewport):
     img2obj_map = np.empty((size, size, 3))
     A = np.linalg.inv(projection.T.dot(modelview.T))
