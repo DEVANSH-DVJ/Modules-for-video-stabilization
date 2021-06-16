@@ -1,7 +1,9 @@
 import numpy as np
 from PIL import Image
+import numba as nb
 
 
+@nb.njit
 def warp(I2, mv, size):
     warped = np.empty((size, size, 4), dtype=np.uint8)
     for i in range(size):
