@@ -84,7 +84,7 @@ if __name__ == '__main__':
 
     init(configs['camera'])
 
-    obj_path = '{}/data/{}.obj'.format(base_dir, configs['obj'])
+    obj_path = '{0}/data/{1}/{1}.obj'.format(base_dir, configs['obj'])
     obj = OBJ(obj_path, swapyz=False)
 
     frameset_file = 'frameset1'
