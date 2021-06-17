@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 x = {'min': -1.0, 'max': 1.0, 'sigma': 0.01}
 y = {'min': 0.0, 'max': 0.0, 'sigma': 0.01}
@@ -24,3 +25,6 @@ if __name__ == '__main__':
         'rz': np.linspace(rz['min'], rz['max'], num=split+1),
         'drz': np.random.normal(0, rz['sigma'], size=(split+1,))
     }
+
+    df = pd.DataFrame(d)
+    print(df)
