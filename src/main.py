@@ -98,7 +98,7 @@ if __name__ == '__main__':
     frames = pd.read_csv(frameset_path)
     n = len(frames.index)
 
-    out_dir = '{}/output/{}_{}'.format(base_dir, config_file, frameset_file)
+    out_dir = '{}/../output/{}_{}'.format(base_dir, config_file, frameset_file)
     img_dir = out_dir + '/img'
     os.system('mkdir -p ' + img_dir)
 
