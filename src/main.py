@@ -79,7 +79,7 @@ if __name__ == '__main__':
     start(size)
 
     config_file = 'config1'
-    config_path = '{}/params/configs/{}.yaml'.format(base_dir, config_file)
+    config_path = '{}/configs/{}.yaml'.format(base_dir, config_file)
     configs = yaml.load(open(config_path), Loader=yaml.FullLoader)
 
     init(configs['camera'])
@@ -88,7 +88,7 @@ if __name__ == '__main__':
     obj = OBJ(obj_path, swapyz=False)
 
     frameset_file = 'frameset1'
-    frameset_path = '{}/params/framesets/{}.csv'.format(base_dir, frameset_file)
+    frameset_path = '{}/framesets/{}.csv'.format(base_dir, frameset_file)
     frames = pd.read_csv(frameset_path)
     n = len(frames.index)
 
