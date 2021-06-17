@@ -11,7 +11,7 @@ def warp(I2, mv, size):
             if mv[i][j][0] != -1:
                 warped[i][j] = I2[round(mv[i][j][1])][round(mv[i][j][0])]
             else:
-                warped[i][j] = np.array([255, 255, 255, 255], dtype=np.uint8)
+                warped[i][j] = np.array([255, 255, 255, 0], dtype=np.uint8)
     return warped
 
 
