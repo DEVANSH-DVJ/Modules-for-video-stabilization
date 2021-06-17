@@ -3,7 +3,7 @@ camera:
   aspect: 1
   zNear: 2.0
   zFar: 100.0
-obj: "Chest"
+obj: "Handgun"
 frameset: "frameset03"
 size: 512
 fps: 10
