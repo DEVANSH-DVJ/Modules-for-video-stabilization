@@ -86,7 +86,7 @@ if __name__ == '__main__':
 
     size = configs['size']
     fps = configs['fps']
-
+    zmax = 1 - 1/configs['camera']['zFar']
     start(size)
 
     init(configs['camera'])
@@ -123,7 +123,7 @@ if __name__ == '__main__':
                 frames['ry'][i] + frames['dry'][i],
                 frames['rz'][i] + frames['drz'][i])
         captureScreen('{}/u{:03}.png'.format(img_dir, i), size)
-        s2u = project(s2obj, size, modelview, projection, viewport)
+        s2u = project(s2obj, size, modelview, projection, viewport, zmax)
         warp_save('{}/u{:03}.png'.format(img_dir, i), s2u,
                   '{}/ws{:03}.png'.format(img_dir, i), size)
 
