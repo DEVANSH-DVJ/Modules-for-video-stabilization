@@ -78,22 +78,21 @@ if __name__ == '__main__':
 
     start(size)
 
-    config_file = 'config1.yaml'
-    config_path = '{}/params/configs/{}'.format(base_dir, config_file)
+    config_file = 'config1'
+    config_path = '{}/params/configs/{}.yaml'.format(base_dir, config_file)
     configs = yaml.load(open(config_path), Loader=yaml.FullLoader)
 
     init(configs['camera'])
 
-    obj_path = '{}/data/{}'.format(base_dir, configs['obj'])
+    obj_path = '{}/data/{}.obj'.format(base_dir, configs['obj'])
     obj = OBJ(obj_path, swapyz=False)
 
-    frameset_file = 'frameset1.csv'
-    frameset_path = '{}/params/framesets/{}'.format(base_dir, frameset_file)
+    frameset_file = 'frameset1'
+    frameset_path = '{}/params/framesets/{}.csv'.format(base_dir, frameset_file)
     frames = pd.read_csv(frameset_path)
     n = len(frames.index)
 
-    out_dir = '{}/output/{}_{}'.format(base_dir,
-                                       config_file[:-5], frameset_file[:-4])
+    out_dir = '{}/output/{}_{}'.format(base_dir, config_file, frameset_file)
     img_dir = out_dir + '/img'
     os.system('mkdir -p ' + img_dir)
 
