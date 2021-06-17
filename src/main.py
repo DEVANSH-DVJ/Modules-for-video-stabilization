@@ -90,12 +90,14 @@ if __name__ == '__main__':
     frameset_file = 'frameset1.csv'
     frameset_path = base_dir + '/params/framesets/' + frameset_file
     frames = pd.read_csv(frameset_path)
+    n = len(frames.index)
 
-    dir = base_dir + '/output/' + config_file[:-5] + '_' + frameset_file[:-4]
-    img_dir = dir + '/img'
+    out_dir = '{}/output/{}_{}'.format(base_dir,
+                                       config_file[:-5], frameset_file[:-4])
+    img_dir = out_dir + '/img'
     os.system('mkdir -p ' + img_dir)
 
-    for i in range(len(frames.index)):
+    for i in range(n):
         display(obj,
                 frames['x1'][i], frames['y1'][i], frames['z1'][i],
                 frames['rx1'][i], frames['ry1'][i], frames['rz1'][i])
@@ -111,9 +113,9 @@ if __name__ == '__main__':
         warp_save('{}/u{:03}.png'.format(img_dir, i), s2u,
                   '{}/ws{:03}.png'.format(img_dir, i), size)
 
-    movie_save(['{}/s{:03}.png'.format(img_dir, i)
-               for i in range(len(frames.index))], 1, '{}/s.mp4'.format(dir))
-    movie_save(['{}/u{:03}.png'.format(img_dir, i)
-               for i in range(len(frames.index))], 1, '{}/u.mp4'.format(dir))
-    movie_save(['{}/ws{:03}.png'.format(img_dir, i)
-               for i in range(len(frames.index))], 1, '{}/ws.mp4'.format(dir))
+    movie_save(['{}/s{:03}.png'.format(img_dir, i) for i in range(n)], 1,
+               '{}/s.mp4'.format(out_dir))
+    movie_save(['{}/u{:03}.png'.format(img_dir, i) for i in range(n)], 1,
+               '{}/u.mp4'.format(out_dir))
+    movie_save(['{}/ws{:03}.png'.format(img_dir, i) for i in range(n)], 1,
+               '{}/ws.mp4'.format(out_dir))
