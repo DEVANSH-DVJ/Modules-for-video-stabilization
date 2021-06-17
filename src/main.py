@@ -81,12 +81,12 @@ if __name__ == '__main__':
     else:
         config_file = sys.argv[1]
 
-    size = 512
-
-    start(size)
-
     config_path = '{}/configs/{}.yaml'.format(base_dir, config_file)
     configs = yaml.load(open(config_path), Loader=yaml.FullLoader)
+
+    size = configs['size']
+
+    start(size)
 
     init(configs['camera'])
 
