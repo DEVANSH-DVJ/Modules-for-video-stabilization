@@ -12,6 +12,7 @@ split = 100
 store = 'frameset.csv'
 
 if __name__ == '__main__':
+    np.random.seed(0)
     d = {
         'x': np.linspace(x['min'], x['max'], num=split+1),
         'dx': np.random.normal(0, x['sigma'], size=(split+1,)),
