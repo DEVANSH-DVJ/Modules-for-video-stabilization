@@ -91,6 +91,10 @@ if __name__ == '__main__':
     frameset_path = base_dir + '/params/framesets/' + frameset_file
     frames = pd.read_csv(frameset_path)
 
+    dir = base_dir + '/output/' + config_file[:-5] + '_' + frameset_file[:-4]
+    img_dir = dir + '/img'
+    os.system('mkdir -p ' + img_dir)
+
     for i in range(len(frames.index)):
         display(obj,
                 frames['x1'][i], frames['y1'][i], frames['z1'][i],
