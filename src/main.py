@@ -104,15 +104,23 @@ if __name__ == '__main__':
 
     for i in range(n):
         display(obj,
-                frames['x1'][i], frames['y1'][i], frames['z1'][i],
-                frames['rx1'][i], frames['ry1'][i], frames['rz1'][i])
+                frames['x'][i],
+                frames['y'][i],
+                frames['z'][i],
+                frames['rx'][i],
+                frames['ry'][i],
+                frames['rz'][i])
         captureScreen('{}/s{:03}.png'.format(img_dir, i), size)
         depths = GL.glReadPixels(
             0, 0, size, size, GL.GL_DEPTH_COMPONENT, GL.GL_FLOAT)
         s2obj = unproject(depths, size, modelview, projection, viewport)
         display(obj,
-                frames['x2'][i], frames['y2'][i], frames['z2'][i],
-                frames['rx2'][i], frames['ry2'][i], frames['rz2'][i])
+                frames['x'][i] + frames['dx'][i],
+                frames['y'][i] + frames['dy'][i],
+                frames['z'][i] + frames['dz'][i],
+                frames['rx'][i] + frames['drx'][i],
+                frames['ry'][i] + frames['dry'][i],
+                frames['rz'][i] + frames['drz'][i])
         captureScreen('{}/u{:03}.png'.format(img_dir, i), size)
         s2u = project(s2obj, size, modelview, projection, viewport)
         warp_save('{}/u{:03}.png'.format(img_dir, i), s2u,
