@@ -28,3 +28,4 @@ if __name__ == '__main__':
 
     df = pd.DataFrame(d)
     print(df)
+    df.to_csv(store, index=False)
