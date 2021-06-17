@@ -5,3 +5,5 @@ camera:
   zFar: 100.0
 obj: "Chest"
 frameset: "frameset1"
+size: 512
+fps: 1
