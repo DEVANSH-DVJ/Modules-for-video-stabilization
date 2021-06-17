@@ -9,13 +9,13 @@ import pandas as pd
 # ry = {'min': -60.0, 'max': -60.0, 'sigma': 0.5}
 # rz = {'min': 0.0, 'max': 0.0, 'sigma': 0.5}
 '''For Small Tropical Island'''
-# x = {'min': 0.0, 'max': 0.0, 'sigma': 10}
+# x = {'min': 0.0, 'max': 0.0, 'sigma': 1}
 # y = {'min': 0.0, 'max': 0.0, 'sigma': 1}
 # z = {'min': -400.0, 'max': -400.0, 'sigma': 0}
-# rx = {'min': 8.0, 'max': 8.0, 'sigma': 0.1}
-# ry = {'min': -45.0, 'max': -145.0, 'sigma': 0.1}
+# rx = {'min': 10.0, 'max': 46.0, 'sigma': 0.1}
+# ry = {'min': 0.0, 'max': 360.0, 'sigma': 0.1}
 # rz = {'min': 0.0, 'max': 0.0, 'sigma': 0.1}
-split = 100
+# split = 360
 store = 'frameset.csv'
 
 if __name__ == '__main__':
