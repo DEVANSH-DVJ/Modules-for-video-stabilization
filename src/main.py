@@ -75,12 +75,11 @@ def captureScreen(file_name, size):
 
 if __name__ == '__main__':
 
-    if len(sys.argv) < 3:
-        print('Usage: python {} <config> <frameset>'.format(sys.argv[0]))
+    if len(sys.argv) < 2:
+        print('Usage: python {} <config>'.format(sys.argv[0]))
         exit(1)
     else:
         config_file = sys.argv[1]
-        frameset_file = sys.argv[2]
 
     size = 512
 
