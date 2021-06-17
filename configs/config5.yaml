@@ -4,6 +4,6 @@ camera:
   zNear: 2.0
   zFar: 100.0
 obj: "Chest"
-frameset: "frameset3"
+frameset: "frameset03"
 size: 512
 fps: 10
