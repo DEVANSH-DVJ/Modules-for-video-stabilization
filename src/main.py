@@ -74,11 +74,18 @@ def captureScreen(file_name, size):
 
 
 if __name__ == '__main__':
+
+    if len(sys.argv) < 3:
+        print('Usage: python {} <config> <frameset>'.format(sys.argv[0]))
+        exit(1)
+    else:
+        config_file = sys.argv[1]
+        frameset_file = sys.argv[2]
+
     size = 512
 
     start(size)
 
-    config_file = 'config1'
     config_path = '{}/configs/{}.yaml'.format(base_dir, config_file)
     configs = yaml.load(open(config_path), Loader=yaml.FullLoader)
 
@@ -87,7 +94,6 @@ if __name__ == '__main__':
     obj_path = '{0}/data/{1}/{1}.obj'.format(base_dir, configs['obj'])
     obj = OBJ(obj_path, swapyz=False)
 
-    frameset_file = 'frameset1'
     frameset_path = '{}/framesets/{}.csv'.format(base_dir, frameset_file)
     frames = pd.read_csv(frameset_path)
     n = len(frames.index)
