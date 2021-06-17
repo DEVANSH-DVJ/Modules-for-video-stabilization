@@ -4,6 +4,6 @@ camera:
   zNear: 2.0
   zFar: 10000.0
 obj: "Small Tropical Island"
-frameset: "frameset07"
+frameset: "frameset08"
 size: 512
 fps: 10
