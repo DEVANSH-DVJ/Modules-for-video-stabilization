@@ -15,3 +15,18 @@ time python src/main.py config05
 
 echo -e "\n\nconfig06"
 time python src/main.py config06
+
+echo -e "\n\nconfig07"
+time python src/main.py config07
+
+echo -e "\n\nconfig08"
+time python src/main.py config08
+
+echo -e "\n\nconfig09"
+time python src/main.py config09
+
+echo -e "\n\nconfig10"
+time python src/main.py config10
+
+echo -e "\n\nconfig11"
+time python src/main.py config11
