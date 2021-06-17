@@ -24,7 +24,7 @@ def project(img2obj_map, size, modelview, projection, viewport):
             ]
             x, y, z = round(pixel[0]), round(pixel[1]), pixel[2]
             if x < size and y < size and x >= 0 and y >= 0:
-                if z < 0.95:
+                if z < 0.999:
                     img2img_map[size - 1 - i][j] = pixel
 
     return img2img_map
