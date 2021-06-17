@@ -12,6 +12,7 @@ import OpenGL.GLUT as GLUT
 from motion import project, unproject
 from objloader import OBJ
 from warping import warp_save
+from movie import movie_save
 
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 projection = None
@@ -105,3 +106,6 @@ if __name__ == '__main__':
         s2u = project(s2obj, size, modelview, projection, viewport)
         warp_save('test_res/u{:03}.png'.format(i), s2u,
                   'test_res/ws{:03}.png'.format(i), size)
+
+    movie_save(['test_res/ws{:03}.png'.format(i)
+               for i in range(len(frames.index))], 1, 'test_res/ws.mp4')
