@@ -85,6 +85,7 @@ if __name__ == '__main__':
     configs = yaml.load(open(config_path), Loader=yaml.FullLoader)
 
     size = configs['size']
+    fps = configs['fps']
 
     start(size)
 
@@ -126,9 +127,9 @@ if __name__ == '__main__':
         warp_save('{}/u{:03}.png'.format(img_dir, i), s2u,
                   '{}/ws{:03}.png'.format(img_dir, i), size)
 
-    movie_save(['{}/s{:03}.png'.format(img_dir, i) for i in range(n)], 10,
+    movie_save(['{}/s{:03}.png'.format(img_dir, i) for i in range(n)], fps,
                '{}/s.mp4'.format(out_dir))
-    movie_save(['{}/u{:03}.png'.format(img_dir, i) for i in range(n)], 10,
+    movie_save(['{}/u{:03}.png'.format(img_dir, i) for i in range(n)], fps,
                '{}/u.mp4'.format(out_dir))
-    movie_save(['{}/ws{:03}.png'.format(img_dir, i) for i in range(n)], 10,
+    movie_save(['{}/ws{:03}.png'.format(img_dir, i) for i in range(n)], fps,
                '{}/ws.mp4'.format(out_dir))
