@@ -99,17 +99,17 @@ if __name__ == '__main__':
         display(obj,
                 frames['x1'][i], frames['y1'][i], frames['z1'][i],
                 frames['rx1'][i], frames['ry1'][i], frames['rz1'][i])
-        captureScreen('test_res/s{:03}.png'.format(i), size)
+        captureScreen('{}/s{:03}.png'.format(img_dir, i), size)
         depths = GL.glReadPixels(
             0, 0, size, size, GL.GL_DEPTH_COMPONENT, GL.GL_FLOAT)
         s2obj = unproject(depths, size, modelview, projection, viewport)
         display(obj,
                 frames['x2'][i], frames['y2'][i], frames['z2'][i],
                 frames['rx2'][i], frames['ry2'][i], frames['rz2'][i])
-        captureScreen('test_res/u{:03}.png'.format(i), size)
+        captureScreen('{}/u{:03}.png'.format(img_dir, i), size)
         s2u = project(s2obj, size, modelview, projection, viewport)
-        warp_save('test_res/u{:03}.png'.format(i), s2u,
-                  'test_res/ws{:03}.png'.format(i), size)
+        warp_save('{}/u{:03}.png'.format(img_dir, i), s2u,
+                  '{}/ws{:03}.png'.format(img_dir, i), size)
 
-    movie_save(['test_res/ws{:03}.png'.format(i)
-               for i in range(len(frames.index))], 1, 'test_res/ws.mp4')
+    movie_save(['{}/ws{:03}.png'.format(img_dir, i)
+               for i in range(len(frames.index))], 1, '{}/ws.mp4'.format(dir))
