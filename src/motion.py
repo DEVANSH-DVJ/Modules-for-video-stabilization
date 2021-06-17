@@ -3,7 +3,7 @@ import numpy as np
 
 
 @nb.njit
-def project(img2obj_map, size, modelview, projection, viewport):
+def project(img2obj_map, size, modelview, projection, viewport, zmax):
     img2img_map = -np.ones((size, size, 3))
     A = projection.T.dot(modelview.T)
     for i in range(size):
@@ -24,7 +24,7 @@ def project(img2obj_map, size, modelview, projection, viewport):
             ]
             x, y, z = round(pixel[0]), round(pixel[1]), pixel[2]
             if x < size and y < size and x >= 0 and y >= 0:
-                if z < 0.999:
+                if z < zmax:
                     img2img_map[size - 1 - i][j] = pixel
 
     return img2img_map
