@@ -111,5 +111,9 @@ if __name__ == '__main__':
         warp_save('{}/u{:03}.png'.format(img_dir, i), s2u,
                   '{}/ws{:03}.png'.format(img_dir, i), size)
 
+    movie_save(['{}/s{:03}.png'.format(img_dir, i)
+               for i in range(len(frames.index))], 1, '{}/s.mp4'.format(dir))
+    movie_save(['{}/u{:03}.png'.format(img_dir, i)
+               for i in range(len(frames.index))], 1, '{}/u.mp4'.format(dir))
     movie_save(['{}/ws{:03}.png'.format(img_dir, i)
                for i in range(len(frames.index))], 1, '{}/ws.mp4'.format(dir))
