@@ -94,11 +94,12 @@ if __name__ == '__main__':
     obj_path = '{0}/data/{1}/{1}.obj'.format(base_dir, configs['obj'])
     obj = OBJ(obj_path, swapyz=False)
 
+    frameset_file = configs['frameset']
     frameset_path = '{}/framesets/{}.csv'.format(base_dir, frameset_file)
     frames = pd.read_csv(frameset_path)
     n = len(frames.index)
 
-    out_dir = '{}/../output/{}_{}'.format(base_dir, config_file, frameset_file)
+    out_dir = '{}/../output/{}'.format(base_dir, config_file)
     img_dir = out_dir + '/img'
     os.system('mkdir -p ' + img_dir)
 
