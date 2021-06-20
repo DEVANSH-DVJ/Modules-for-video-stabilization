@@ -14,19 +14,19 @@ from OpenGL.GLU import *
 from objloader import *
 
 pygame.init()
-viewport = (800, 600)
+viewport = (512, 512)
 hx = viewport[0] / 2
 hy = viewport[1] / 2
 srf = pygame.display.set_mode(viewport, OPENGL | DOUBLEBUF)
 
-glLightfv(GL_LIGHT0, GL_POSITION, (-40, 200, 100, 0.0))
-glLightfv(GL_LIGHT0, GL_AMBIENT, (0.2, 0.2, 0.2, 1.0))
-glLightfv(GL_LIGHT0, GL_DIFFUSE, (0.5, 0.5, 0.5, 1.0))
-glEnable(GL_LIGHT0)
-glEnable(GL_LIGHTING)
-glEnable(GL_COLOR_MATERIAL)
-glEnable(GL_DEPTH_TEST)
-glShadeModel(GL_SMOOTH)           # most obj files expect to be smooth-shaded
+# glLightfv(GL_LIGHT0, GL_POSITION, (-40, 200, 100, 0.0))
+# glLightfv(GL_LIGHT0, GL_AMBIENT, (0.2, 0.2, 0.2, 1.0))
+# glLightfv(GL_LIGHT0, GL_DIFFUSE, (0.5, 0.5, 0.5, 1.0))
+# glEnable(GL_LIGHT0)
+# glEnable(GL_LIGHTING)
+# glEnable(GL_COLOR_MATERIAL)
+# glEnable(GL_DEPTH_TEST)
+# glShadeModel(GL_SMOOTH)           # most obj files expect to be smooth-shaded
 
 # LOAD OBJECT AFTER PYGAME INIT
 obj = OBJ(sys.argv[1], swapyz=False)
@@ -36,7 +36,7 @@ clock = pygame.time.Clock()
 glMatrixMode(GL_PROJECTION)
 glLoadIdentity()
 width, height = viewport
-gluPerspective(90.0, width / float(height), 1, 100.0)
+gluPerspective(60.0, width / float(height), 2.0, 10000.0)
 glEnable(GL_DEPTH_TEST)
 glMatrixMode(GL_MODELVIEW)
 
@@ -53,7 +53,7 @@ while 1:
             sys.exit()
         elif e.type == MOUSEBUTTONDOWN:
             if e.button == 4:
-                zpos = max(1, zpos - 1)
+                zpos = zpos - 1
             elif e.button == 5:
                 zpos += 1
             elif e.button == 1:
@@ -74,6 +74,7 @@ while 1:
                 tx += i
                 ty -= j
 
+    glClearColor(0.0, 1.0, 1.0, 1.0)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
 
@@ -83,4 +84,5 @@ while 1:
     glRotate(rx, 0, 1, 0)
     glCallList(obj.gl_list)
 
+    print(tx / 20, ty / 20, -zpos, ry, rx)
     pygame.display.flip()
