@@ -1,0 +1,9 @@
+camera:
+  fovy: 60
+  aspect: 1
+  zNear: 2.0
+  zFar: 10000.0
+obj: "realistic+interior"
+frameset: "frameset14"
+size: 512
+fps: 30
