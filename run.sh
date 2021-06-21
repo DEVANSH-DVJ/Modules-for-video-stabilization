@@ -30,3 +30,6 @@ time python src/main.py config10
 
 echo -e "\n\nconfig11"
 time python src/main.py config11
+
+echo -e "\n\nconfig12"
+time python src/main.py config12
