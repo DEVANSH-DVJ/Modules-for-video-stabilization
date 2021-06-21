@@ -16,6 +16,14 @@ import pandas as pd
 # ry = {'min': 0.0, 'max': 360.0, 'sigma': 0.1}
 # rz = {'min': 0.0, 'max': 0.0, 'sigma': 0.1}
 # split = 360
+'''For realistic+interior'''
+# x = {'min': -3.3, 'max': -0.1, 'sigma': 0.01}
+# y = {'min': -1.25, 'max': -0.95, 'sigma': 0.01}
+# z = {'min': -5.0, 'max': -5.0, 'sigma': 0}
+# rx = {'min': 1.0, 'max': 1.0, 'sigma': 0.1}
+# ry = {'min': 175.0, 'max': 175.0, 'sigma': 0.1}
+# rz = {'min': 0.0, 'max': 0.0, 'sigma': 0.1}
+# split = 300
 store = 'frameset.csv'
 
 if __name__ == '__main__':
