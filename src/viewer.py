@@ -95,6 +95,7 @@ while True:
                                             rz*np.pi/180,
                                             [0, 1, 0])
 
+    pos = np.around(pos, 3).astype('float64')
     GL.glClearColor(0.0, 1.0, 1.0, 1.0)
     GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
     GL.glLoadIdentity()
