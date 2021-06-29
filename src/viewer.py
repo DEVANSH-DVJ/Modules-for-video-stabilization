@@ -66,9 +66,11 @@ while True:
             sys.exit()
         elif event.type == pygc.MOUSEBUTTONDOWN:
             if event.button == 4:
-                zpos -= 1
+                pos += pointing(-rx*np.pi/180, -ry*np.pi /
+                                180, rz*np.pi/180, [0, 0, 1])
             elif event.button == 5:
-                zpos += 1
+                pos -= pointing(-rx*np.pi/180, -ry*np.pi /
+                                180, rz*np.pi/180, [0, 0, 1])
             elif event.button == 1:
                 rotate = True
             elif event.button == 3:
