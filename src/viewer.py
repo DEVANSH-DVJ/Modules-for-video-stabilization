@@ -19,12 +19,12 @@ obj = OBJ(sys.argv[1], swapyz=False)
 
 clock = pygame.time.Clock()
 
-glMatrixMode(GL_PROJECTION)
-glLoadIdentity()
+GL.glMatrixMode(GL.GL_PROJECTION)
+GL.glLoadIdentity()
 width, height = viewport
-gluPerspective(60.0, width / float(height), 2.0, 10000.0)
-glEnable(GL_DEPTH_TEST)
-glMatrixMode(GL_MODELVIEW)
+GLU.gluPerspective(60.0, width / float(height), 2.0, 10000.0)
+GL.glEnable(GL.GL_DEPTH_TEST)
+GL.glMatrixMode(GL.GL_MODELVIEW)
 
 rx, ry = (0, 0)
 tx, ty = (0, 0)
@@ -60,17 +60,17 @@ while 1:
                 tx += i
                 ty -= j
 
-    glClearColor(0.0, 1.0, 1.0, 1.0)
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-    glLoadIdentity()
+    GL.glClearColor(0.0, 1.0, 1.0, 1.0)
+    GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
+    GL.glLoadIdentity()
 
     # RENDER OBJECT
-    glPushMatrix()
-    glRotate(rx, 1, 0, 0)
-    glRotate(ry, 0, 1, 0)
-    glTranslate(tx / 20., ty / 20., - zpos)
-    glCallList(obj.gl_list)
-    glPopMatrix()
+    GL.glPushMatrix()
+    GL.glRotate(rx, 1, 0, 0)
+    GL.glRotate(ry, 0, 1, 0)
+    GL.glTranslate(tx / 20., ty / 20., - zpos)
+    GL.glCallList(obj.gl_list)
+    GL.glPopMatrix()
 
     print(tx / 20, ty / 20, -zpos, rx, ry)
     pygame.display.flip()
