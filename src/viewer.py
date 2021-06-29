@@ -23,9 +23,8 @@ GL.glLoadIdentity()
 GLU.gluPerspective(60.0, 1.0, 2.0, 10000.0)
 GL.glMatrixMode(GL.GL_MODELVIEW)
 
-rx, ry = (0, 0)
-tx, ty = (0, 0)
-zpos = 5
+rx, ry, rz = (0, 0, 0)
+pos = [0, 0, -5]
 rotate, move = False, False
 while True:
     clock.tick(30)
@@ -64,9 +63,9 @@ while True:
     GL.glPushMatrix()
     GL.glRotate(rx, 1, 0, 0)
     GL.glRotate(ry, 0, 1, 0)
-    GL.glTranslate(tx / 20., ty / 20., -zpos)
+    GL.glTranslate(*pos)
     GL.glCallList(obj.gl_list)
     GL.glPopMatrix()
 
     pygame.display.flip()
-    print(tx / 20., ty / 20., -zpos, rx, ry)
+    print(*pos, rx, ry)
