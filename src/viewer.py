@@ -1,5 +1,7 @@
 import sys
 
+import numpy as np
+
 import pygame
 import pygame.constants as pygc
 
@@ -7,6 +9,31 @@ import OpenGL.GL as GL
 import OpenGL.GLU as GLU
 
 from objloader import OBJ
+
+
+def roll(rx):
+    return np.array([
+        [1, 0, 0],
+        [0, np.cos(rx), -np.sin(rx)],
+        [0, np.sin(rx), np.cos(rx)]
+    ])
+
+
+def pitch(ry):
+    return np.array([
+        [np.cos(ry), 0, np.sin(ry)],
+        [0, 1, 0],
+        [-np.sin(ry), 0, np.cos(ry)]
+    ])
+
+
+def yaw(rz):
+    return np.array([
+        [np.cos(rz), -np.sin(rz), 0],
+        [np.sin(rz), np.cos(rz), 0],
+        [0, 0, 1]
+    ])
+
 
 pygame.init()
 size = 512
