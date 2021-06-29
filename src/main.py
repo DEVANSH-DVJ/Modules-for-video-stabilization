@@ -86,7 +86,7 @@ if __name__ == '__main__':
 
     size = configs['size']
     fps = configs['fps']
-    zmax = 1 - 1/configs['camera']['zFar']
+    zmax = 1 - configs['camera']['zNear']/configs['camera']['zFar']
     start(size)
 
     init(configs['camera'])
