@@ -12,7 +12,7 @@ pygame.init()
 viewport = (512, 512)
 hx = viewport[0] / 2
 hy = viewport[1] / 2
-srf = pygame.display.set_mode(viewport, OPENGL | DOUBLEBUF)
+srf = pygame.display.set_mode(viewport, pygc.OPENGL | pygc.DOUBLEBUF)
 
 obj = OBJ(sys.argv[1], swapyz=False)
 
@@ -32,11 +32,11 @@ rotate = move = False
 while 1:
     clock.tick(30)
     for e in pygame.event.get():
-        if e.type == QUIT:
+        if e.type == pygc.QUIT:
             sys.exit()
-        elif e.type == KEYDOWN and e.key == K_ESCAPE:
+        elif e.type == pygc.KEYDOWN and e.key == pygc.K_ESCAPE:
             sys.exit()
-        elif e.type == MOUSEBUTTONDOWN:
+        elif e.type == pygc.MOUSEBUTTONDOWN:
             if e.button == 4:
                 zpos = zpos - 1
             elif e.button == 5:
@@ -45,12 +45,12 @@ while 1:
                 rotate = True
             elif e.button == 3:
                 move = True
-        elif e.type == MOUSEBUTTONUP:
+        elif e.type == pygc.MOUSEBUTTONUP:
             if e.button == 1:
                 rotate = False
             elif e.button == 3:
                 move = False
-        elif e.type == MOUSEMOTION:
+        elif e.type == pygc.MOUSEMOTION:
             i, j = e.rel
             if rotate:
                 ry += i
