@@ -1,8 +1,7 @@
 import sys
 
 import pygame
-from pygame.locals import *
-from pygame.constants import *
+import pygame.constants as pygc
 
 import OpenGL.GL as GL
 import OpenGL.GLU as GLU
