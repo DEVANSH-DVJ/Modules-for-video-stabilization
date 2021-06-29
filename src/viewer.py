@@ -103,10 +103,10 @@ while True:
     GL.glPushMatrix()
     GL.glRotate(rx, 1, 0, 0)
     GL.glRotate(ry, 0, 1, 0)
+    GL.glRotate(rz, 0, 0, 1)
     GL.glTranslate(*pos)
     GL.glCallList(obj.gl_list)
     GL.glPopMatrix()
 
     pygame.display.flip()
-    print(*pos, rx, ry)
-    print(pointing(-rx*np.pi/180, -ry*np.pi/180, rz*np.pi/180, [0, 0, 1]))
+    print(*pos, rx, ry, rz, sep=',', flush=True)
