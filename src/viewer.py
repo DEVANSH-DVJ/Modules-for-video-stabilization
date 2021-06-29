@@ -68,9 +68,9 @@ while 1:
         elif e.type == MOUSEMOTION:
             i, j = e.rel
             if rotate:
-                rx += i
-                ry += j
-            if move:
+                ry += i
+                rx += j
+            elif move:
                 tx += i
                 ty -= j
 
@@ -79,10 +79,12 @@ while 1:
     glLoadIdentity()
 
     # RENDER OBJECT
+    glPushMatrix()
+    glRotate(rx, 1, 0, 0)
+    glRotate(ry, 0, 1, 0)
     glTranslate(tx / 20., ty / 20., - zpos)
-    glRotate(ry, 1, 0, 0)
-    glRotate(rx, 0, 1, 0)
     glCallList(obj.gl_list)
+    glPopMatrix()
 
-    print(tx / 20, ty / 20, -zpos, ry, rx)
+    print(tx / 20, ty / 20, -zpos, rx, ry)
     pygame.display.flip()
