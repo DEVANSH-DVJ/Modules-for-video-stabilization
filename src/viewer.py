@@ -9,10 +9,8 @@ import OpenGL.GLU as GLU
 from objloader import OBJ
 
 pygame.init()
-viewport = (512, 512)
-hx = viewport[0] / 2
-hy = viewport[1] / 2
-srf = pygame.display.set_mode(viewport, pygc.OPENGL | pygc.DOUBLEBUF)
+size = 512
+srf = pygame.display.set_mode((size, size), pygc.OPENGL | pygc.DOUBLEBUF)
 
 obj = OBJ(sys.argv[1], swapyz=False)
 
@@ -20,8 +18,7 @@ clock = pygame.time.Clock()
 
 GL.glMatrixMode(GL.GL_PROJECTION)
 GL.glLoadIdentity()
-width, height = viewport
-GLU.gluPerspective(60.0, width / float(height), 2.0, 10000.0)
+GLU.gluPerspective(60.0, 1.0, 2.0, 10000.0)
 GL.glEnable(GL.GL_DEPTH_TEST)
 GL.glMatrixMode(GL.GL_MODELVIEW)
 
