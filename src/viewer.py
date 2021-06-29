@@ -86,8 +86,14 @@ while True:
                 ry += i
                 rx += j
             elif move:
-                tx += i
-                ty -= j
+                pos += (i / 20.) * pointing(-rx*np.pi/180,
+                                            -ry*np.pi/180,
+                                            rz*np.pi/180,
+                                            [1, 0, 0])
+                pos -= (j / 20.) * pointing(-rx*np.pi/180,
+                                            -ry*np.pi/180,
+                                            rz*np.pi/180,
+                                            [0, 1, 0])
 
     GL.glClearColor(0.0, 1.0, 1.0, 1.0)
     GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
