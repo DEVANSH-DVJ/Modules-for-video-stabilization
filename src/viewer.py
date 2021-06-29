@@ -10,45 +10,46 @@ from objloader import OBJ
 
 pygame.init()
 size = 512
-srf = pygame.display.set_mode((size, size), pygc.OPENGL | pygc.DOUBLEBUF)
+pygame.display.set_mode((size, size), pygc.OPENGL | pygc.DOUBLEBUF)
 
 obj = OBJ(sys.argv[1], swapyz=False)
 
 clock = pygame.time.Clock()
 
+GL.glEnable(GL.GL_DEPTH_TEST)
+
 GL.glMatrixMode(GL.GL_PROJECTION)
 GL.glLoadIdentity()
 GLU.gluPerspective(60.0, 1.0, 2.0, 10000.0)
-GL.glEnable(GL.GL_DEPTH_TEST)
 GL.glMatrixMode(GL.GL_MODELVIEW)
 
 rx, ry = (0, 0)
 tx, ty = (0, 0)
 zpos = 5
 rotate, move = False, False
-while 1:
+while True:
     clock.tick(30)
-    for e in pygame.event.get():
-        if e.type == pygc.QUIT:
+    for event in pygame.event.get():
+        if event.type == pygc.QUIT:
             sys.exit()
-        elif e.type == pygc.KEYDOWN and e.key == pygc.K_ESCAPE:
+        elif event.type == pygc.KEYDOWN and event.key == pygc.K_ESCAPE:
             sys.exit()
-        elif e.type == pygc.MOUSEBUTTONDOWN:
-            if e.button == 4:
+        elif event.type == pygc.MOUSEBUTTONDOWN:
+            if event.button == 4:
                 zpos -= 1
-            elif e.button == 5:
+            elif event.button == 5:
                 zpos += 1
-            elif e.button == 1:
+            elif event.button == 1:
                 rotate = True
-            elif e.button == 3:
+            elif event.button == 3:
                 move = True
-        elif e.type == pygc.MOUSEBUTTONUP:
-            if e.button == 1:
+        elif event.type == pygc.MOUSEBUTTONUP:
+            if event.button == 1:
                 rotate = False
-            elif e.button == 3:
+            elif event.button == 3:
                 move = False
-        elif e.type == pygc.MOUSEMOTION:
-            i, j = e.rel
+        elif event.type == pygc.MOUSEMOTION:
+            i, j = event.rel
             if rotate:
                 ry += i
                 rx += j
