@@ -100,3 +100,4 @@ while True:
 
     pygame.display.flip()
     print(*pos, rx, ry)
+    print(pointing(-rx*np.pi/180, -ry*np.pi/180, rz*np.pi/180, [0, 0, 1]))
