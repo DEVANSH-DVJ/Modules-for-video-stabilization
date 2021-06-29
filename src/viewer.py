@@ -25,7 +25,7 @@ GL.glMatrixMode(GL.GL_MODELVIEW)
 rx, ry = (0, 0)
 tx, ty = (0, 0)
 zpos = 5
-rotate = move = False
+rotate, move = False, False
 while 1:
     clock.tick(30)
     for e in pygame.event.get():
@@ -35,7 +35,7 @@ while 1:
             sys.exit()
         elif e.type == pygc.MOUSEBUTTONDOWN:
             if e.button == 4:
-                zpos = zpos - 1
+                zpos -= 1
             elif e.button == 5:
                 zpos += 1
             elif e.button == 1:
@@ -60,13 +60,12 @@ while 1:
     GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
     GL.glLoadIdentity()
 
-    # RENDER OBJECT
     GL.glPushMatrix()
     GL.glRotate(rx, 1, 0, 0)
     GL.glRotate(ry, 0, 1, 0)
-    GL.glTranslate(tx / 20., ty / 20., - zpos)
+    GL.glTranslate(tx / 20., ty / 20., -zpos)
     GL.glCallList(obj.gl_list)
     GL.glPopMatrix()
 
-    print(tx / 20, ty / 20, -zpos, rx, ry)
     pygame.display.flip()
+    print(tx / 20., ty / 20., -zpos, rx, ry)
