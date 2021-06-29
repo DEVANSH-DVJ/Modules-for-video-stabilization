@@ -35,6 +35,10 @@ def yaw(rz):
     ])
 
 
+def pointing(rx, ry, rz, vec):
+    return yaw(rz).dot(pitch(ry).dot(roll(rx).dot(vec)))
+
+
 pygame.init()
 size = 512
 pygame.display.set_mode((size, size), pygc.OPENGL | pygc.DOUBLEBUF)
