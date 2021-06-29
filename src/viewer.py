@@ -1,17 +1,13 @@
-# Basic OBJ file viewer. needs objloader from:
-#  http://www.pygame.org/wiki/OBJFileLoader
-# LMB + move: rotate
-# RMB + move: pan
-# Scroll wheel: zoom in/out
 import sys
+
 import pygame
 from pygame.locals import *
 from pygame.constants import *
-from OpenGL.GL import *
-from OpenGL.GLU import *
 
-# IMPORT OBJECT LOADER
-from objloader import *
+import OpenGL.GL as GL
+import OpenGL.GLU as GLU
+
+from objloader import OBJ
 
 pygame.init()
 viewport = (512, 512)
