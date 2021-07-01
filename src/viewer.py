@@ -137,3 +137,6 @@ if __name__ == '__main__':
     pygame.display.set_mode((size, size), pygc.OPENGL | pygc.DOUBLEBUF)
 
     init(configs['camera'])
+
+    obj_path = '{}/{}'.format(obj_dir, configs['obj'])
+    obj = OBJ(obj_path, swapyz=False)
