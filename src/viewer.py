@@ -6,9 +6,9 @@ import pygame
 import pygame.constants as pygc
 
 import OpenGL.GL as GL
-import OpenGL.GLU as GLU
 
 from objloader import OBJ
+from gl import init
 
 
 def roll(rx):
