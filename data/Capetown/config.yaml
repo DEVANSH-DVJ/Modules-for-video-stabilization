@@ -1,0 +1,28 @@
+camera:
+  fovy: 60
+  aspect: 1
+  zNear: 1.0
+  zFar: 10000.0
+obj: "Capetown.obj"
+size: 512
+bgcolor: [0.0, 1.0, 1.0, 1.0]
+scale: [25.0, 25.0, 25.0]
+# For data generation
+fps: 30
+nframes: 301
+setpoints: "setpoints.csv"
+sigma:
+  x: 0.05
+  y: 0.05
+  z: 0.02
+  rx: 0.05
+  ry: 0.05
+  rz: 0.05
+# For viewer
+initialize:
+  x: 0.0
+  y: 0.0
+  z: 0.0
+  rx: 0.0
+  ry: 0.0
+  rz: 0.0
