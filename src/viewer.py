@@ -1,6 +1,7 @@
 import sys
 
 import numpy as np
+import yaml
 
 import pygame
 import pygame.constants as pygc
@@ -122,7 +123,9 @@ while True:
 if __name__ == '__main__':
 
     if len(sys.argv) < 2:
-        print('Usage: python {} <config>'.format(sys.argv[0]))
+        print('Usage: python {} <config_path>'.format(sys.argv[0]))
         exit(1)
     else:
-        config_file = sys.argv[1]
+        config_path = sys.argv[1]
+
+    configs = yaml.load(open(config_path), Loader=yaml.FullLoader)
