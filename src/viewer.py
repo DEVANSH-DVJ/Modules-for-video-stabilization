@@ -74,6 +74,7 @@ if __name__ == '__main__':
     rotate, move = False, False
 
     bgcolor = configs['bgcolor']
+    scale = configs['scale']
 
     clock = pygame.time.Clock()
     while True:
@@ -125,6 +126,7 @@ if __name__ == '__main__':
         GL.glLoadIdentity()
 
         GL.glPushMatrix()
+        GL.glScale(*scale)
         GL.glRotate(rx, 1, 0, 0)
         GL.glRotate(ry, 0, 1, 0)
         GL.glRotate(rz, 0, 0, 1)
