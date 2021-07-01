@@ -1,5 +1,6 @@
 import os
 import sys
+import functools
 
 import numpy as np
 import yaml
@@ -42,6 +43,10 @@ def yaw(rz):
 def pointing(rx, ry, rz, vec):
     return yaw(rz*d2r).dot(pitch(ry*d2r).dot(roll(rx*d2r).dot(vec)))
 
+
+icap = functools.partial(pointing, vec=[1, 0, 0])
+jcap = functools.partial(pointing, vec=[0, 1, 0])
+kcap = functools.partial(pointing, vec=[0, 0, 1])
 
 if __name__ == '__main__':
 
@@ -93,9 +98,9 @@ if __name__ == '__main__':
                     rx += 1
             elif event.type == pygc.MOUSEBUTTONDOWN:
                 if event.button == 4:
-                    pos += pointing(-rx, -ry, -rz, [0, 0, 1])
+                    pos += kcap(-rx, -ry, -rz)
                 elif event.button == 5:
-                    pos -= pointing(-rx, -ry, -rz, [0, 0, 1])
+                    pos -= kcap(-rx, -ry, -rz)
                 elif event.button == 1:
                     rotate = True
                 elif event.button == 3:
@@ -111,8 +116,8 @@ if __name__ == '__main__':
                     ry += i
                     rx += j
                 elif move:
-                    pos += (i / 20.) * pointing(-rx, -ry, -rz, [1, 0, 0])
-                    pos -= (j / 20.) * pointing(-rx, -ry, -rz, [0, 1, 0])
+                    pos += (i / 20.) * icap(-rx, -ry, -rz)
+                    pos -= (j / 20.) * jcap(-rx, -ry, -rz)
         pos = np.around(pos, 3)
 
         GL.glClearColor(*bgcolor)
