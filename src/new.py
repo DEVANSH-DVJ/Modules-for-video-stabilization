@@ -85,8 +85,6 @@ if __name__ == '__main__':
     configs = config_load(config_file)
 
     size = configs['size']
-    fps = configs['fps']
-    zmax = 1 - configs['camera']['zNear']/configs['camera']['zFar']
     start(size)
 
     init(configs['camera'])
@@ -102,6 +100,9 @@ if __name__ == '__main__':
     out_dir = '{}/../output/{}'.format(base_dir, config_file)
     img_dir = out_dir + '/img'
     os.system('mkdir -p ' + img_dir)
+
+    fps = configs['fps']
+    zmax = 1 - configs['camera']['zNear']/configs['camera']['zFar']
 
     for i in range(n):
         display(obj,
