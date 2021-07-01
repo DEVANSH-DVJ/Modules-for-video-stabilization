@@ -75,6 +75,7 @@ if __name__ == '__main__':
 
     bgcolor = configs['bgcolor']
     scale = configs['scale']
+    roundoff = configs['roundoff']
 
     clock = pygame.time.Clock()
     while True:
@@ -99,9 +100,9 @@ if __name__ == '__main__':
                     rx += 1
             elif event.type == pygc.MOUSEBUTTONDOWN:
                 if event.button == 4:
-                    pos += kcap(-rx, -ry, -rz)
+                    pos += kcap(-rx, -ry, -rz) / scale
                 elif event.button == 5:
-                    pos -= kcap(-rx, -ry, -rz)
+                    pos -= kcap(-rx, -ry, -rz) / scale
                 elif event.button == 1:
                     rotate = True
                 elif event.button == 3:
@@ -117,16 +118,15 @@ if __name__ == '__main__':
                     ry += i
                     rx += j
                 elif move:
-                    pos += (i / 20.) * icap(-rx, -ry, -rz)
-                    pos -= (j / 20.) * jcap(-rx, -ry, -rz)
-        pos = np.around(pos, 3)
+                    pos += (i / 20.) * icap(-rx, -ry, -rz) / scale
+                    pos -= (j / 20.) * jcap(-rx, -ry, -rz) / scale
+        pos = np.around(pos, roundoff)
 
         GL.glClearColor(*bgcolor)
         GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
         GL.glLoadIdentity()
 
         GL.glPushMatrix()
-        GL.glScale(*scale)
         GL.glRotate(rx, 1, 0, 0)
         GL.glRotate(ry, 0, 1, 0)
         GL.glRotate(rz, 0, 0, 1)
