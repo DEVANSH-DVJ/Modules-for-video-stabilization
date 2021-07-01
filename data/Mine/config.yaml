@@ -11,12 +11,12 @@ fps: 30
 nframes: 301
 setpoints: "setpoints.csv"
 sigma:
-  x: 0.02
-  y: 0.02
-  z: 0.01
-  rx: 0.01
-  ry: 0.02
-  rz: 0.02
+  x: 0.002
+  y: 0.002
+  z: 0.002
+  rx: 0.002
+  ry: 0.001
+  rz: 0.001
 # For viewer
 initialize:
   x: 0.75
