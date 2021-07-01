@@ -4,6 +4,7 @@ camera:
   zNear: 0.01
   zFar: 100.0
 obj: "Mine.obj"
+swapyz: False
 size: 512
 bgcolor: [0.0, 1.0, 1.0, 1.0]
 # For data generation
@@ -26,4 +27,4 @@ initialize:
   ry: 0.0
   rz: 0.0
 scale: 100.0
-roundoff: 6
+roundoff: 5
