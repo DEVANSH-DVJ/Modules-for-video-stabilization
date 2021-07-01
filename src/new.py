@@ -42,10 +42,10 @@ def start(size):
     GL.glPixelStorei(GL.GL_PACK_ALIGNMENT, 1)
 
 
-def display(obj, x, y, z, rx, ry, rz):
+def display(obj, bgcolor, x, y, z, rx, ry, rz):
     global projection, modelview, viewport
 
-    GL.glClearColor(0.0, 0.0, 0.0, 1.0)
+    GL.glClearColor(*bgcolor)
     GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
     GL.glLoadIdentity()
 
@@ -119,6 +119,7 @@ if __name__ == '__main__':
     sigma = configs['sigma']
     fps = configs['fps']
     zmax = 1 - configs['camera']['zNear']/configs['camera']['zFar']
+    bgcolor = configs['bgcolor']
 
     for isp, setpoint in setpoints.iterrows():
         frames = frameset(setpoint, sigma, nframes)
@@ -128,7 +129,7 @@ if __name__ == '__main__':
         os.system('mkdir -p ' + img_dir)
 
         for i in range(nframes):
-            display(obj,
+            display(obj, bgcolor,
                     frames['x'][i],
                     frames['y'][i],
                     frames['z'][i],
@@ -139,7 +140,7 @@ if __name__ == '__main__':
             depths = GL.glReadPixels(
                 0, 0, size, size, GL.GL_DEPTH_COMPONENT, GL.GL_FLOAT)
             s2obj = unproject(depths, size, modelview, projection, viewport)
-            display(obj,
+            display(obj, bgcolor,
                     frames['x'][i] + frames['dx'][i],
                     frames['y'][i] + frames['dy'][i],
                     frames['z'][i] + frames['dz'][i],
