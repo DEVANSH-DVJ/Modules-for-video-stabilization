@@ -67,10 +67,10 @@ while True:
         elif event.type == pygc.MOUSEBUTTONDOWN:
             if event.button == 4:
                 pos += pointing(-rx*np.pi/180, -ry*np.pi /
-                                180, rz*np.pi/180, [0, 0, 1])
+                                180, -rz*np.pi/180, [0, 0, 1])
             elif event.button == 5:
                 pos -= pointing(-rx*np.pi/180, -ry*np.pi /
-                                180, rz*np.pi/180, [0, 0, 1])
+                                180, -rz*np.pi/180, [0, 0, 1])
             elif event.button == 1:
                 rotate = True
             elif event.button == 3:
@@ -88,11 +88,11 @@ while True:
             elif move:
                 pos += (i / 20.) * pointing(-rx*np.pi/180,
                                             -ry*np.pi/180,
-                                            rz*np.pi/180,
+                                            -rz*np.pi/180,
                                             [1, 0, 0])
                 pos -= (j / 20.) * pointing(-rx*np.pi/180,
                                             -ry*np.pi/180,
-                                            rz*np.pi/180,
+                                            -rz*np.pi/180,
                                             [0, 1, 0])
 
     pos = np.around(pos, 3).astype('float64')
