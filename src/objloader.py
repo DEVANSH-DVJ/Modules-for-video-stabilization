@@ -4,6 +4,8 @@ from PIL import Image, ImageOps
 
 import OpenGL.GL as GL
 
+from utils import log
+
 
 def MTL(filename):
     """
