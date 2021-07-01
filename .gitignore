@@ -6,4 +6,7 @@ wget-log
 
 .vscode
 
-data/
+!data/*
+data/*/*
+!*.csv
+!*.yaml
