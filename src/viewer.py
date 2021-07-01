@@ -133,3 +133,5 @@ if __name__ == '__main__':
     pygame.init()
     size = configs['size']
     pygame.display.set_mode((size, size), pygc.OPENGL | pygc.DOUBLEBUF)
+
+    init(configs['camera'])
