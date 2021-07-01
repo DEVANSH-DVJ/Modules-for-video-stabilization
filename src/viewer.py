@@ -211,3 +211,6 @@ if __name__ == '__main__':
         GL.glTranslate(*pos)
         GL.glCallList(obj.gl_list)
         GL.glPopMatrix()
+
+        pygame.display.flip()
+        print(*pos, rx, ry, rz, sep=',', flush=True)
