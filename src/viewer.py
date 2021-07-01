@@ -47,12 +47,7 @@ obj = OBJ(sys.argv[1], swapyz=False)
 
 clock = pygame.time.Clock()
 
-GL.glEnable(GL.GL_DEPTH_TEST)
-
-GL.glMatrixMode(GL.GL_PROJECTION)
-GL.glLoadIdentity()
-GLU.gluPerspective(60.0, 1.0, 2.0, 10000.0)
-GL.glMatrixMode(GL.GL_MODELVIEW)
+init({'fovy': 60, 'aspect': 1, 'zNear': 1.0, 'zFar': 10000.0})
 
 rx, ry, rz = (0., 0., 0.)
 pos = [0., 0., -5.]
