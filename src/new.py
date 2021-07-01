@@ -13,7 +13,7 @@ from motion import project, unproject
 from movie import movie_save
 from objloader import OBJ
 from warping import warp_save
-from utils import config_load
+from utils import log, config_load
 
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 projection = None
@@ -101,12 +101,16 @@ if __name__ == '__main__':
         config_file = os.path.abspath(sys.argv[1])
         obj_dir = os.path.dirname(config_file)
 
+    log('Start;')
     configs = config_load(config_file)
+    log('Loaded config file;')
 
     size = configs['size']
     start(size)
+    log('Started GL Window;')
 
     init(configs['camera'])
+    log('Initialized camera;')
 
     obj_path = '{}/{}'.format(obj_dir, configs['obj'])
     obj = OBJ(obj_path, swapyz=False)
@@ -114,14 +118,17 @@ if __name__ == '__main__':
     setpoints_path = '{}/{}'.format(obj_dir, configs['setpoints'])
     setpoints = pd.read_csv(setpoints_path)
     n = len(setpoints.index)
+    log('Read setpoints;')
 
     nframes = configs['nframes']
     sigma = configs['sigma']
     fps = configs['fps']
     zmax = 1 - configs['camera']['zNear']/configs['camera']['zFar']
     bgcolor = configs['bgcolor']
+    log('Configs stored;')
 
     for isp, setpoint in setpoints.iterrows():
+        log('Starting rendering for Setpoint {:02};'.format(isp))
         frames = frameset(setpoint, sigma, nframes)
 
         out_dir = '{}/output/{:02}'.format(obj_dir, isp)
@@ -152,6 +159,7 @@ if __name__ == '__main__':
             warp_save('{}/u{:03}.png'.format(img_dir, i), s2u,
                       '{}/ws{:03}.png'.format(img_dir, i), size)
 
+        log('Starting movie conversion for Setpoint {:02};'.format(isp))
         movie_save(['{}/s{:03}.png'.format(img_dir, i) for i in range(nframes)],
                    fps, '{}/s.mp4'.format(out_dir))
         movie_save(['{}/u{:03}.png'.format(img_dir, i) for i in range(nframes)],
