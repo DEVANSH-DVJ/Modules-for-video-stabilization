@@ -144,3 +144,56 @@ if __name__ == '__main__':
     loc = configs['initialize']
     rx, ry, rz = loc['rx'], loc['ry'], loc['rz']
     pos = [loc['x'], loc['y'], loc['z']]
+    rotate, move = False, False
+
+    while True:
+        clock.tick(30)
+        for event in pygame.event.get():
+            if event.type == pygc.QUIT:
+                sys.exit()
+            elif event.type == pygc.KEYDOWN:
+                if event.key == pygc.K_ESCAPE:
+                    sys.exit()
+                elif event.key == pygc.K_LEFT:
+                    rz += 1
+                elif event.key == pygc.K_RIGHT:
+                    rz -= 1
+                elif event.key == pygc.K_a:
+                    ry -= 1
+                elif event.key == pygc.K_d:
+                    ry += 1
+                elif event.key == pygc.K_w:
+                    rx -= 1
+                elif event.key == pygc.K_s:
+                    rx += 1
+            elif event.type == pygc.MOUSEBUTTONDOWN:
+                if event.button == 4:
+                    pos += pointing(-rx*np.pi/180, -ry*np.pi /
+                                    180, -rz*np.pi/180, [0, 0, 1])
+                elif event.button == 5:
+                    pos -= pointing(-rx*np.pi/180, -ry*np.pi /
+                                    180, -rz*np.pi/180, [0, 0, 1])
+                elif event.button == 1:
+                    rotate = True
+                elif event.button == 3:
+                    move = True
+            elif event.type == pygc.MOUSEBUTTONUP:
+                if event.button == 1:
+                    rotate = False
+                elif event.button == 3:
+                    move = False
+            elif event.type == pygc.MOUSEMOTION:
+                i, j = event.rel
+                if rotate:
+                    ry += i
+                    rx += j
+                elif move:
+                    pos += (i / 20.) * pointing(-rx*np.pi/180,
+                                                -ry*np.pi/180,
+                                                -rz*np.pi/180,
+                                                [1, 0, 0])
+                    pos -= (j / 20.) * pointing(-rx*np.pi/180,
+                                                -ry*np.pi/180,
+                                                -rz*np.pi/180,
+                                                [0, 1, 0])
+        pos = np.around(pos, 3)
