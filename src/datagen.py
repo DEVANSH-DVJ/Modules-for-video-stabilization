@@ -40,7 +40,7 @@ def start(size):
     GL.glPixelStorei(GL.GL_PACK_ALIGNMENT, 1)
 
 
-def display(obj, bgcolor, scale, x, y, z, rx, ry, rz):
+def display(obj, bgcolor, x, y, z, rx, ry, rz):
     global projection, modelview, viewport
 
     GL.glClearColor(*bgcolor)
@@ -49,7 +49,6 @@ def display(obj, bgcolor, scale, x, y, z, rx, ry, rz):
 
     GL.glPushMatrix()
 
-    GL.glScale(*scale)
     GL.glRotate(rx, 1, 0, 0)
     GL.glRotate(ry, 0, 1, 0)
     GL.glRotate(rz, 0, 0, 1)
@@ -138,7 +137,7 @@ if __name__ == '__main__':
         video_u = np.empty((nframes, size, size, 4), dtype='uint8')
         log('Starting rendering for Setpoint {:02};'.format(isp))
         for i in range(nframes):
-            display(obj, bgcolor, scale,
+            display(obj, bgcolor,
                     frames['x'][i],
                     frames['y'][i],
                     frames['z'][i],
@@ -149,7 +148,7 @@ if __name__ == '__main__':
             # depths = GL.glReadPixels(
             #     0, 0, size, size, GL.GL_DEPTH_COMPONENT, GL.GL_FLOAT)
             # s2obj = unproject(depths, size, modelview, projection, viewport)
-            display(obj, bgcolor, scale,
+            display(obj, bgcolor,
                     frames['x'][i] + frames['dx'][i],
                     frames['y'][i] + frames['dy'][i],
                     frames['z'][i] + frames['dz'][i],
