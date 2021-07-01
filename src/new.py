@@ -117,49 +117,43 @@ if __name__ == '__main__':
 
     nframes = configs['nframes']
     sigma = configs['sigma']
+    fps = configs['fps']
+    zmax = 1 - configs['camera']['zNear']/configs['camera']['zFar']
 
-    for i, setpoint in setpoints.iterrows():
-        print(i)
-        print(frameset(setpoint, sigma, nframes))
-    # frameset_file = configs['frameset']
-    # frameset_path = '{}/framesets/{}.csv'.format(base_dir, frameset_file)
-    # frames = pd.read_csv(frameset_path)
-    # n = len(frames.index)
+    for isp, setpoint in setpoints.iterrows():
+        frames = frameset(setpoint, sigma, nframes)
 
-    # out_dir = '{}/../output/{}'.format(base_dir, config_file)
-    # img_dir = out_dir + '/img'
-    # os.system('mkdir -p ' + img_dir)
+        out_dir = '{}/output/{:02}'.format(obj_dir, isp)
+        img_dir = out_dir + '/img'
+        os.system('mkdir -p ' + img_dir)
 
-    # fps = configs['fps']
-    # zmax = 1 - configs['camera']['zNear']/configs['camera']['zFar']
+        for i in range(nframes):
+            display(obj,
+                    frames['x'][i],
+                    frames['y'][i],
+                    frames['z'][i],
+                    frames['rx'][i],
+                    frames['ry'][i],
+                    frames['rz'][i])
+            captureScreen('{}/s{:03}.png'.format(img_dir, i), size)
+            depths = GL.glReadPixels(
+                0, 0, size, size, GL.GL_DEPTH_COMPONENT, GL.GL_FLOAT)
+            s2obj = unproject(depths, size, modelview, projection, viewport)
+            display(obj,
+                    frames['x'][i] + frames['dx'][i],
+                    frames['y'][i] + frames['dy'][i],
+                    frames['z'][i] + frames['dz'][i],
+                    frames['rx'][i] + frames['drx'][i],
+                    frames['ry'][i] + frames['dry'][i],
+                    frames['rz'][i] + frames['drz'][i])
+            captureScreen('{}/u{:03}.png'.format(img_dir, i), size)
+            s2u = project(s2obj, size, modelview, projection, viewport, zmax)
+            warp_save('{}/u{:03}.png'.format(img_dir, i), s2u,
+                      '{}/ws{:03}.png'.format(img_dir, i), size)
 
-    # for i in range(n):
-    #     display(obj,
-    #             frames['x'][i],
-    #             frames['y'][i],
-    #             frames['z'][i],
-    #             frames['rx'][i],
-    #             frames['ry'][i],
-    #             frames['rz'][i])
-    #     captureScreen('{}/s{:03}.png'.format(img_dir, i), size)
-    #     depths = GL.glReadPixels(
-    #         0, 0, size, size, GL.GL_DEPTH_COMPONENT, GL.GL_FLOAT)
-    #     s2obj = unproject(depths, size, modelview, projection, viewport)
-    #     display(obj,
-    #             frames['x'][i] + frames['dx'][i],
-    #             frames['y'][i] + frames['dy'][i],
-    #             frames['z'][i] + frames['dz'][i],
-    #             frames['rx'][i] + frames['drx'][i],
-    #             frames['ry'][i] + frames['dry'][i],
-    #             frames['rz'][i] + frames['drz'][i])
-    #     captureScreen('{}/u{:03}.png'.format(img_dir, i), size)
-    #     s2u = project(s2obj, size, modelview, projection, viewport, zmax)
-    #     warp_save('{}/u{:03}.png'.format(img_dir, i), s2u,
-    #               '{}/ws{:03}.png'.format(img_dir, i), size)
-
-    # movie_save(['{}/s{:03}.png'.format(img_dir, i) for i in range(n)], fps,
-    #            '{}/s.mp4'.format(out_dir))
-    # movie_save(['{}/u{:03}.png'.format(img_dir, i) for i in range(n)], fps,
-    #            '{}/u.mp4'.format(out_dir))
-    # movie_save(['{}/ws{:03}.png'.format(img_dir, i) for i in range(n)], fps,
-    #            '{}/ws.mp4'.format(out_dir))
+        movie_save(['{}/s{:03}.png'.format(img_dir, i) for i in range(nframes)],
+                   fps, '{}/s.mp4'.format(out_dir))
+        movie_save(['{}/u{:03}.png'.format(img_dir, i) for i in range(nframes)],
+                   fps, '{}/u.mp4'.format(out_dir))
+        movie_save(['{}/ws{:03}.png'.format(img_dir, i) for i in range(nframes)],
+                   fps, '{}/ws.mp4'.format(out_dir))
