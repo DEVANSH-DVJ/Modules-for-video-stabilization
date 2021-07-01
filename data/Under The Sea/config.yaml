@@ -4,6 +4,7 @@ camera:
   zNear: 1.0
   zFar: 10000.0
 obj: "Under The Sea.obj"
+swapyz: False
 size: 512
 bgcolor: [0.0, 0.0, 0.0, 1.0]
 # For data generation
@@ -19,9 +20,11 @@ sigma:
   rz: 0.1
 # For viewer
 initialize:
-  x: 0.0
-  y: 0.0
-  z: 0.0
-  rx: 0.0
-  ry: 0.0
+  x: 17.0
+  y: -136.0
+  z: -152.4
+  rx: 40.0
+  ry: 10.0
   rz: 0.0
+scale: 0.5
+roundoff: 3
