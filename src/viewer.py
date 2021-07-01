@@ -12,6 +12,8 @@ import OpenGL.GL as GL
 from objloader import OBJ
 from gl import init
 
+d2r = np.pi/180
+
 
 def roll(rx):
     return np.array([
@@ -38,7 +40,7 @@ def yaw(rz):
 
 
 def pointing(rx, ry, rz, vec):
-    return yaw(rz).dot(pitch(ry).dot(roll(rx).dot(vec)))
+    return yaw(rz*d2r).dot(pitch(ry*d2r).dot(roll(rx*d2r).dot(vec)))
 
 
 if __name__ == '__main__':
@@ -91,11 +93,9 @@ if __name__ == '__main__':
                     rx += 1
             elif event.type == pygc.MOUSEBUTTONDOWN:
                 if event.button == 4:
-                    pos += pointing(-rx*np.pi/180, -ry*np.pi /
-                                    180, -rz*np.pi/180, [0, 0, 1])
+                    pos += pointing(-rx, -ry, -rz, [0, 0, 1])
                 elif event.button == 5:
-                    pos -= pointing(-rx*np.pi/180, -ry*np.pi /
-                                    180, -rz*np.pi/180, [0, 0, 1])
+                    pos -= pointing(-rx, -ry, -rz, [0, 0, 1])
                 elif event.button == 1:
                     rotate = True
                 elif event.button == 3:
@@ -111,14 +111,8 @@ if __name__ == '__main__':
                     ry += i
                     rx += j
                 elif move:
-                    pos += (i / 20.) * pointing(-rx*np.pi/180,
-                                                -ry*np.pi/180,
-                                                -rz*np.pi/180,
-                                                [1, 0, 0])
-                    pos -= (j / 20.) * pointing(-rx*np.pi/180,
-                                                -ry*np.pi/180,
-                                                -rz*np.pi/180,
-                                                [0, 1, 0])
+                    pos += (i / 20.) * pointing(-rx, -ry, -rz, [1, 0, 0])
+                    pos -= (j / 20.) * pointing(-rx, -ry, -rz, [0, 1, 0])
         pos = np.around(pos, 3)
 
         GL.glClearColor(*bgcolor)
