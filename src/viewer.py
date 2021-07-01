@@ -1,3 +1,4 @@
+import os
 import sys
 
 import numpy as np
@@ -123,12 +124,13 @@ while True:
 if __name__ == '__main__':
 
     if len(sys.argv) < 2:
-        print('Usage: python {} <config_path>'.format(sys.argv[0]))
+        print('Usage: python {} <config_file>'.format(sys.argv[0]))
         exit(1)
     else:
-        config_path = sys.argv[1]
+        config_file = sys.argv[1]
+        obj_dir = os.path.dirname(config_file)
 
-    configs = yaml.load(open(config_path), Loader=yaml.FullLoader)
+    configs = yaml.load(open(config_file), Loader=yaml.FullLoader)
 
     pygame.init()
     size = configs['size']
