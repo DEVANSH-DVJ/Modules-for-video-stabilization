@@ -129,3 +129,7 @@ if __name__ == '__main__':
         config_path = sys.argv[1]
 
     configs = yaml.load(open(config_path), Loader=yaml.FullLoader)
+
+    pygame.init()
+    size = configs['size']
+    pygame.display.set_mode((size, size), pygc.OPENGL | pygc.DOUBLEBUF)
