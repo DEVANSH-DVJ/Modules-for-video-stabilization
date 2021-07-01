@@ -116,8 +116,11 @@ if __name__ == '__main__':
     n = len(setpoints.index)
 
     nframes = configs['nframes']
+    sigma = configs['sigma']
 
-    print(n, nframes, obj_path)
+    for i, setpoint in setpoints.iterrows():
+        print(i)
+        print(frameset(setpoint, sigma, nframes))
     # frameset_file = configs['frameset']
     # frameset_path = '{}/framesets/{}.csv'.format(base_dir, frameset_file)
     # frames = pd.read_csv(frameset_path)
