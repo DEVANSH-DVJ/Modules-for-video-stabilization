@@ -66,7 +66,7 @@ if __name__ == '__main__':
     init(configs['camera'])
 
     obj_path = '{}/{}'.format(obj_dir, configs['obj'])
-    obj = OBJ(obj_path, swapyz=False)
+    obj = OBJ(obj_path, swapyz=configs['swapyz'])
 
     loc = configs['initialize']
     rx, ry, rz = loc['rx'], loc['ry'], loc['rz']
