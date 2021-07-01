@@ -76,10 +76,11 @@ def captureScreen(file_name, size):
 if __name__ == '__main__':
 
     if len(sys.argv) < 2:
-        print('Usage: python {} <config>'.format(sys.argv[0]))
+        print('Usage: python {} <config_file>'.format(sys.argv[0]))
         exit(1)
     else:
-        config_file = sys.argv[1]
+        config_file = os.path.abspath(sys.argv[1])
+        obj_dir = os.path.dirname(config_file)
 
     config_path = '{}/configs/{}.yaml'.format(base_dir, config_file)
     configs = yaml.load(open(config_path), Loader=yaml.FullLoader)
