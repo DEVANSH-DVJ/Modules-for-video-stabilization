@@ -204,3 +204,10 @@ if __name__ == '__main__':
         GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
         GL.glLoadIdentity()
 
+        GL.glPushMatrix()
+        GL.glRotate(rx, 1, 0, 0)
+        GL.glRotate(ry, 0, 1, 0)
+        GL.glRotate(rz, 0, 0, 1)
+        GL.glTranslate(*pos)
+        GL.glCallList(obj.gl_list)
+        GL.glPopMatrix()
