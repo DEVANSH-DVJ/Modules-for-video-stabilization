@@ -2,7 +2,7 @@ from moviepy.editor import ImageSequenceClip
 
 
 def movie_save(files, fps, out_file):
-    clip = ImageSequenceClip(files, fps=fps)
+    clip = ImageSequenceClip(list(files), fps=fps)
     if out_file[-4:] == '.avi':
         clip.write_videofile(out_file, codec='png', logger=None)
     elif out_file[-4:] == '.mp4':
