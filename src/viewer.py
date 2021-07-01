@@ -3,7 +3,6 @@ import sys
 import functools
 
 import numpy as np
-import yaml
 
 import pygame
 import pygame.constants as pygc
@@ -12,6 +11,7 @@ import OpenGL.GL as GL
 
 from objloader import OBJ
 from gl import init
+from utils import config_load
 
 d2r = np.pi/180
 
@@ -57,7 +57,7 @@ if __name__ == '__main__':
         config_file = os.path.abspath(sys.argv[1])
         obj_dir = os.path.dirname(config_file)
 
-    configs = yaml.load(open(config_file), Loader=yaml.FullLoader)
+    configs = config_load(config_file)
 
     pygame.init()
     size = configs['size']
