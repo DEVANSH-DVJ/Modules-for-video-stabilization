@@ -1,0 +1,27 @@
+camera:
+  fovy: 60
+  aspect: 1
+  zNear: 1.0
+  zFar: 10000.0
+obj: "Small Tropical Island.obj"
+size: 512
+bgcolor: [0.0, 1.0, 1.0, 1.0]
+# For data generation
+fps: 30
+nframes: 301
+setpoints: "setpoints.csv"
+sigma:
+  x: 1.0
+  y: 1.0
+  z: 0.3
+  rx: 0.1
+  ry: 0.1
+  rz: 0.1
+# For viewer
+initialize:
+  x: -45.0
+  y: -100.0
+  z: -500.0
+  rx: 0.0
+  ry: 0.0
+  rz: 0.0
