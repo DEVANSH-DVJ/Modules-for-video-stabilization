@@ -4,6 +4,7 @@ camera:
   zNear: 1.0
   zFar: 10000.0
 obj: "Map_v1.obj"
+swapyz: False
 size: 512
 bgcolor: [0.0, 1.0, 1.0, 1.0]
 # For data generation
@@ -11,17 +12,19 @@ fps: 30
 nframes: 301
 setpoints: "setpoints.csv"
 sigma:
-  x: 0.2
-  y: 0.1
-  z: 0.1
-  rx: 0.1
-  ry: 0.1
-  rz: 0.1
+  x: 0.07
+  y: 0.07
+  z: 0.07
+  rx: 0.07
+  ry: 0.07
+  rz: 0.07
 # For viewer
 initialize:
-  x: 0.0
-  y: 0.0
-  z: 0.0
+  x: -14.4
+  y: -1.5
+  z: -20.0
   rx: 0.0
   ry: 0.0
   rz: 0.0
+scale: 1.0
+roundoff: 3
