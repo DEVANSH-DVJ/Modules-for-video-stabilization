@@ -62,8 +62,13 @@ while True:
     for event in pygame.event.get():
         if event.type == pygc.QUIT:
             sys.exit()
-        elif event.type == pygc.KEYDOWN and event.key == pygc.K_ESCAPE:
-            sys.exit()
+        elif event.type == pygc.KEYDOWN:
+            if event.key == pygc.K_ESCAPE:
+                sys.exit()
+            elif event.key == pygc.K_LEFT:
+                rz += 1
+            elif event.key == pygc.K_RIGHT:
+                rz -= 1
         elif event.type == pygc.MOUSEBUTTONDOWN:
             if event.button == 4:
                 pos += pointing(-rx*np.pi/180, -ry*np.pi /
