@@ -54,8 +54,8 @@ GL.glLoadIdentity()
 GLU.gluPerspective(60.0, 1.0, 2.0, 10000.0)
 GL.glMatrixMode(GL.GL_MODELVIEW)
 
-rx, ry, rz = (0, 0, 0)
-pos = [0, 0, -5]
+rx, ry, rz = (0., 0., 0.)
+pos = [0., 0., -5.]
 rotate, move = False, False
 while True:
     clock.tick(30)
@@ -108,7 +108,7 @@ while True:
                                             -rz*np.pi/180,
                                             [0, 1, 0])
 
-    pos = np.around(pos, 3).astype('float64')
+    pos = np.around(pos, 3)
     GL.glClearColor(0.0, 1.0, 1.0, 1.0)
     GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
     GL.glLoadIdentity()
