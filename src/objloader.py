@@ -95,7 +95,7 @@ class OBJ:
                         norms.append(0)
                 self.faces.append((face, norms, texcoords, material))
 
-        log('OBJ File reading completed; Now creating polygon faces;')
+        log('Creating polygon faces;')
         self.gl_list = GL.glGenLists(1)
         GL.glNewList(self.gl_list, GL.GL_COMPILE)
         GL.glEnable(GL.GL_TEXTURE_2D)
@@ -121,4 +121,3 @@ class OBJ:
             GL.glEnd()
         GL.glDisable(GL.GL_TEXTURE_2D)
         GL.glEndList()
-        log('All Polygon faces with textures created;')
