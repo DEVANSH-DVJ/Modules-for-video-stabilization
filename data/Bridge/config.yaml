@@ -1,0 +1,28 @@
+camera:
+  fovy: 60
+  aspect: 1
+  zNear: 1.0
+  zFar: 10000.0
+obj: "Bridge.obj"
+size: 512
+bgcolor: [0.0, 1.0, 1.0, 1.0]
+scale: [300.0, 300.0, 300.0]
+# For data generation
+fps: 30
+nframes: 301
+setpoints: "setpoints.csv"
+sigma:
+  x: 0.02
+  y: 0.02
+  z: 0.01
+  rx: 0.01
+  ry: 0.02
+  rz: 0.02
+# For viewer
+initialize:
+  x: 0.0
+  y: 0.0
+  z: 0.0
+  rx: 0.0
+  ry: 0.0
+  rz: 0.0
