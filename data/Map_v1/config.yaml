@@ -9,7 +9,7 @@ bgcolor: [0.0, 1.0, 1.0, 1.0]
 # For data generation
 fps: 30
 nframes: 301
-setpoints: "Map_v1.csv"
+setpoints: "setpoints.csv"
 sigma:
   x: 0.2
   y: 0.1
