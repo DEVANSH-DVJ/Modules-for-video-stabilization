@@ -14,7 +14,6 @@ from movie import movie_save
 from objloader import OBJ
 from utils import log, config_load
 
-base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 projection = None
 modelview = None
 viewport = None
@@ -160,7 +159,7 @@ if __name__ == '__main__':
             s2u = project(s2obj, size, modelview, projection, viewport, zmax)
 
         log('Starting movie conversion for Setpoint {:02};'.format(isp))
-        movie_save(video_s, fps, '{}/s1.mp4'.format(out_dir))
-        movie_save(video_u, fps, '{}/u1.mp4'.format(out_dir))
+        movie_save(video_s, fps, '{}/s.mp4'.format(out_dir))
+        movie_save(video_u, fps, '{}/u.mp4'.format(out_dir))
 
     log('End;')
