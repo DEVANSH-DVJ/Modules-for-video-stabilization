@@ -12,7 +12,6 @@ import OpenGL.GLUT as GLUT
 from motion import project, unproject
 from movie import movie_save
 from objloader import OBJ
-from warping import warp_save
 from utils import log, config_load
 
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -66,12 +65,12 @@ def display(obj, bgcolor, x, y, z, rx, ry, rz):
     GL.glFlush()
 
 
-def captureScreen(file_name, size):
+def captureScreen(size):
     data = GL.glReadPixels(0, 0, size, size, GL.GL_RGBA,
                            GL.GL_UNSIGNED_BYTE, None)
     image = Image.frombytes('RGBA', (size, size), data)
     image = ImageOps.flip(image)
-    image.save(file_name, 'png')
+    return np.array(image)
 
 
 def frameset(setpoint, sigma, n):
@@ -135,6 +134,8 @@ if __name__ == '__main__':
         img_dir = out_dir + '/img'
         os.system('mkdir -p ' + img_dir)
 
+        video_s = np.empty((nframes, size, size, 4), dtype='uint8')
+        video_u = np.empty((nframes, size, size, 4), dtype='uint8')
         log('Starting rendering for Setpoint {:02};'.format(isp))
         for i in range(nframes):
             display(obj, bgcolor,
@@ -144,7 +145,7 @@ if __name__ == '__main__':
                     frames['rx'][i],
                     frames['ry'][i],
                     frames['rz'][i])
-            captureScreen('{}/s{:03}.png'.format(img_dir, i), size)
+            video_s[i] = captureScreen(size)
             depths = GL.glReadPixels(
                 0, 0, size, size, GL.GL_DEPTH_COMPONENT, GL.GL_FLOAT)
             s2obj = unproject(depths, size, modelview, projection, viewport)
@@ -155,23 +156,11 @@ if __name__ == '__main__':
                     frames['rx'][i] + frames['drx'][i],
                     frames['ry'][i] + frames['dry'][i],
                     frames['rz'][i] + frames['drz'][i])
-            captureScreen('{}/u{:03}.png'.format(img_dir, i), size)
+            video_u[i] = captureScreen(size)
             s2u = project(s2obj, size, modelview, projection, viewport, zmax)
-            warp_save('{}/u{:03}.png'.format(img_dir, i), s2u,
-                      '{}/ws{:03}.png'.format(img_dir, i), size)
 
         log('Starting movie conversion for Setpoint {:02};'.format(isp))
-        movie_save(['{}/s{:03}.png'.format(img_dir, i) for i in range(nframes)],
-                   fps, '{}/s.mp4'.format(out_dir))
-        movie_save(['{}/u{:03}.png'.format(img_dir, i) for i in range(nframes)],
-                   fps, '{}/u.mp4'.format(out_dir))
-        movie_save(['{}/ws{:03}.png'.format(img_dir, i) for i in range(nframes)],
-                   fps, '{}/ws.mp4'.format(out_dir))
-        movie_save(['{}/s{:03}.png'.format(img_dir, i) for i in range(nframes)],
-                   fps, '{}/s.avi'.format(out_dir))
-        movie_save(['{}/u{:03}.png'.format(img_dir, i) for i in range(nframes)],
-                   fps, '{}/u.avi'.format(out_dir))
-        movie_save(['{}/ws{:03}.png'.format(img_dir, i) for i in range(nframes)],
-                   fps, '{}/ws.avi'.format(out_dir))
+        movie_save(video_s, fps, '{}/s1.mp4'.format(out_dir))
+        movie_save(video_u, fps, '{}/u1.mp4'.format(out_dir))
 
     log('End;')
