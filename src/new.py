@@ -3,6 +3,7 @@ import sys
 
 import pandas as pd
 from PIL import Image, ImageOps
+import numpy as np
 
 import OpenGL.GL as GL
 import OpenGL.GLU as GLU
@@ -71,6 +72,24 @@ def captureScreen(file_name, size):
     image = Image.frombytes('RGBA', (size, size), data)
     image = ImageOps.flip(image)
     image.save(file_name, 'png')
+
+
+def frameset(setpoint, sigma, n):
+    np.random.seed(0)
+    return {
+        'x': np.linspace(setpoint['x1'], setpoint['x2'], num=n),
+        'dx': np.random.normal(0, sigma['x'], size=(n,)),
+        'y': np.linspace(setpoint['y1'], setpoint['y2'], num=n),
+        'dy': np.random.normal(0, sigma['y'], size=(n,)),
+        'z': np.linspace(setpoint['z1'], setpoint['z2'], num=n),
+        'dz': np.random.normal(0, sigma['z'], size=(n,)),
+        'rx': np.linspace(setpoint['rx1'], setpoint['rx2'], num=n),
+        'drx': np.random.normal(0, sigma['rx'], size=(n,)),
+        'ry': np.linspace(setpoint['ry1'], setpoint['ry2'], num=n),
+        'dry': np.random.normal(0, sigma['ry'], size=(n,)),
+        'rz': np.linspace(setpoint['rz1'], setpoint['rz2'], num=n),
+        'drz': np.random.normal(0, sigma['rz'], size=(n,))
+    }
 
 
 if __name__ == '__main__':
