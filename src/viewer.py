@@ -148,6 +148,7 @@ if __name__ == '__main__':
 
     bgcolor = configs['bgcolor']
 
+    clock = pygame.time.Clock()
     while True:
         clock.tick(30)
         for event in pygame.event.get():
