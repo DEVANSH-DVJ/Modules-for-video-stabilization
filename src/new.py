@@ -173,3 +173,5 @@ if __name__ == '__main__':
                    fps, '{}/u.avi'.format(out_dir))
         movie_save(['{}/ws{:03}.png'.format(img_dir, i) for i in range(nframes)],
                    fps, '{}/ws.avi'.format(out_dir))
+
+    log('End;')
