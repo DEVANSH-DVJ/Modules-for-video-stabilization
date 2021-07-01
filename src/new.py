@@ -113,7 +113,9 @@ if __name__ == '__main__':
 
     setpoints_path = '{}/{}'.format(obj_dir, configs['setpoints'])
     setpoints = pd.readcsv(setpoints_path)
+    n = len(setpoints.index)
 
+    nframes = configs['nframes']
     # frameset_file = configs['frameset']
     # frameset_path = '{}/framesets/{}.csv'.format(base_dir, frameset_file)
     # frames = pd.read_csv(frameset_path)
