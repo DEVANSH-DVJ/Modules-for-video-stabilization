@@ -2,7 +2,6 @@ import os
 import sys
 
 import pandas as pd
-import yaml
 from PIL import Image, ImageOps
 
 import OpenGL.GL as GL
@@ -13,6 +12,7 @@ from motion import project, unproject
 from movie import movie_save
 from objloader import OBJ
 from warping import warp_save
+from utils import config_load
 
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 projection = None
@@ -82,8 +82,7 @@ if __name__ == '__main__':
         config_file = os.path.abspath(sys.argv[1])
         obj_dir = os.path.dirname(config_file)
 
-    config_path = '{}/configs/{}.yaml'.format(base_dir, config_file)
-    configs = yaml.load(open(config_path), Loader=yaml.FullLoader)
+    configs = config_load(config_file)
 
     size = configs['size']
     fps = configs['fps']
