@@ -6,7 +6,6 @@ camera:
 obj: "Pumpa.obj"
 size: 512
 bgcolor: [0.0, 1.0, 1.0, 1.0]
-scale: [25.0, 25.0, 25.0]
 # For data generation
 fps: 30
 nframes: 301

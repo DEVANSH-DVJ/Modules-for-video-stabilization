@@ -6,7 +6,6 @@ camera:
 obj: "Bridge.obj"
 size: 512
 bgcolor: [0.0, 1.0, 1.0, 1.0]
-scale: [300.0, 300.0, 300.0]
 # For data generation
 fps: 30
 nframes: 301
