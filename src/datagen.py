@@ -130,8 +130,6 @@ if __name__ == '__main__':
         frames = frameset(setpoint, sigma, nframes)
 
         out_dir = '{}/output/{:02}'.format(obj_dir, isp)
-        img_dir = out_dir + '/img'
-        os.system('mkdir -p ' + img_dir)
 
         video_s = np.empty((nframes, size, size, 4), dtype='uint8')
         video_u = np.empty((nframes, size, size, 4), dtype='uint8')
