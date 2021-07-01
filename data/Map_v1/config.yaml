@@ -4,6 +4,16 @@ camera:
   zNear: 1.0
   zFar: 10000.0
 obj: "Map_v1.obj"
-csv: "Map_v1.csv"
 size: 512
-fps: 30
+bgcolor: [0.0, 1.0, 1.0, 1.0]
+# For data generation
+fps: 1
+frames: 10
+csv: "Map_v1.csv"
+sigma:
+  x: 0.5
+  y: 0.2
+  z: 0.2
+  rx: 0.2
+  ry: 0.2
+  rz: 0.2
