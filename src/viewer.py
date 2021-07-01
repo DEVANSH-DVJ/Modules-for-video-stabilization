@@ -146,6 +146,8 @@ if __name__ == '__main__':
     pos = [loc['x'], loc['y'], loc['z']]
     rotate, move = False, False
 
+    bgcolor = configs['bgcolor']
+
     while True:
         clock.tick(30)
         for event in pygame.event.get():
@@ -197,3 +199,8 @@ if __name__ == '__main__':
                                                 -rz*np.pi/180,
                                                 [0, 1, 0])
         pos = np.around(pos, 3)
+
+        GL.glClearColor(*bgcolor)
+        GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
+        GL.glLoadIdentity()
+
