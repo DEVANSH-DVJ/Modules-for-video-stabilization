@@ -118,3 +118,11 @@ while True:
 
     pygame.display.flip()
     print(*pos, rx, ry, rz, sep=',', flush=True)
+
+if __name__ == '__main__':
+
+    if len(sys.argv) < 2:
+        print('Usage: python {} <config>'.format(sys.argv[0]))
+        exit(1)
+    else:
+        config_file = sys.argv[1]
