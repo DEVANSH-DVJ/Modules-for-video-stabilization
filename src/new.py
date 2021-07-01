@@ -51,10 +51,10 @@ def display(obj, x, y, z, rx, ry, rz):
 
     GL.glPushMatrix()
 
-    GL.glTranslate(x, y, z)
     GL.glRotate(rx, 1, 0, 0)
     GL.glRotate(ry, 0, 1, 0)
     GL.glRotate(rz, 0, 0, 1)
+    GL.glTranslate(x, y, z)
     GL.glCallList(obj.gl_list)
 
     projection = GL.glGetDoublev(GL.GL_PROJECTION_MATRIX)
