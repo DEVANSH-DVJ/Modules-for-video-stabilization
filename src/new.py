@@ -111,6 +111,9 @@ if __name__ == '__main__':
     obj_path = '{}/{}'.format(obj_dir, configs['obj'])
     obj = OBJ(obj_path, swapyz=False)
 
+    setpoints_path = '{}/{}'.format(obj_dir, configs['setpoints'])
+    setpoints = pd.readcsv(setpoints_path)
+
     # frameset_file = configs['frameset']
     # frameset_path = '{}/framesets/{}.csv'.format(base_dir, frameset_file)
     # frames = pd.read_csv(frameset_path)
