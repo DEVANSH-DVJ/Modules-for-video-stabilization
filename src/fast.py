@@ -11,9 +11,7 @@ import OpenGL.GLU as GLU
 import OpenGL.GLUT as GLUT
 
 from motion import project, unproject
-from movie import movie_save
 from objloader import OBJ
-from warping import warp_save
 from utils import log, config_load
 
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
