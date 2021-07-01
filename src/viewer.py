@@ -69,6 +69,14 @@ while True:
                 rz += 1
             elif event.key == pygc.K_RIGHT:
                 rz -= 1
+            elif event.key == pygc.K_a:
+                ry -= 1
+            elif event.key == pygc.K_d:
+                ry += 1
+            elif event.key == pygc.K_w:
+                rx -= 1
+            elif event.key == pygc.K_s:
+                rx += 1
         elif event.type == pygc.MOUSEBUTTONDOWN:
             if event.button == 4:
                 pos += pointing(-rx*np.pi/180, -ry*np.pi /
