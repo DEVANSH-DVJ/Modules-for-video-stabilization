@@ -167,11 +167,11 @@ if __name__ == '__main__':
                    fps, '{}/u.mp4'.format(out_dir))
         movie_save(['{}/ws{:03}.png'.format(img_dir, i) for i in range(nframes)],
                    fps, '{}/ws.mp4'.format(out_dir))
-        movie_save(['{}/s{:03}.png'.format(img_dir, i) for i in range(nframes)],
-                   fps, '{}/s.avi'.format(out_dir))
-        movie_save(['{}/u{:03}.png'.format(img_dir, i) for i in range(nframes)],
-                   fps, '{}/u.avi'.format(out_dir))
-        movie_save(['{}/ws{:03}.png'.format(img_dir, i) for i in range(nframes)],
-                   fps, '{}/ws.avi'.format(out_dir))
+        # movie_save(['{}/s{:03}.png'.format(img_dir, i) for i in range(nframes)],
+        #            fps, '{}/s.avi'.format(out_dir))
+        # movie_save(['{}/u{:03}.png'.format(img_dir, i) for i in range(nframes)],
+        #            fps, '{}/u.avi'.format(out_dir))
+        # movie_save(['{}/ws{:03}.png'.format(img_dir, i) for i in range(nframes)],
+        #            fps, '{}/ws.avi'.format(out_dir))
 
     log('End;')
