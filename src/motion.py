@@ -26,6 +26,8 @@ def project(img2obj_map, size, modelview, projection, viewport, zmax):
             if x < size and y < size and x >= 0 and y >= 0:
                 if z < zmax:
                     img2img_map[size - 1 - i][j] = pixel
+                else:
+                    img2img_map[size - 1 - i][j] = [j, size - 1 - i, 1.0]
 
     return img2img_map
 
