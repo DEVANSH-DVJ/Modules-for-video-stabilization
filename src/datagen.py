@@ -13,6 +13,7 @@ from motion import project, unproject
 from movie import movie_save
 from objloader import OBJ
 from utils import log, config_load
+from flowUtility import writeFlow
 
 projection = None
 modelview = None
@@ -131,7 +132,7 @@ if __name__ == '__main__':
         frames = frameset(setpoint, sigma, nframes)
 
         out_dir = '{}/output/{:02}'.format(obj_dir, isp)
-        os.system('mkdir -p "{}"'.format(out_dir))
+        os.system('mkdir -p "{}/flow"'.format(out_dir))
 
         video_s = np.empty((nframes, size, size, 4), dtype='uint8')
         video_u = np.empty((nframes, size, size, 4), dtype='uint8')
@@ -157,6 +158,7 @@ if __name__ == '__main__':
                     frames['rz'][i] + frames['drz'][i])
             video_u[i] = captureScreen(size)
             s2u = project(s2obj, size, modelview, projection, viewport, zmax)
+            writeFlow(s2u[:, :, :2], '{}/flow/{:06}.flo'.format(out_dir, i))
 
         log('Starting movie conversion for Setpoint {:02};'.format(isp))
         movie_save(video_s, fps, '{}/s.mp4'.format(out_dir))
