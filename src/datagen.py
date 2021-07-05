@@ -9,7 +9,7 @@ import OpenGL.GL as GL
 import OpenGL.GLU as GLU
 import OpenGL.GLUT as GLUT
 
-# from motion import project, unproject
+from motion import project, unproject
 from movie import movie_save
 from objloader import OBJ
 from utils import log, config_load
@@ -145,9 +145,9 @@ if __name__ == '__main__':
                     frames['ry'][i],
                     frames['rz'][i])
             video_s[i] = captureScreen(size)
-            # depths = GL.glReadPixels(
-            #     0, 0, size, size, GL.GL_DEPTH_COMPONENT, GL.GL_FLOAT)
-            # s2obj = unproject(depths, size, modelview, projection, viewport)
+            depths = GL.glReadPixels(
+                0, 0, size, size, GL.GL_DEPTH_COMPONENT, GL.GL_FLOAT)
+            s2obj = unproject(depths, size, modelview, projection, viewport)
             display(obj, bgcolor,
                     frames['x'][i] + frames['dx'][i],
                     frames['y'][i] + frames['dy'][i],
@@ -156,7 +156,7 @@ if __name__ == '__main__':
                     frames['ry'][i] + frames['dry'][i],
                     frames['rz'][i] + frames['drz'][i])
             video_u[i] = captureScreen(size)
-            # s2u = project(s2obj, size, modelview, projection, viewport, zmax)
+            s2u = project(s2obj, size, modelview, projection, viewport, zmax)
 
         log('Starting movie conversion for Setpoint {:02};'.format(isp))
         movie_save(video_s, fps, '{}/s.mp4'.format(out_dir))
