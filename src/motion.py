@@ -44,6 +44,7 @@ def unproject(depths, size, modelview, projection, viewport):
     return img2obj_map
 
 
+@nb.njit
 def genflow(s2u, size):
     flow = np.empty((size, size, 2))
     for i in range(size):
