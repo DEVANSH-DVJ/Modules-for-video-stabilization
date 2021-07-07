@@ -12,7 +12,7 @@ import OpenGL.GLUT as GLUT
 from motion import project, unproject, genflow
 from movie import movie_save
 from objloader import OBJ
-from utils import log, config_load, flow_save
+from utils import log, config_load, flow_save, flag_save
 
 projection = None
 modelview = None
@@ -131,7 +131,7 @@ if __name__ == '__main__':
         frames = frameset(setpoint, sigma, nframes)
 
         out_dir = '{}/output/{:02}'.format(obj_dir, isp)
-        os.system('mkdir -p "{}/flow"'.format(out_dir))
+        os.system('mkdir -p "{0}/flow" "{0}/flag"'.format(out_dir))
 
         video_s = np.empty((nframes, size, size, 4), dtype='uint8')
         video_u = np.empty((nframes, size, size, 4), dtype='uint8')
@@ -160,6 +160,8 @@ if __name__ == '__main__':
             s2u = project(s2obj, size, modelview, projection, viewport)
             flow, outside = genflow(s2u, size)
             flow_save(flow, '{}/flow/{:06}.flo'.format(out_dir, i))
+            flag_save(background, outside, size,
+                      '{}/flag/{:06}.png'.format(out_dir, i))
 
         log('Starting movie conversion for Setpoint {:02};'.format(isp))
         movie_save(video_s, fps, '{}/s.mp4'.format(out_dir))
