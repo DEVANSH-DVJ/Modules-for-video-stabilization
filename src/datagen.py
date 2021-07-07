@@ -12,8 +12,8 @@ import OpenGL.GLUT as GLUT
 from motion import project, unproject
 from movie import movie_save
 from objloader import OBJ
-from utils import log, config_load
-from flowUtility import writeFlow
+from utils import log, config_load, genflow
+# from flowUtility import writeFlow
 
 projection = None
 modelview = None
@@ -158,7 +158,8 @@ if __name__ == '__main__':
                     frames['rz'][i] + frames['drz'][i])
             video_u[i] = captureScreen(size)
             s2u = project(s2obj, size, modelview, projection, viewport, zmax)
-            writeFlow(s2u[:, :, :2], '{}/flow/{:06}.flo'.format(out_dir, i))
+            flow, background, outside = genflow(s2u, size, zmax)
+            # writeFlow(s2u[:, :, :2], '{}/flow/{:06}.flo'.format(out_dir, i))
 
         log('Starting movie conversion for Setpoint {:02};'.format(isp))
         movie_save(video_s, fps, '{}/s.mp4'.format(out_dir))
