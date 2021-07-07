@@ -3,7 +3,7 @@ import numpy as np
 
 
 @nb.njit
-def project(img2obj_map, size, modelview, projection, viewport, zmax):
+def project(img2obj_map, size, modelview, projection, viewport):
     img2img_map = -np.ones((size, size, 3))
     A = projection.T.dot(modelview.T)
     for i in range(size):
