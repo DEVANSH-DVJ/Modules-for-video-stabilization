@@ -50,4 +50,7 @@ def genflow(s2u, size, zmax):
         for j in range(size):
             flow[i, j] = (s2u[i, j, 1] - i, s2u[i, j, 0] - j)
     background = s2u[:, :, 2] > zmax
-    return flow, background
+    x = round(s2u[:, :, 1])
+    y = round(s2u[:, :, 0])
+    outside = x < size and y < size and x >= 0 and y >= 0
+    return flow, background, outside
