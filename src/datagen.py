@@ -149,7 +149,7 @@ if __name__ == '__main__':
             video_s[i] = captureScreen(size)
             depths = GL.glReadPixels(
                 0, 0, size, size, GL.GL_DEPTH_COMPONENT, GL.GL_FLOAT)
-            background2 = np.flipud(depths == 1.0)
+            background = np.flipud(depths == 1.0)
             s2obj = unproject(depths, size, modelview, projection, viewport)
             display(obj, bgcolor,
                     frames['x'][i] + frames['dx'][i],
@@ -160,10 +160,7 @@ if __name__ == '__main__':
                     frames['rz'][i] + frames['drz'][i])
             video_u[i] = captureScreen(size)
             s2u = project(s2obj, size, modelview, projection, viewport, zmax)
-            flow, background, outside = genflow(s2u, size, zmax)
-            print(np.sum(background != background2))
-            plt.imshow(background != background2)
-            plt.show()
+            flow, outside = genflow(s2u, size, zmax)
             plt.imshow(background, cmap='gray')
             plt.show()
             plt.imshow(outside, cmap='gray')
