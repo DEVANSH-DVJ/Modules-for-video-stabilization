@@ -159,8 +159,8 @@ if __name__ == '__main__':
                     frames['ry'][i] + frames['dry'][i],
                     frames['rz'][i] + frames['drz'][i])
             video_u[i] = captureScreen(size)
-            s2u = project(s2obj, size, modelview, projection, viewport, zmax)
-            flow, outside = genflow(s2u, size, zmax)
+            s2u = project(s2obj, size, modelview, projection, viewport)
+            flow, outside = genflow(s2u, size)
             plt.imshow(background, cmap='gray')
             plt.show()
             plt.imshow(outside, cmap='gray')
