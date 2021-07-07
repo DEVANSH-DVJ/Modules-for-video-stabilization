@@ -4,7 +4,6 @@ import sys
 import pandas as pd
 from PIL import Image, ImageOps
 import numpy as np
-import matplotlib.pyplot as plt
 
 import OpenGL.GL as GL
 import OpenGL.GLU as GLU
@@ -161,11 +160,6 @@ if __name__ == '__main__':
             video_u[i] = captureScreen(size)
             s2u = project(s2obj, size, modelview, projection, viewport)
             flow, outside = genflow(s2u, size)
-            plt.imshow(background, cmap='gray')
-            plt.show()
-            plt.imshow(outside, cmap='gray')
-            plt.show()
-            # writeFlow(s2u[:, :, :2], '{}/flow/{:06}.flo'.format(out_dir, i))
 
         log('Starting movie conversion for Setpoint {:02};'.format(isp))
         movie_save(video_s, fps, '{}/s.mp4'.format(out_dir))
