@@ -1,6 +1,7 @@
 from datetime import datetime
 from pytz import timezone
 import yaml
+import numpy as np
 
 
 def log(message, debug=True):
@@ -12,3 +13,12 @@ def log(message, debug=True):
 
 def config_load(config_file):
     return yaml.load(open(config_file), Loader=yaml.FullLoader)
+
+
+def flow_save(flow, flow_file):
+    flow.astype(np.float32).tofile(flow_file)
+
+
+def flow_load(flow_file):
+    return np.fromfile(flow_file, np.float32)
+
