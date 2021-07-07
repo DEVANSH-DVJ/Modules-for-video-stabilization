@@ -2,6 +2,7 @@ from datetime import datetime
 from pytz import timezone
 import yaml
 import numpy as np
+from PIL import Image
 
 
 def log(message, debug=True):
@@ -22,3 +23,10 @@ def flow_save(flow, flow_file):
 def flow_load(flow_file):
     return np.fromfile(flow_file, np.float32)
 
+
+def flag_save(background, outside, size, flag_file):
+    flag = np.zeros((size, size, 4), dtype=np.uint8)
+    flag[:, :, 0] = background*255
+    flag[:, :, 1] = outside*255
+    flag[:, :, 3] = 255
+    Image.fromarray(flag).save(flag_file, 'png')
