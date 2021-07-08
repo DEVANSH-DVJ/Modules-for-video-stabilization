@@ -33,9 +33,15 @@ def flow_save(flow, flow_path):
         tmp.astype(np.float32).tofile(flow_file)
 
 
+def flow_load(flow_path):
+    with open(flow_path, 'rb') as flow_file:
+        w = np.fromfile(flow_file, np.int32, count=1)[0]
+        h = np.fromfile(flow_file, np.int32, count=1)[0]
 
-def flow_load(flow_file):
-    return np.fromfile(flow_file, np.float32)
+        flow = np.fromfile(flow_file, np.float32, count=h * w * 2)
+        flow.resize((h, w, 2))
+
+    return flow
 
 
 def flag_save(background, outside, size, flag_file):
