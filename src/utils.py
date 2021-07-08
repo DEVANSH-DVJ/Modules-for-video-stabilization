@@ -17,20 +17,14 @@ def config_load(config_file):
 
 
 def flow_save(flow, flow_path):
-    height, width, nBands = flow.shape
-    assert nBands == 2, "Number of bands = {} != 2".format(nBands)
-    u = flow[:, :, 0]
-    v = flow[:, :, 1]
-    assert u.shape == v.shape, "Invalid flow shape"
-    height, width = u.shape
+    h, w, nBands = flow.shape
 
     with open(flow_path, 'wb') as flow_file:
-        np.array(width).astype(np.int32).tofile(flow_file)
-        np.array(height).astype(np.int32).tofile(flow_file)
-        tmp = np.zeros((height, width*nBands))
-        tmp[:, np.arange(width)*2] = u
-        tmp[:, np.arange(width)*2 + 1] = v
-        tmp.astype(np.float32).tofile(flow_file)
+        np.array(h).astype(np.int32).tofile(flow_file)
+        np.array(w).astype(np.int32).tofile(flow_file)
+        np.array(nBands).astype(np.int32).tofile(flow_file)
+        flow.resize((h * w * nBands,))
+        flow.astype(np.float32).tofile(flow_file)
 
 
 def flow_load(flow_path):
