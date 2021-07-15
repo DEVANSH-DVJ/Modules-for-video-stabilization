@@ -2,6 +2,9 @@ import OpenGL.GL as GL
 import OpenGL.GLU as GLU
 import OpenGL.GLUT as GLUT
 
+from PIL import Image, ImageOps
+import numpy as np
+
 
 def init(cam):
     GL.glEnable(GL.GL_DEPTH_TEST)
@@ -22,3 +25,11 @@ def start(size, argv):
     GLUT.glutInitWindowSize(size, size)
     GLUT.glutInitWindowPosition(0, 0)
     GLUT.glutCreateWindow('Projections')
+
+
+def capture(size):
+    data = GL.glReadPixels(0, 0, size, size, GL.GL_RGBA,
+                           GL.GL_UNSIGNED_BYTE, None)
+    image = Image.frombytes('RGBA', (size, size), data)
+    image = ImageOps.flip(image)
+    return np.array(image)
