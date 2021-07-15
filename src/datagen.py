@@ -11,7 +11,7 @@ from motion import project, unproject, genflow
 from movie import movie_save
 from objloader import OBJ
 from utils import log, config_load, flow_save, flag_save
-from gl import init, start
+from gl import init, start, capture
 
 projection = None
 modelview = None
@@ -40,14 +40,6 @@ def display(obj, bgcolor, x, y, z, rx, ry, rz):
     GL.glPopMatrix()
 
     GL.glFlush()
-
-
-def captureScreen(size):
-    data = GL.glReadPixels(0, 0, size, size, GL.GL_RGBA,
-                           GL.GL_UNSIGNED_BYTE, None)
-    image = Image.frombytes('RGBA', (size, size), data)
-    image = ImageOps.flip(image)
-    return np.array(image)
 
 
 def frameset(setpoint, sigma, n):
