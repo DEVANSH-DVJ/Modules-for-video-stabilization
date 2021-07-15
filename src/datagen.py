@@ -2,7 +2,6 @@ import os
 import sys
 
 import pandas as pd
-from PIL import Image, ImageOps
 import numpy as np
 
 import OpenGL.GL as GL
