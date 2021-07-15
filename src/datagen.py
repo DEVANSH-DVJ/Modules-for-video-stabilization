@@ -85,7 +85,7 @@ if __name__ == '__main__':
 
     log('Starting GL Window;')
     size = configs['size']
-    start(size)
+    start(size, sys.argv)
 
     log('Initializing camera;')
     init(configs['camera'])
