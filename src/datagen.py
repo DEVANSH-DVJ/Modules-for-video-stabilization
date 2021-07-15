@@ -6,8 +6,6 @@ from PIL import Image, ImageOps
 import numpy as np
 
 import OpenGL.GL as GL
-import OpenGL.GLU as GLU
-import OpenGL.GLUT as GLUT
 
 from motion import project, unproject, genflow
 from movie import movie_save
