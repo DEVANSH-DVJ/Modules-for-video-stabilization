@@ -1,8 +1,9 @@
 from datetime import datetime
 from pytz import timezone
-import yaml
+
 import numpy as np
 from PIL import Image
+import yaml
 
 
 def log(message, debug=True):

@@ -1,16 +1,16 @@
 import os
 import sys
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 import OpenGL.GL as GL
 
-from motion import project, unproject, genflow
+from gl import capture, init, start
+from motion import genflow, project, unproject
 from movie import movie_save
 from objloader import OBJ
-from utils import log, config_load, flow_save, flag_save
-from gl import init, start, capture
+from utils import config_load, flag_save, flow_save, log
 
 projection = None
 modelview = None

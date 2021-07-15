@@ -1,9 +1,9 @@
+import numpy as np
+from PIL import Image, ImageOps
+
 import OpenGL.GL as GL
 import OpenGL.GLU as GLU
 import OpenGL.GLUT as GLUT
-
-from PIL import Image, ImageOps
-import numpy as np
 
 
 def init(cam):

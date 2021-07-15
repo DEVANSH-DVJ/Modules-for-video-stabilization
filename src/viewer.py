@@ -1,6 +1,6 @@
+import functools
 import os
 import sys
-import functools
 
 import numpy as np
 
@@ -9,8 +9,8 @@ import pygame.constants as pygc
 
 import OpenGL.GL as GL
 
-from objloader import OBJ
 from gl import init
+from objloader import OBJ
 from utils import config_load
 
 d2r = np.pi/180
