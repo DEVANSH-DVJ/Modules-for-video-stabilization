@@ -114,7 +114,7 @@ if __name__ == '__main__':
                     frames['rx'][i],
                     frames['ry'][i],
                     frames['rz'][i])
-            video_s[i] = captureScreen(size)
+            video_s[i] = capture(size)
             depths = GL.glReadPixels(
                 0, 0, size, size, GL.GL_DEPTH_COMPONENT, GL.GL_FLOAT)
             background = np.flipud(depths == 1.0)
@@ -126,7 +126,7 @@ if __name__ == '__main__':
                     frames['rx'][i] + frames['drx'][i],
                     frames['ry'][i] + frames['dry'][i],
                     frames['rz'][i] + frames['drz'][i])
-            video_u[i] = captureScreen(size)
+            video_u[i] = capture(size)
             s2u = project(s2obj, size, modelview, projection, viewport)
             flow, outside = genflow(s2u, size)
             flow_save(flow, '{}/flow/{:06}.flo'.format(out_dir, i))
