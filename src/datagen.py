@@ -41,6 +41,12 @@ def display(obj, bgcolor, x, y, z, rx, ry, rz):
     GL.glFlush()
 
 
+def disturb(sigma, n, window):
+    initial = np.random.normal(0, sigma, size=(n+window-1,))
+    normalized = pd.Series(initial).rolling(window=window).mean().dropna()
+    return np.array(normalized)
+
+
 def frameset(setpoint, sigma, n):
     np.random.seed(0)
     return {
