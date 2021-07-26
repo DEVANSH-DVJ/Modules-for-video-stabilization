@@ -10,7 +10,7 @@ from gl import capture, init, start
 from motion import genflow, project, unproject
 from movie import movie_save
 from objloader import OBJ
-from utils import config_load, flag_save, flow_save, log
+from utils import config_load, flag_save, flow_save, log, frameset_save
 
 projection = None
 modelview = None
@@ -109,6 +109,7 @@ if __name__ == '__main__':
 
         log('Calculating frames for Setpoint {:02};'.format(isp))
         frames = frameset(setpoint, sigma, nframes)
+        frameset_save(frames, '{}/frames.csv'.format(out_dir))
 
         video_s = np.empty((nframes, size, size, 4), dtype='uint8')
         video_u = np.empty((nframes, size, size, 4), dtype='uint8')
