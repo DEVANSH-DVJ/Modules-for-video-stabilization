@@ -104,11 +104,11 @@ if __name__ == '__main__':
     scale = configs['scale']
 
     for isp, setpoint in setpoints.iterrows():
-        log('Calculating frames for Setpoint {:02};'.format(isp))
-        frames = frameset(setpoint, sigma, nframes)
-
         out_dir = '{}/output/{:02}'.format(obj_dir, isp)
         os.system('mkdir -p "{0}/flow" "{0}/flag"'.format(out_dir))
+
+        log('Calculating frames for Setpoint {:02};'.format(isp))
+        frames = frameset(setpoint, sigma, nframes)
 
         video_s = np.empty((nframes, size, size, 4), dtype='uint8')
         video_u = np.empty((nframes, size, size, 4), dtype='uint8')
