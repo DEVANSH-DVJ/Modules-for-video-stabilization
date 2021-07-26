@@ -2,6 +2,7 @@ from datetime import datetime
 from pytz import timezone
 
 import numpy as np
+import pandas as pd
 from PIL import Image
 import yaml
 
@@ -46,3 +47,7 @@ def flag_save(background, outside, size, flag_file):
     flag[:, :, 1] = outside*255
     flag[:, :, 3] = 255
     Image.fromarray(flag).save(flag_file, 'png')
+
+
+def frameset_save(frameset, csv_path):
+    pd.DataFrame(frameset).to_csv(csv_path)
