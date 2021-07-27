@@ -70,11 +70,15 @@ def frameset(setpoint, sigma, n):
 if __name__ == '__main__':
 
     if len(sys.argv) < 2:
-        print('Usage: python {} <config_file>'.format(sys.argv[0]))
+        print('Usage: python {} <config_file> [-preview]'.format(sys.argv[0]))
         exit(1)
     else:
         config_file = os.path.abspath(sys.argv[1])
         obj_dir = os.path.dirname(config_file)
+        if len(sys.argv) > 2 and sys.argv[2] == '-preview':
+            preview = True
+        else:
+            preview = False
 
     log('Start;')
     log('Loading config file;')
