@@ -109,7 +109,8 @@ if __name__ == '__main__':
 
         log('Calculating frames for Setpoint {:02};'.format(isp))
         frames = frameset(setpoint, sigma, nframes)
-        frameset_save(frames, '{}/frames.csv'.format(out_dir))
+        frameset_save(frames, '{}/frames.csv'.format(out_dir),
+                      '{}/frames.png'.format(out_dir))
 
         video_s = np.empty((nframes, size, size, 4), dtype='uint8')
         video_u = np.empty((nframes, size, size, 4), dtype='uint8')

@@ -51,11 +51,17 @@ def flag_save(background, outside, size, flag_file):
     Image.fromarray(flag).save(flag_file, 'png')
 
 
-def frameset_save(frameset, csv_path):
+def frameset_save(frameset, csv_path, plot_path):
     pd.DataFrame(frameset).to_csv(csv_path)
 
     fig, ax = plt.subplots(3, 2, figsize=(16, 12))
+
     ax[0, 0].plot(range(len(frameset['dx'])), frameset['dx'])
     ax[1, 0].plot(range(len(frameset['dy'])), frameset['dy'])
     ax[2, 0].plot(range(len(frameset['dz'])), frameset['dz'])
+    ax[0, 1].plot(range(len(frameset['drx'])), frameset['drx'])
+    ax[1, 1].plot(range(len(frameset['dry'])), frameset['dry'])
+    ax[2, 1].plot(range(len(frameset['drz'])), frameset['drz'])
+
+    fig.savefig(plot_path)
     plt.show()
