@@ -54,14 +54,36 @@ def flag_save(background, outside, size, flag_file):
 def frameset_save(frameset, csv_path, plot_path):
     pd.DataFrame(frameset).to_csv(csv_path)
 
-    fig, ax = plt.subplots(3, 2, figsize=(16, 12))
+    fig, ax = plt.subplots(3, 2, figsize=(20, 12))
 
     ax[0, 0].plot(range(len(frameset['dx'])), frameset['dx'])
-    ax[1, 0].plot(range(len(frameset['dy'])), frameset['dy'])
-    ax[2, 0].plot(range(len(frameset['dz'])), frameset['dz'])
-    ax[0, 1].plot(range(len(frameset['drx'])), frameset['drx'])
-    ax[1, 1].plot(range(len(frameset['dry'])), frameset['dry'])
-    ax[2, 1].plot(range(len(frameset['drz'])), frameset['drz'])
+    ax[0, 0].set_ylabel('dx', size=18)
+    ax[0, 0].grid()
 
-    fig.savefig(plot_path)
-    plt.show()
+    ax[1, 0].plot(range(len(frameset['dy'])), frameset['dy'])
+    ax[1, 0].set_ylabel('dy', size=18)
+    ax[1, 0].grid()
+
+    ax[2, 0].plot(range(len(frameset['dz'])), frameset['dz'])
+    ax[2, 0].set_ylabel('dz', size=18)
+    ax[2, 0].grid()
+
+    ax[0, 1].plot(range(len(frameset['drx'])), frameset['drx'])
+    ax[0, 1].yaxis.tick_right()
+    ax[0, 1].yaxis.set_label_position('right')
+    ax[0, 1].set_ylabel('drx', size=18, rotation=-90, labelpad=18)
+    ax[0, 1].grid()
+
+    ax[1, 1].plot(range(len(frameset['dry'])), frameset['dry'])
+    ax[1, 1].yaxis.tick_right()
+    ax[1, 1].yaxis.set_label_position('right')
+    ax[1, 1].set_ylabel('dry', size=18, rotation=-90, labelpad=18)
+    ax[1, 1].grid()
+
+    ax[2, 1].plot(range(len(frameset['drz'])), frameset['drz'])
+    ax[2, 1].yaxis.tick_right()
+    ax[2, 1].yaxis.set_label_position('right')
+    ax[2, 1].set_ylabel('drz', size=18, rotation=-90, labelpad=18)
+    ax[2, 1].grid()
+
+    fig.savefig(plot_path, bbox_inches='tight')
