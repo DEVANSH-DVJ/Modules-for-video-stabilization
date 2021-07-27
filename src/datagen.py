@@ -109,7 +109,10 @@ if __name__ == '__main__':
 
     for isp, setpoint in setpoints.iterrows():
         out_dir = '{}/output/{:02}'.format(obj_dir, isp)
-        os.system('mkdir -p "{0}/flow" "{0}/flag"'.format(out_dir))
+        os.system('mkdir -p "{}"'.format(out_dir))
+        if not preview:
+            os.system('rm -rf "{0}/flow" "{0}/flag"'.format(out_dir))
+            os.system('mkdir -p "{0}/flow" "{0}/flag"'.format(out_dir))
 
         log('Calculating frames for Setpoint {:02};'.format(isp))
         frames = frameset(setpoint, sigma, nframes)
