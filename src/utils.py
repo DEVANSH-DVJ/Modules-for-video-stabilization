@@ -3,6 +3,8 @@ from pytz import timezone
 
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+
 from PIL import Image
 import yaml
 
@@ -51,3 +53,9 @@ def flag_save(background, outside, size, flag_file):
 
 def frameset_save(frameset, csv_path):
     pd.DataFrame(frameset).to_csv(csv_path)
+
+    fig, ax = plt.subplots(3, 2, figsize=(16, 12))
+    ax[0, 0].plot(range(len(frameset['dx'])), frameset['dx'])
+    ax[1, 0].plot(range(len(frameset['dy'])), frameset['dy'])
+    ax[2, 0].plot(range(len(frameset['dz'])), frameset['dz'])
+    plt.show()
