@@ -131,10 +131,11 @@ if __name__ == '__main__':
                     frames['ry'][i],
                     frames['rz'][i])
             video_s[i] = capture(size)
-            depths = GL.glReadPixels(
-                0, 0, size, size, GL.GL_DEPTH_COMPONENT, GL.GL_FLOAT)
-            background = np.flipud(depths == 1.0)
-            s2obj = unproject(depths, size, modelview, projection, viewport)
+            if not preview:
+                depths = GL.glReadPixels(
+                    0, 0, size, size, GL.GL_DEPTH_COMPONENT, GL.GL_FLOAT)
+                background = np.flipud(depths == 1.0)
+                s2obj = unproject(depths, size, modelview, projection, viewport)
             display(obj, bgcolor,
                     frames['x'][i] + frames['dx'][i],
                     frames['y'][i] + frames['dy'][i],
@@ -143,11 +144,12 @@ if __name__ == '__main__':
                     frames['ry'][i] + frames['dry'][i],
                     frames['rz'][i] + frames['drz'][i])
             video_u[i] = capture(size)
-            s2u = project(s2obj, size, modelview, projection, viewport)
-            flow, outside = genflow(s2u, size)
-            flow_save(flow, '{}/flow/{:06}.flo'.format(out_dir, i))
-            flag_save(background, outside, size,
-                      '{}/flag/{:06}.png'.format(out_dir, i))
+            if not preview:
+                s2u = project(s2obj, size, modelview, projection, viewport)
+                flow, outside = genflow(s2u, size)
+                flow_save(flow, '{}/flow/{:06}.flo'.format(out_dir, i))
+                flag_save(background, outside, size,
+                          '{}/flag/{:06}.png'.format(out_dir, i))
 
         log('Starting movie conversion for Setpoint {:02};'.format(isp))
         movie_save(video_s, fps, '{}/s.mp4'.format(out_dir))
