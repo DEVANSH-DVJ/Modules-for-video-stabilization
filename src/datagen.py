@@ -49,8 +49,7 @@ def smoothen(x, window):
     return np.array(pd.Series(x).rolling(window=window).mean().dropna())
 
 
-def frameset(setpoint, sigma, n):
-    np.random.seed(0)
+def frameset(setpoint, sigma, n, seed=0):
     return {
         'x': np.linspace(setpoint['x1'], setpoint['x2'], num=n),
         'dx': np.random.normal(0, sigma['x'], size=(n,)),
