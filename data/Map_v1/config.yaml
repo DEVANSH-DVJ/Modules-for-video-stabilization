@@ -28,3 +28,12 @@ initialize:
   rz: 0.0
 scale: 1.0
 roundoff: 3
+# For RS generation
+rs_base: "rs_base.csv"
+sigma:
+  x: 0.15
+  y: 0.07
+  z: 0.07
+  rx: 0.07
+  ry: 0.07
+  rz: 0.07
