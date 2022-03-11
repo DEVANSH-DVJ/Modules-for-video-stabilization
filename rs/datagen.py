@@ -3,6 +3,7 @@ import sys
 
 import numpy as np
 import pandas as pd
+from scipy.interpolate import CubicSpline
 
 import OpenGL.GL as GL
 
@@ -39,24 +40,21 @@ def display(obj, bgcolor, x, y, z, rx, ry, rz):
     GL.glFlush()
 
 
-def disturb(sigma, n):
-    return np.random.normal(0, sigma, size=(n,))
-
-
-def smoothen(x, window):
-    return np.array(pd.Series(x).rolling(window=window).mean().dropna())
+def sample_spline(sigma, n):
+    step = int(n)/10
+    x = np.arange(-step, n+step, step)
+    y = np.random.normal(0, sigma, size=(len(x),))
+    return CubicSpline(x, y)(np.arange(0, n, 1))
 
 
 def frameset(setpoint, sigma, n):
-    win = int(n / 10)
-    np.random.seed(int(setpoint['seed']))
     return {
-        'x': setpoint['x'] + smoothen(disturb(sigma['x'], n + win - 1), win),
-        'y': setpoint['y'] + smoothen(disturb(sigma['y'], n + win - 1), win),
-        'z': setpoint['z'] + smoothen(disturb(sigma['z'], n + win - 1), win),
-        'rx': setpoint['rx'] + smoothen(disturb(sigma['rx'], n + win - 1), win),
-        'ry': setpoint['ry'] + smoothen(disturb(sigma['ry'], n + win - 1), win),
-        'rz': setpoint['rz'] + smoothen(disturb(sigma['rz'], n + win - 1), win)
+        'x': setpoint['x'] + sample_spline(sigma['x'], n),
+        'y': setpoint['y'] + sample_spline(sigma['y'], n),
+        'z': setpoint['z'] + sample_spline(sigma['z'], n),
+        'rx': setpoint['rx'] + sample_spline(sigma['rx'], n),
+        'ry': setpoint['ry'] + sample_spline(sigma['ry'], n),
+        'rz': setpoint['rz'] + sample_spline(sigma['rz'], n)
     }
 
 
@@ -95,8 +93,6 @@ if __name__ == '__main__':
     for isp, rs_center in rs_base.iterrows():
         out_dir = '{}/rs/{:02}'.format(obj_dir, isp)
         os.system('mkdir -p "{}"'.format(out_dir))
-        os.system('rm -rf "{0}/raw"'.format(out_dir))
-        os.system('mkdir -p "{0}/raw"'.format(out_dir))
 
         log('Calculating frames for RS {:02};'.format(isp))
         frames = frameset(rs_center, sigma, size)
@@ -116,9 +112,9 @@ if __name__ == '__main__':
             temp = capture(size)
 
             rs_image[i, :, :] = temp[i, :, :]
-            save_image(temp, '{}/raw/{:04}.png'.format(out_dir, i))
+            if i == 0:
+                save_image(temp, '{}/gs.png'.format(out_dir))
 
-        os.system('cp "{}/raw/0000.png" "{}/gs.png"'.format(out_dir, out_dir))
         save_image(rs_image, '{}/rs.png'.format(out_dir))
 
     log('End;')
