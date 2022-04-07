@@ -9,7 +9,7 @@ import OpenGL.GL as GL
 
 from gl import capture, init, start
 from objloader import OBJ
-from utils import config_load, log, frameset_save, save_image
+from utils import config_load, frameset_save, log, save_image
 
 projection = None
 modelview = None
@@ -41,8 +41,8 @@ def display(obj, bgcolor, x, y, z, rx, ry, rz):
 
 
 def sample_spline(sigma, n):
-    step = int(n)/10
-    x = np.arange(-step, n+step, step)
+    step = int(n) / 10
+    x = np.arange(-step, n + step, step)
     y = np.random.normal(0, sigma, size=(len(x),))
     return CubicSpline(x, y)(np.arange(0, n, 1))
 
