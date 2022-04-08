@@ -553,20 +553,13 @@ def idct_2d(w):
     return res
 
 
-if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        print('Usage: {} [dir_loc]'.format(sys.argv[0]))
-        sys.exit(1)
-    else:
-        dir_loc = sys.argv[1]
-
-    # dir_loc = 'data/Map_v1/rs/00/'
-
-    img1_path = dir_loc + '/gs.png'
-    img2_path = dir_loc + '/rs.png'
-
+def run(img1_path, img2_path, save_loc):
     img1 = cv2.imread(img1_path)
     img2 = cv2.imread(img2_path)
+
+    os.system('mkdir -p ' + save_loc)
+    os.system('cp ' + img1_path + ' ' + save_loc + '/i1.png')
+    os.system('cp ' + img2_path + ' ' + save_loc + '/i2.png')
 
     tenOne = torch.FloatTensor(numpy.ascontiguousarray(
         img1.transpose(2, 0, 1).astype(numpy.float32) * (1.0 / 255.0)))
@@ -578,11 +571,11 @@ if __name__ == '__main__':
     tenOutput = torch.transpose(tenOutput, 0, 1)
     print(tenOutput.shape)
 
-    writeFlow(tenOutput, dir_loc + '/flow.flo')
+    writeFlow(tenOutput, save_loc + '/flow.flo')
 
-    cv2.imwrite(dir_loc + '/flow.png', cvtFlow2Color(tenOutput.numpy()))
+    cv2.imwrite(save_loc + '/flow.png', cvtFlow2Color(tenOutput.numpy()))
 
-    cv2.imwrite(dir_loc + '/gs_warped.png', warp(img2, tenOutput))
+    cv2.imwrite(save_loc + '/warped.png', warp(img2, tenOutput))
 
     x = dct2(tenOutput[:, :, 0].numpy())
     y = dct2(tenOutput[:, :, 1].numpy())
@@ -594,7 +587,7 @@ if __name__ == '__main__':
     y_4 = np.zeros_like(y)
     y_4[:4, :4] = y[:4, :4]
     tenOutput_4[:, :, 1] = idct2(y_4)
-    cv2.imwrite(dir_loc + '/flow_4.png', cvtFlow2Color(tenOutput_4))
+    cv2.imwrite(save_loc + '/flow_4.png', cvtFlow2Color(tenOutput_4))
 
     tenOutput_16 = np.zeros_like(tenOutput)
     x_16 = np.zeros_like(x)
@@ -603,7 +596,7 @@ if __name__ == '__main__':
     y_16 = np.zeros_like(y)
     y_16[:16, :16] = y[:16, :16]
     tenOutput_16[:, :, 1] = idct2(y_16)
-    cv2.imwrite(dir_loc + '/flow_16.png', cvtFlow2Color(tenOutput_16))
+    cv2.imwrite(save_loc + '/flow_16.png', cvtFlow2Color(tenOutput_16))
 
     tenOutput_36 = np.zeros_like(tenOutput)
     x_36 = np.zeros_like(x)
@@ -612,8 +605,21 @@ if __name__ == '__main__':
     y_36 = np.zeros_like(y)
     y_36[:36, :36] = y[:36, :36]
     tenOutput_36[:, :, 1] = idct2(y_36)
-    cv2.imwrite(dir_loc + '/flow_36.png', cvtFlow2Color(tenOutput_36))
+    cv2.imwrite(save_loc + '/flow_36.png', cvtFlow2Color(tenOutput_36))
 
-    plt.imshow(np.concatenate((x[:16, :16], np.zeros((16, 2)), y[:16, :16]), axis=1), cmap='hot')
-    plt.show()
-    sys.exit(0)
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print('Usage: {} [dir_loc]'.format(sys.argv[0]))
+        sys.exit(1)
+    else:
+        dir_loc = sys.argv[1]
+
+    # dir_loc = 'data/Map_v1/rs/00/'
+
+    run(dir_loc + '/gs.png', dir_loc + '/rs_0.png', dir_loc + '/gs_rs_0')
+    run(dir_loc + '/gs.png', dir_loc + '/rs_1.png', dir_loc + '/gs_rs_1')
+    run(dir_loc + '/gs.png', dir_loc + '/rs_2.png', dir_loc + '/gs_rs_2')
+    run(dir_loc + '/rs_0.png', dir_loc + '/rs_1.png', dir_loc + '/rs_0_rs_1')
+    run(dir_loc + '/rs_0.png', dir_loc + '/rs_2.png', dir_loc + '/rs_0_rs_2')
+    run(dir_loc + '/rs_1.png', dir_loc + '/rs_2.png', dir_loc + '/rs_1_rs_2')
