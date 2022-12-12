@@ -13,7 +13,7 @@ from gl import init
 from objloader import OBJ
 from utils import config_load
 
-d2r = np.pi/180
+d2r = np.pi / 180
 
 
 def roll(rx):
@@ -41,7 +41,7 @@ def yaw(rz):
 
 
 def pointing(rx, ry, rz, vec):
-    return yaw(rz*d2r).dot(pitch(ry*d2r).dot(roll(rx*d2r).dot(vec)))
+    return yaw(rz * d2r).dot(pitch(ry * d2r).dot(roll(rx * d2r).dot(vec)))
 
 
 icap = functools.partial(pointing, vec=[1, 0, 0])

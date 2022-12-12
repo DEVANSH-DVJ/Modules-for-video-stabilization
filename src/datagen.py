@@ -102,7 +102,7 @@ if __name__ == '__main__':
     nframes = configs['nframes']
     sigma = configs['sigma']
     fps = configs['fps']
-    zmax = 1 - configs['camera']['zNear']/configs['camera']['zFar']
+    zmax = 1 - configs['camera']['zNear'] / configs['camera']['zFar']
     bgcolor = configs['bgcolor']
     scale = configs['scale']
 
