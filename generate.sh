@@ -1,3 +1,5 @@
+#!/bin/bash
+
 python src/datagen.py data/Bridge/config.yaml
 python src/datagen.py data/Capetown/config.yaml
 python src/datagen.py data/Fort/config.yaml
